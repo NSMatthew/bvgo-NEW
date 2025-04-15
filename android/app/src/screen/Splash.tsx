@@ -1,0 +1,75 @@
+import React, { useEffect } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+const SplashScreen = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      navigation.navigate('LoginScreen'); // adjust if your next screen is named differently
+    }, 2000); // 2 seconds
+
+    return () => clearTimeout(timeout);
+  }, [navigation]);
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.centerContent}>
+        <Image
+          source={require('../../assets/images/bvgo-logo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.bvgoText}>BVGO</Text>
+      </View>
+      <View style={styles.bottomContent}>
+        <Text style={styles.fromText}>from</Text>
+        <Image
+          source={require('../../assets/images/bukitvista-logo.png')}
+          style={styles.fromLogo}
+          resizeMode="contain"
+        />
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingVertical: 60,
+  },
+  centerContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+  },
+  bvgoText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#0070C0',
+    marginTop: 10,
+  },
+  bottomContent: {
+    alignItems: 'center',
+    gap: 8,
+  },
+  fromText: {
+    fontSize: 16,
+    color: '#000',
+  },
+  fromLogo: {
+    width: 100,
+    height: 40,
+  },
+});
+
+export default SplashScreen;

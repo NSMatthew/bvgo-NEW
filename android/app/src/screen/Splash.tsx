@@ -1,13 +1,21 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, StyleSheet, Linking } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/types';
 
-const SplashScreen = () => {
-  const navigation = useNavigation();
+type SplashProps = NativeStackScreenProps<RootStackParamList, 'Splash'>;
+
+const Splash = ({ navigation }: SplashProps) => {
+  // GANTI `true` ➝ `false` kalau ingin pakai href
+  const useRootStack = true;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.navigate('LoginScreen'); // adjust if your next screen is named differently
+      if (useRootStack) {
+        navigation.navigate('Login'); // 🔁 Versi: NativeStack Type-safe
+      } else {
+        Linking.openURL('myapp://login'); // 🔁 Versi: HREF style (deep link-like)
+      }
     }, 2000); // 2 seconds
 
     return () => clearTimeout(timeout);
@@ -72,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen;
+export default Splash;

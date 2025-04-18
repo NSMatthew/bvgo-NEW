@@ -25,17 +25,8 @@ const Splash = ({ navigation }: SplashProps) => {
     <View style={styles.container}>
       <View style={styles.centerContent}>
         <Image
-          source={require('../../assets/images/bvgo-logo.png')}
+          source={require('../../assets/images/logo-BV.png')}
           style={styles.logo}
-          resizeMode="contain"
-        />
-        <Text style={styles.bvgoText}>BVGO</Text>
-      </View>
-      <View style={styles.bottomContent}>
-        <Text style={styles.fromText}>from</Text>
-        <Image
-          source={require('../../assets/images/bukitvista-logo.png')}
-          style={styles.fromLogo}
           resizeMode="contain"
         />
       </View>

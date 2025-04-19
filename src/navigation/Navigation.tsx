@@ -5,7 +5,7 @@ import { RootStackParamList } from '../types/types';
 
 import Splash from '../screen/Splash';
 import Login from '../screen/Login';
-// import Home from '../screen/Home'; // nanti kalau udah ada
+import BottomTabs from './BottomTabs'; // ✅
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -15,7 +15,7 @@ const linking = {
     screens: {
       Splash: 'splash',
       Login: 'login',
-      Home: 'home/:userId',
+      Home: 'home/:userId', // nanti redirect ke BottomTabs
     },
   },
 };
@@ -29,7 +29,9 @@ const Navigation = () => {
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Login" component={Login} />
-        {/* <Stack.Screen name="Home" component={Home} /> */}
+        <Stack.Screen name="Home">
+          {() => <BottomTabs />} {/* 👈 render tab sebagai 'Home' */}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

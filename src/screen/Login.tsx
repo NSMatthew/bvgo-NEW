@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, View, AppState } from "react-native";
-import { supabase } from '../lib/supabase';
-import { Button, Input } from '@rneui/themed';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+} from "react-native";
+import { supabase } from "../lib/supabase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,11 +17,11 @@ export default function Login() {
   async function signInWithEmail() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
+      email,
+      password,
     });
 
-    if (error) Alert.alert(error.message);
+    if (error) Alert.alert("Login Failed", error.message);
     setLoading(false);
   }
 
@@ -24,53 +30,40 @@ export default function Login() {
     const {
       data: { session },
       error,
-    } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
+    } = await supabase.auth.signUp({ email, password });
 
-    if (error) Alert.alert(error.message);
+    if (error) Alert.alert("Sign Up Failed", error.message);
     if (!session)
-      Alert.alert("Please check your inbox for email verification!");
+      Alert.alert("Success", "Please check your inbox for verification");
     setLoading(false);
   }
 
   return (
     <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input
-          label="Email"
-          leftIcon={{ type: "font-awesome", name: "envelope" }}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          placeholder="email@address.com"
-          autoCapitalize={"none"}
-        />
+      <Text style={styles.title}>Welcome!</Text>
+
+      <TextInput
+        placeholder="Email"
+        style={styles.input}
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
+      <TextInput
+        placeholder="Password"
+        style={styles.input}
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        autoCapitalize="none"
+      />
+
+      <View style={styles.buttonContainer}>
+        <Button title="Sign in" onPress={signInWithEmail} disabled={loading} />
       </View>
-      <View style={styles.verticallySpaced}>
-        <Input
-          label="Password"
-          leftIcon={{ type: "font-awesome", name: "lock" }}
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-          placeholder="Password"
-          autoCapitalize={"none"}
-        />
-      </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button
-          title="Sign in"
-          disabled={loading}
-          onPress={() => signInWithEmail()}
-        />
-      </View>
-      <View style={styles.verticallySpaced}>
-        <Button
-          title="Sign up"
-          disabled={loading}
-          onPress={() => signUpWithEmail()}
-        />
+      <View style={styles.buttonContainer}>
+        <Button title="Sign up" onPress={signUpWithEmail} disabled={loading} />
       </View>
     </View>
   );
@@ -78,15 +71,23 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    padding: 20,
+    marginTop: 60,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 24,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 6,
     padding: 12,
+    marginBottom: 16,
+    fontSize: 16,
   },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: "stretch",
-  },
-  mt20: {
-    marginTop: 20,
+  buttonContainer: {
+    marginVertical: 8,
   },
 });

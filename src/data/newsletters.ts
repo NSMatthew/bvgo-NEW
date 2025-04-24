@@ -1,19 +1,20 @@
+import { supabase } from '../lib/supabase';
 import { Newsletter } from '../lib/mergeSort';
 
-export const newsletterData: Newsletter[] = [
-  {
-    id: 1,
-    title: 'Pricing Adjustment',
-    releaseDate: new Date('2024-04-10'),
-  },
-  {
-    id: 2,
-    title: 'New Feature Update',
-    releaseDate: new Date('2024-04-22'),
-  },
-  {
-    id: 3,
-    title: 'Maintenance Schedule',
-    releaseDate: new Date('2024-03-28'),
-  },
-];
+export async function getNewsletters(): Promise<Newsletter[]> {
+  const { data, error } = await supabase
+    .from('newsletters')
+    .select('id, title, releaseDate')
+    .order('releaseDate', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching newsletters:', error.message);
+    return [];
+  }
+
+  return data.map(item => ({
+    id: item.id,
+    title: item.title,
+    releaseDate: new Date(item.releaseDate),
+  }));
+}

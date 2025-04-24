@@ -1,34 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
+import { Newsletter } from '../../lib/mergeSort'; 
 
-type NewsletterCardProps = {
-  author: string;
-  role: string;
-  timeAgo: string;
-  category: string;
-  title: string;
-  image: any;
+type Props = {
+  data: Newsletter[];
 };
 
-const data: NewsletterCardProps[] = [
-  {
-    author: 'Matthew',
-    role: 'Marketing',
-    timeAgo: '1 day ago',
-    category: 'Pricing Adjustment',
-    title: 'Every Date = Different Price',
-    image: require('../../assets/images/news1.png'),
-  },
-  // Add more cards as needed
-];
-
-const NewsletterCard = () => {
+const NewsletterCard = ({ data }: Props) => {
   return (
     <FlatList
       data={data}
       horizontal
       showsHorizontalScrollIndicator={false}
-      keyExtractor={(_, i) => i.toString()}
+      keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <View style={styles.card}>
           <View style={styles.header}>
@@ -37,15 +21,18 @@ const NewsletterCard = () => {
               style={styles.avatar}
             />
             <View>
-              <Text style={styles.name}>{item.author} - {item.role}</Text>
-              <Text style={styles.time}>{item.timeAgo}</Text>
+              <Text style={styles.name}>Matthew - Marketing</Text>
+              <Text style={styles.time}>1 day ago</Text>
             </View>
           </View>
 
-          <Text style={styles.category}>{item.category}</Text>
+          <Text style={styles.category}>Pricing Adjustment</Text>
           <Text style={styles.title}>{item.title}</Text>
 
-          <Image source={item.image} style={styles.image} />
+          <Image
+            source={require('../../assets/images/news1.png')}
+            style={styles.image}
+          />
 
           <View style={styles.footer}>
             <Text>👍 0</Text>

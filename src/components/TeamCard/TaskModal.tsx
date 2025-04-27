@@ -22,20 +22,32 @@ const TaskModal = ({ visible, taskName, taskStatus, onSave, onCancel }: TaskModa
           <Text style={styles.description}>Fill the information regarding pool size on Airbnb listing.</Text>
 
           <View style={styles.radioContainer}>
-            <RadioButton.Group value={status} onValueChange={setStatus}>
+           
               <View style={styles.radioOption}>
                 <Text>New</Text>
-                <RadioButton value="New" />
+                <RadioButton
+                  value="New" 
+                  status = {status === 'New' ? 'checked' : 'unchecked'}
+                  onPress={() => setStatus('New')}
+                  />
               </View>
               <View style={styles.radioOption}>
                 <Text>Ongoing</Text>
-                <RadioButton value="Ongoing" />
+                <RadioButton
+                  value="Ongoing" 
+                  status = {status === 'Ongoing' ? 'checked' : 'unchecked'}
+                  onPress={() => setStatus('Ongoing')}
+                  />
               </View>
               <View style={styles.radioOption}>
                 <Text>Done</Text>
-                <RadioButton value="Done" />
+                <RadioButton
+                  value="Done" 
+                  status = {status === 'Done' ? 'checked' : 'unchecked'}
+                  onPress={() => setStatus('Done')}
+                  />
               </View>
-            </RadioButton.Group>
+            
           </View>
 
           <View style={styles.buttons}>

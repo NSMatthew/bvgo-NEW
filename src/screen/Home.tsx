@@ -44,13 +44,15 @@ const Home = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <SliderAnnouncement />
 
-      {/* Search Input */}
-      <TextInput
-        placeholder="Search newsletter by title..."
-        value={searchKeyword}
-        onChangeText={handleSearch}
-        style={styles.searchInput}
-      />
+      {/* Search Bar */}
+      <View style={styles.searchWrapper}>
+        <TextInput
+          placeholder="Find newsletter...."
+          value={searchKeyword}
+          onChangeText={handleSearch}
+          style={styles.searchInput}
+        />
+      </View>
 
       {/* Newsletter Cards */}
       <View style={styles.newsletterSection}>
@@ -64,13 +66,20 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
   },
+  searchWrapper: {
+    marginBottom: 20,
+    marginTop: 10,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    backgroundColor: '#fff', 
+  },
   searchInput: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#A2A2A2',
     borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginVertical: 12,
+    paddingHorizontal: 35,
+    paddingVertical: 10,
+    fontSize: 14,
   },
   newsletterSection: {
     marginTop: 10,

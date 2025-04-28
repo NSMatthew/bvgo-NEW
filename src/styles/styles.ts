@@ -6,9 +6,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  regularText: {
+  primaryText: {
     fontFamily: "Satoshi",
     fontSize: 16,
+    color: "#1076BC",
+    fontWeight: "regular",
+    position: "relative",
+    zIndex: 10,
+  },
+  secondaryText: {
+    fontFamily: "Satoshi",
+    fontSize: 16,
+    color: "#A2A2A2A",
+    fontWeight: "regular",
+    position: "relative",
+    zIndex: 10,
+  },
+  descText: {
+    fontFamily: "Satoshi",
+    fontSize: 12,
     color: "#0E0E0E",
     fontWeight: "regular",
     position: "relative",

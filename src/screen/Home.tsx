@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, TextInput, Text, StyleSheet } from 'react-native';
+import { ScrollView, View, TextInput, StyleSheet } from 'react-native';
 import SliderAnnouncement from '../components/SliderAnnouncement';
 import NewsletterCard from '../components/NewsletterCard';
 import { mergeSort, Newsletter } from '../lib/mergeSort';
@@ -9,13 +9,14 @@ import { getNewsletters } from '../data/newsletters';
 const Home = () => {
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [searchResult, setSearchResult] = useState<Newsletter | null>(null);
+  const [searchResult, setSearchResult] = useState<Newsletter[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await getNewsletters();
-      const sorted = mergeSort(result, 'title'); // 🔥 Sort langsung by title karena search by title
+      const sorted = mergeSort(result, 'title'); // binary search requires sorting
       setNewsletters(sorted);
+      setSearchResult(sorted); // show all by default
     };
 
     fetchData();
@@ -25,19 +26,21 @@ const Home = () => {
     setSearchKeyword(text);
 
     if (text.trim() === '') {
-      setSearchResult(null);
+      setSearchResult(newsletters);
       return;
     }
 
-    const result = binarySearch(newsletters, text);
-    setSearchResult(result);
-  };
-
-  const renderNewsletterContent = () => {
-    if (searchKeyword.trim() && searchResult) {
-      return <NewsletterCard data={[searchResult]} />;
+    // Binary Search first
+    const exactMatch = binarySearch(newsletters, text);
+    if (exactMatch) {
+      setSearchResult([exactMatch]);
+    } else {
+      // Fallback: partial match
+      const fallback = newsletters.filter(n =>
+        n.title.toLowerCase().includes(text.toLowerCase())
+      );
+      setSearchResult(fallback);
     }
-    return <NewsletterCard data={newsletters} />;
   };
 
   return (
@@ -56,7 +59,7 @@ const Home = () => {
 
       {/* Newsletter Cards */}
       <View style={styles.newsletterSection}>
-        {renderNewsletterContent()}
+        <NewsletterCard data={searchResult} />
       </View>
     </ScrollView>
   );
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 10,
     borderRadius: 8,
-    backgroundColor: '#fff', 
+    backgroundColor: '#fff',
   },
   searchInput: {
     borderWidth: 1,

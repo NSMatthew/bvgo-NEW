@@ -1,13 +1,39 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from 'react-native';
 
-// Define a type for Booking to make code clearer and type-safe
+// Type for booking
 type Booking = {
   propertyId: string;
   date: string;
   guest: string;
   sourceIcon: any | null;
 };
+
+// Generate 30 days from today
+const generateDates = (startDate: Date, numDays: number): string[] => {
+  const result = [];
+  for (let i = 0; i < numDays; i++) {
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() + i);
+    result.push(
+      date.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+      })
+    );
+  }
+  return result;
+};
+
+const today = new Date();
+const dates = generateDates(today, 30); // 30-day scrollable range
 
 const properties = [
   { id: '1', name: 'Dar Dahlia – Villa' },
@@ -16,14 +42,12 @@ const properties = [
   { id: '4', name: 'Serayu Mertanadi' },
 ];
 
-const dates = ['19 May', '20 May', '21 May']; // Extend with real dates
-
 const bookings: Booking[] = [
   {
     propertyId: '1',
     date: '19 May',
     guest: 'Craig',
-    sourceIcon: require('./assets/airbnb.png'), // Airbnb logo in assets
+    sourceIcon: require('./assets/airbnb.png'),
   },
   {
     propertyId: '2',
@@ -42,11 +66,8 @@ const bookings: Booking[] = [
 const BookingCalendarScreen = () => {
   const [activeTab, setActiveTab] = useState<'Events' | 'Calendar'>('Calendar');
 
-  // Now with explicit types for parameters
   const getBooking = (propertyId: string, date: string): Booking | undefined => {
-    return bookings.find(
-      (b) => b.propertyId === propertyId && b.date === date
-    );
+    return bookings.find((b) => b.propertyId === propertyId && b.date === date);
   };
 
   return (
@@ -59,63 +80,80 @@ const BookingCalendarScreen = () => {
       {/* Tabs */}
       <View style={styles.tabsContainer}>
         <TouchableOpacity onPress={() => setActiveTab('Events')}>
-          <Text style={[styles.tab, activeTab === 'Events' && styles.tabActive]}>Events</Text>
+          <Text style={[styles.tab, activeTab === 'Events' && styles.tabActive]}>
+            Events
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setActiveTab('Calendar')}>
-          <Text style={[styles.tab, activeTab === 'Calendar' && styles.tabActive]}>Calendar</Text>
+          <Text style={[styles.tab, activeTab === 'Calendar' && styles.tabActive]}>
+            Calendar
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Month Selector */}
       <View style={styles.monthSelector}>
-        <TouchableOpacity><Text>{'<'}</Text></TouchableOpacity>
-        <TouchableOpacity><Text>May 2025 ▼</Text></TouchableOpacity>
-        <TouchableOpacity><Text>{'>'}</Text></TouchableOpacity>
-        <TouchableOpacity><Text>⋮</Text></TouchableOpacity>
+        <TouchableOpacity>
+          <Text>{'<'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>May 2025 ▼</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>{'>'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>⋮</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Calendar Grid */}
-      <ScrollView horizontal>
-        <View>
-          {/* Dates Header */}
-          <View style={styles.row}>
-            <View style={[styles.propertyCell, { backgroundColor: '#eee' }]}>
-              <Text></Text>
+      <ScrollView style={{ flex: 1 }}>
+        <ScrollView horizontal>
+          <View>
+            {/* Dates Header */}
+            <View style={styles.row}>
+              <View style={[styles.propertyCell, { backgroundColor: '#eee' }]}>
+                <Text></Text>
+              </View>
+              {dates.map((date) => (
+                <View key={date} style={styles.dateCell}>
+                  <Text>{date}</Text>
+                </View>
+              ))}
             </View>
-            {dates.map((date) => (
-              <View key={date} style={styles.dateCell}>
-                <Text>{date}</Text>
+
+            {/* Properties Rows */}
+            {properties.map((property) => (
+              <View key={property.id} style={styles.row}>
+                <View style={styles.propertyCell}>
+                  <Text style={{ fontWeight: 'bold' }}>{property.name}</Text>
+                  <Text style={{ color: 'orange' }}>{'>'}</Text>
+                </View>
+                {dates.map((date) => {
+                  const booking = getBooking(property.id, date);
+                  return (
+                    <View key={date} style={styles.bookingCell}>
+                      {booking && (
+                        <View style={styles.bookingInfo}>
+                          {booking.sourceIcon && (
+                            <Image
+                              source={booking.sourceIcon}
+                              style={styles.icon}
+                            />
+                          )}
+                          <Text numberOfLines={1} style={{ flexShrink: 1 }}>
+                            {booking.guest}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                  );
+                })}
               </View>
             ))}
           </View>
-
-          {/* Properties Rows */}
-          {properties.map((property) => (
-            <View key={property.id} style={styles.row}>
-              <View style={styles.propertyCell}>
-                <Text style={{ fontWeight: 'bold' }}>{property.name}</Text>
-                <Text style={{ color: 'orange' }}>{'>'}</Text>
-              </View>
-              {dates.map((date) => {
-                const booking = getBooking(property.id, date);
-                return (
-                  <View key={date} style={styles.bookingCell}>
-                    {booking && (
-                      <View style={styles.bookingInfo}>
-                        {booking.sourceIcon && (
-                          <Image source={booking.sourceIcon} style={styles.icon} />
-                        )}
-                        <Text numberOfLines={1} style={{ flexShrink: 1 }}>
-                          {booking.guest}
-                        </Text>
-                      </View>
-                    )}
-                  </View>
-                );
-              })}
-            </View>
-          ))}
-        </View>
+        </ScrollView>
       </ScrollView>
 
       {/* Floating Action Button */}
@@ -127,11 +165,25 @@ const BookingCalendarScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  header: { padding: 16, alignItems: 'center', borderBottomWidth: 1, borderColor: '#ccc' },
+  header: {
+    padding: 16,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+  },
   headerTitle: { fontSize: 20, fontWeight: 'bold' },
-  tabsContainer: { flexDirection: 'row', justifyContent: 'center', marginVertical: 10 },
+  tabsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
   tab: { marginHorizontal: 20, fontSize: 16, color: 'gray' },
-  tabActive: { color: 'black', fontWeight: 'bold', borderBottomWidth: 2, borderColor: 'black' },
+  tabActive: {
+    color: 'black',
+    fontWeight: 'bold',
+    borderBottomWidth: 2,
+    borderColor: 'black',
+  },
   monthSelector: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -6,7 +6,7 @@ import Home from '../screen/Home';
 import Booking from '../screen/Booking';
 import MyProperty from '../screen/MyProperty';
 import Notification from '../screen/Notification';
-import Profile from '../screen/Profile';
+import TeamPage from '../screen/TeamPage';
 
 const Tab = createBottomTabNavigator();
 

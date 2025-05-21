@@ -5,6 +5,7 @@ import NewsletterCard from '../components/NewsletterCard';
 import { mergeSort, Newsletter } from '../lib/mergeSort';
 import { binarySearch } from '../lib/binarySearch';
 import { getNewsletters } from '../data/newsletters';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 const Home = () => {
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);

@@ -34,7 +34,7 @@ const BottomTabs = () => {
       <Tab.Screen name="Booking" component={Booking} />
       <Tab.Screen name="My Property" component={MyProperty} />
       <Tab.Screen name="Notification" component={Notification} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Profile" component={TeamPage} />
     </Tab.Navigator>
   );
 };

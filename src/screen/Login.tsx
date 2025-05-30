@@ -14,27 +14,62 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // State khusus error messages
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [generalError, setGeneralError] = useState("");
+
+  const validate = () => {
+    let valid = true;
+    setEmailError("");
+    setPasswordError("");
+    setGeneralError("");
+
+    if (!email.trim()) {
+      setEmailError("Email harus diisi!");
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Format email tidak valid");
+      valid = false;
+    }
+
+    if (!password.trim()) {
+      setPasswordError("Password harus diisi!");
+      valid = false;
+    }
+
+    return valid;
+  };
+
   async function signInWithEmail() {
+    if (!validate()) return;
+
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (error) Alert.alert("Login Failed", error.message);
+    if (error) setGeneralError(error.message);
+    else setGeneralError("");
+
     setLoading(false);
   }
 
   async function signUpWithEmail() {
+    if (!validate()) return;
+
     setLoading(true);
     const {
       data: { session },
       error,
     } = await supabase.auth.signUp({ email, password });
 
-    if (error) Alert.alert("Sign Up Failed", error.message);
+    if (error) setGeneralError(error.message);
+    else setGeneralError("");
+
     if (!session)
-      Alert.alert("Success", "Please check your inbox for verification");
+      Alert.alert("Success");
     setLoading(false);
   }
 
@@ -44,20 +79,25 @@ export default function Login() {
 
       <TextInput
         placeholder="Email"
-        style={styles.input}
+        style={[styles.input, emailError ? styles.inputError : null]}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
+      {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+
       <TextInput
         placeholder="Password"
-        style={styles.input}
+        style={[styles.input, passwordError ? styles.inputError : null]}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         autoCapitalize="none"
       />
+      {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+
+      {generalError ? <Text style={styles.generalError}>{generalError}</Text> : null}
 
       <View style={styles.buttonContainer}>
         <Button title="Sign in" onPress={signInWithEmail} disabled={loading} />
@@ -84,8 +124,21 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 6,
     padding: 12,
-    marginBottom: 16,
+    marginBottom: 8,
     fontSize: 16,
+  },
+  inputError: {
+    borderColor: "red",
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 12,
+  },
+  generalError: {
+    color: "red",
+    marginBottom: 12,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   buttonContainer: {
     marginVertical: 8,

@@ -5,9 +5,10 @@ import { RootStackParamList } from '../types/types';
 
 import Splash from '../screen/Splash';
 import Login from '../screen/Login';
-import BottomTabs from './BottomTabs'; 
-import Menu from '../screen/MenuSetting/Menu';  // Import Menu screen
-import EditPersonalInformation from '../screen/MenuSetting/EditPersonalInformation'; // Import EditPersonalInformation screen
+import BottomTabs from './BottomTabs';
+import Menu from '../screen/MenuSetting/Menu';
+import EditPersonalInformation from '../screen/MenuSetting/EditPersonalInformation';
+import TeamPage from '../screen/TeamPage'; // ✅ Tambahkan import TeamPage
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,9 +18,10 @@ const linking = {
     screens: {
       Splash: 'splash',
       Login: 'login',
-      Home: 'home/:userId', 
-      Menu: 'menu',  // Optional deep linking path
-      EditPersonalInformation: 'edit-personal-information', // Optional deep linking path
+      Home: 'home/:userId',
+      Menu: 'menu',
+      EditPersonalInformation: 'edit-personal-information',
+      TeamPage: 'team-page', // ✅ Tambahkan deep linking TeamPage
     },
   },
 };
@@ -35,10 +37,15 @@ const Navigation = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={BottomTabs} />
         <Stack.Screen name="Menu" component={Menu} />
-        <Stack.Screen 
-          name="EditPersonalInformation" 
-          component={EditPersonalInformation} 
-          options={{ headerShown: true, title: 'Personal Information' }} // Show header with title
+        <Stack.Screen
+          name="EditPersonalInformation"
+          component={EditPersonalInformation}
+          options={{ headerShown: true, title: 'Personal Information' }}
+        />
+        <Stack.Screen
+          name="TeamPage"
+          component={TeamPage}
+          options={{ headerShown: true, title: 'Team' }} // ✅ Tambahkan screen TeamPage
         />
       </Stack.Navigator>
     </NavigationContainer>

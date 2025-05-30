@@ -1,26 +1,33 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
-import TeamCard from '../components/TeamCard'; // Mengimpor komponen TeamCard
+import TeamCard from '../components/TeamCard';
 
-const teamMembers = [
+type Status = 'All' | 'New' | 'Ongoing' | 'Done';
+
+const teamMembers: {
+  id: string;
+  name: string;
+  role: string;
+  status: Exclude<Status, 'All'>; // karena 'All' bukan status anggota
+  avatar: any;
+}[] = [
   { id: '1', name: 'Robert Davis C.', role: 'Guest Experience Manager', status: 'Ongoing', avatar: require('../../assets/images/avatar.png') },
   { id: '2', name: 'Noriyaki', role: 'Property Owner', status: 'Done', avatar: require('../../assets/images/avatar.png') },
   { id: '3', name: 'Charlie', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar.png') },
   { id: '4', name: 'John', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar.png') },
-  // Add more team members here
 ];
 
 const TeamPage = () => {
-  const [statusFilter, setStatusFilter] = useState('All'); // Default filter is 'All'
+  const [statusFilter, setStatusFilter] = useState<Status>('All'); // Tipe Status
 
-  // Filter function to display team based on selected status
+  // Filter anggota berdasarkan filter status
   const filteredMembers = statusFilter === 'All'
     ? teamMembers
     : teamMembers.filter(member => member.status === statusFilter);
 
   return (
     <ScrollView style={styles.container}>
-      {/* Header Section */}
+      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton}>
           <Text style={styles.backText}>←</Text>
@@ -28,15 +35,15 @@ const TeamPage = () => {
         <Text style={styles.headerText}>My Team</Text>
       </View>
 
-      {/* Status Filter Buttons */}
+      {/* Filter Buttons */}
       <View style={styles.filterContainer}>
         {['All', 'New', 'Ongoing', 'Done'].map(status => (
           <TouchableOpacity
             key={status}
             style={[styles.filterButton, status === statusFilter && styles.activeFilter]}
-            onPress={() => setStatusFilter(status)}
+            onPress={() => setStatusFilter(status as Status)}
           >
-            <Text style={styles.filterText}>{status}</Text>
+            <Text style={[styles.filterText, status === statusFilter && styles.activeFilterText]}>{status}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -95,6 +102,9 @@ const styles = StyleSheet.create({
   },
   filterText: {
     fontSize: 16,
+    color: '#333',
+  },
+  activeFilterText: {
     color: '#fff',
   },
 });

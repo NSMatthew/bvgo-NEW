@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, StyleProp, TextStyle, ImageStyle, ViewStyle } from 'react-native';
+
+type Status = 'New' | 'Ongoing' | 'Done';
 
 type TeamCardProps = {
   name: string;
   role: string;
-  status: string;
+  status: Status;
   avatar: any;
 };
 
@@ -15,13 +17,23 @@ const TeamCard = ({ name, role, status, avatar }: TeamCardProps) => {
       <View style={styles.textContainer}>
         <Text style={styles.teamName}>{name}</Text>
         <Text style={styles.teamRole}>{role}</Text>
-        <Text style={[styles.statusLabel, styles[status]]}>{status}</Text>
+        <Text style={[styles.statusLabel, styles[status] as StyleProp<TextStyle>]}>{status}</Text>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<{
+  card: ViewStyle;
+  avatar: ImageStyle;
+  textContainer: ViewStyle;
+  teamName: TextStyle;
+  teamRole: TextStyle;
+  statusLabel: TextStyle;
+  New: TextStyle;
+  Ongoing: TextStyle;
+  Done: TextStyle;
+}>({
   card: {
     flexDirection: 'row',
     backgroundColor: '#fff',
@@ -53,18 +65,16 @@ const styles = StyleSheet.create({
     padding: 4,
     borderRadius: 4,
     textAlign: 'center',
+    color: '#fff',
   },
   New: {
     backgroundColor: '#007BFF',
-    color: '#fff',
   },
   Ongoing: {
     backgroundColor: '#FFA500',
-    color: '#fff',
   },
   Done: {
     backgroundColor: '#4CAF50',
-    color: '#fff',
   },
 });
 

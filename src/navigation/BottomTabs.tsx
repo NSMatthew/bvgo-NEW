@@ -6,7 +6,7 @@ import Home from '../screen/Home';
 import Booking from '../screen/Booking';
 import MyProperty from '../screen/MyProperty';
 import Notification from '../screen/Notification';
-import TeamPage from '../screen/TeamPage';
+import Menu from '../screen/MenuSetting/Menu'; // Import Menu menggantikan TeamPage
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +21,7 @@ const BottomTabs = () => {
           else if (route.name === 'Booking') iconName = 'list-outline';
           else if (route.name === 'My Property') iconName = 'home-outline';
           else if (route.name === 'Notification') iconName = 'notifications-outline';
-          else if (route.name === 'Profile') iconName = 'person-outline';
+          else if (route.name === 'Menu') iconName = 'person-outline'; // Ganti 'Profile' jadi 'Menu'
 
           return <Icon name={iconName!} size={size} color={color} />;
         },
@@ -34,7 +34,7 @@ const BottomTabs = () => {
       <Tab.Screen name="Booking" component={Booking} />
       <Tab.Screen name="My Property" component={MyProperty} />
       <Tab.Screen name="Notification" component={Notification} />
-      <Tab.Screen name="Profile" component={TeamPage} />
+      <Tab.Screen name="Menu" component={Menu} /> {/* Ganti name 'Profile' jadi 'Menu' */}
     </Tab.Navigator>
   );
 };

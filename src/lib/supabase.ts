@@ -18,3 +18,38 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: false,
   },
 });
+
+// ----------------------
+// Task related types & functions
+// ----------------------
+
+export type Task = {
+  id?: number;
+  member_id: string;
+  task_name: string;
+  status: 'New' | 'Ongoing' | 'Done';
+  created_at?: string;
+};
+
+// Fetch semua task berdasarkan member_id
+export async function getTasksByMemberId(member_id: string): Promise<Task[]> {
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('member_id', member_id)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+}
+
+// Insert atau update task (upsert)
+export async function upsertTask(task: Task): Promise<Task | null> {
+  const { data, error } = await supabase
+    .from('tasks')
+    .upsert(task, { onConflict: 'id' })
+    .single();
+
+  if (error) throw error;
+  return data || null;
+}

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
 import TeamCard from '../components/TeamCard';
+import TaskModal from '../components/TeamCard/TaskModal'; // Import TaskModal
 
 type Status = 'All' | 'New' | 'Ongoing' | 'Done';
 
-const teamMembers: {
+type TeamMember = {
   id: string;
   name: string;
   role: string;
-  status: Exclude<Status, 'All'>; // karena 'All' bukan status anggota
+  status: Exclude<Status, 'All'>;
   avatar: any;
-}[] = [
+};
+
+const initialTeamMembers: TeamMember[] = [
   { id: '1', name: 'Robert Davis C.', role: 'Guest Experience Manager', status: 'Ongoing', avatar: require('../../assets/images/avatar.png') },
   { id: '2', name: 'Noriyaki', role: 'Property Owner', status: 'Done', avatar: require('../../assets/images/avatar.png') },
   { id: '3', name: 'Charlie', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar.png') },
@@ -18,16 +21,41 @@ const teamMembers: {
 ];
 
 const TeamPage = () => {
-  const [statusFilter, setStatusFilter] = useState<Status>('All'); // Tipe Status
+  const [statusFilter, setStatusFilter] = useState<Status>('All');
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeamMembers);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
-  // Filter anggota berdasarkan filter status
+  // Filter anggota sesuai filter
   const filteredMembers = statusFilter === 'All'
     ? teamMembers
     : teamMembers.filter(member => member.status === statusFilter);
 
+  // Buka modal dan set anggota yang diedit
+  const openTaskModal = (member: TeamMember) => {
+    setSelectedMember(member);
+    setModalVisible(true);
+  };
+
+  // Tutup modal
+  const closeTaskModal = () => {
+    setModalVisible(false);
+    setSelectedMember(null);
+  };
+
+  // Simpan perubahan status tugas
+  const handleSaveStatus = (newStatus: Exclude<Status, 'All'>) => {
+    if (selectedMember) {
+      const updatedMembers = teamMembers.map(member => 
+        member.id === selectedMember.id ? { ...member, status: newStatus } : member
+      );
+      setTeamMembers(updatedMembers);
+    }
+    closeTaskModal();
+  };
+
   return (
     <ScrollView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton}>
           <Text style={styles.backText}>←</Text>
@@ -35,7 +63,6 @@ const TeamPage = () => {
         <Text style={styles.headerText}>My Team</Text>
       </View>
 
-      {/* Filter Buttons */}
       <View style={styles.filterContainer}>
         {['All', 'New', 'Ongoing', 'Done'].map(status => (
           <TouchableOpacity
@@ -48,19 +75,30 @@ const TeamPage = () => {
         ))}
       </View>
 
-      {/* Team List */}
       <FlatList
         data={filteredMembers}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <TeamCard
             name={item.name}
             role={item.role}
             status={item.status}
             avatar={item.avatar}
+            onStatusPress={() => openTaskModal(item)}  // trigger modal buka
           />
         )}
       />
+
+      {/* Task Modal */}
+      {selectedMember && (
+        <TaskModal
+          visible={modalVisible}
+          taskName={`Task for ${selectedMember.name}`}
+          taskStatus={selectedMember.status}
+          onSave={handleSaveStatus}
+          onCancel={closeTaskModal}
+        />
+      )}
     </ScrollView>
   );
 };

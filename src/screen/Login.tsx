@@ -15,7 +15,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Error handling
+  // Error messages
   const [error, setError] = useState("");
 
   const validate = () => {
@@ -37,7 +37,14 @@ export default function Login() {
     });
 
     if (error) {
-      setError("Incorrect password!");
+      // Analisis error Supabase
+      if (error.message.toLowerCase().includes("user not found")) {
+        setError("Email is not registered!");
+      } else if (error.message.toLowerCase().includes("invalid login credentials")) {
+        setError("Incorrect password!");
+      } else {
+        setError(error.message);
+      }
     } else {
       setError("");
     }
@@ -58,7 +65,7 @@ export default function Login() {
       <View
         style={[
           styles.inputContainer,
-          error ? styles.inputErrorContainer : null,
+          error && error === "Email is not registered!" ? styles.inputErrorContainer : null,
         ]}
       >
         <TextInput
@@ -75,7 +82,7 @@ export default function Login() {
       <View
         style={[
           styles.inputContainer,
-          error ? styles.inputErrorContainer : null,
+          error && error === "Incorrect password!" ? styles.inputErrorContainer : null,
         ]}
       >
         <TextInput

@@ -78,11 +78,18 @@ const Menu = () => {
           <Icon name="chevron-forward" size={20} color="#999" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
-          <Icon name="person-circle-outline" size={22} color="#444" />
-          <Text style={styles.menuText}>Account</Text>
+          <Icon name="help-circle-outline" size={22} color="#444" />
+          <Text style={styles.menuText}>FAQ</Text>
           <Icon name="chevron-forward" size={20} color="#999" />
         </TouchableOpacity>
       </View>
+
+      {/* Account Section */}
+      <TouchableOpacity style={styles.menuItem}>
+        <Icon name="person-circle-outline" size={22} color="#444" />
+        <Text style={styles.menuText}>Account</Text>
+        <Icon name="chevron-forward" size={20} color="#999" />
+      </TouchableOpacity>
 
       {/* Logout */}
       <TouchableOpacity style={styles.logoutButton}>

@@ -1,8 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types/types';
+
+type MenuNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Menu'>;
 
 const Menu = () => {
+  const navigation = useNavigation<MenuNavigationProp>();  // Use the correct type here
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }}>
       {/* Warning */}
@@ -77,7 +84,11 @@ const Menu = () => {
           <Text style={styles.menuText}>Privacy Policy</Text>
           <Icon name="chevron-forward" size={20} color="#999" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
+        {/* FAQ menu item */}
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("FAQ")}  // Navigasi ke FAQ screen
+        >
           <Icon name="help-circle-outline" size={22} color="#444" />
           <Text style={styles.menuText}>FAQ</Text>
           <Icon name="chevron-forward" size={20} color="#999" />

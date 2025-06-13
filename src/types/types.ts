@@ -5,4 +5,5 @@ export type RootStackParamList = {
   Menu: undefined;
   EditPersonalInformation: undefined;
   TeamPage: undefined;
+  FAQ: undefined;
 };

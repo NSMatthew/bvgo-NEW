@@ -14,10 +14,10 @@ type TeamMember = {
 };
 
 const initialTeamMembers: TeamMember[] = [
-  { id: '1', name: 'Robert Davis C.', role: 'Guest Experience Manager', status: 'Ongoing', avatar: require('../../assets/images/avatar.png') },
-  { id: '2', name: 'Noriyaki', role: 'Property Owner', status: 'Done', avatar: require('../../assets/images/avatar.png') },
-  { id: '3', name: 'Charlie', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar.png') },
-  { id: '4', name: 'John', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar.png') },
+  { id: '1', name: 'Robert Davis C.', role: 'Guest Experience Manager', status: 'Ongoing', avatar: require('../../assets/images/avatar4.png') },
+  { id: '2', name: 'Noriyaki', role: 'Property Owner', status: 'Done', avatar: require('../../assets/images/avatar3.png') },
+  { id: '3', name: 'Charlie', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar2.png') },
+  { id: '4', name: 'John', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar1.png') },
 ];
 
 const TeamPage = () => {

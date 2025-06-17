@@ -4,16 +4,16 @@ import ReviewItem from './ReviewItem';
 
 const data = [
   {
-    name: 'Robert Davis C.',
+    name: 'David B.',
     dateRange: 'Feb 1 - Feb 2, 2025',
     review: 'The place is super comfy!',
-    avatar: require('../../assets/images/guest1.jpg'),
+    avatar: require('../../assets/images/guest1.png'),
   },
   {
-    name: 'Robert Davis C.',
-    dateRange: 'Feb 1 - Feb 2, 2025',
-    review: 'The place is super comfy!',
-    avatar: require('../../assets/images/guest1.jpg'),
+    name: 'Christian E.',
+    dateRange: 'Mar 1 - Mar 2, 2025',
+    review: 'The place is super comfy! The room also super big. Recommended!',
+    avatar: require('../../assets/images/guest2.png'),
   },
 ];
 

@@ -54,7 +54,7 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/images/bukitvista-logo.png")}
+        source={require("../assets/icons/bukitvista-logo.png")}
         style={styles.logo}
       />
 
@@ -109,7 +109,7 @@ export default function Login() {
       >
         <Text style={styles.loginButtonText}>Log In</Text>
         <Image
-          source={require("../assets/images/arrow-right.png")}
+          source={require("../assets/icons/arrowlogin.png")}
           style={styles.arrowIcon}
         />
       </TouchableOpacity>
@@ -118,7 +118,7 @@ export default function Login() {
 
       <TouchableOpacity style={styles.googleButton}>
         <Image
-          source={require("../assets/images/google-logo.png")}
+          source={require("../assets/icons/google-logo.png")}
           style={styles.googleLogo}
         />
         <Text style={styles.googleButtonText}>Continue With Google</Text>

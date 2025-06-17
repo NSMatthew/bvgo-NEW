@@ -20,7 +20,7 @@ type NotificationItem = {
 const Notif: NotificationItem[] = [
   {
     id: '1',
-    avatar: require('../assets/avatar1.png'), // ganti dengan image avatar asli
+    avatar: require('../assets/images/avatar1.png'), // ganti dengan image avatar asli
     title: 'Gaia',
     message:
       'Suksma atas laporan bahwa tamu tidak minta cleaning dan tidak mengizinkan masuk. Kami menghargai perhatian Anda pada preferensi tamu. Jika ada yang perlu dibantu lebih lanjut, silakan beri tahu, Nggih.',
@@ -29,7 +29,7 @@ const Notif: NotificationItem[] = [
   },
   {
     id: '2',
-    avatar: require('../assets/avatar2.png'),
+    avatar: require('../assets/images/avatar2.png'),
     title: 'Gede Ananta',
     message: 'teriman di vila dardahlia dan no cleaning hari ini',
     date: '15-05-2025 12:15',
@@ -37,7 +37,7 @@ const Notif: NotificationItem[] = [
   },
   {
     id: '3',
-    avatar: require('../assets/avatar3.png'),
+    avatar: require('../assets/images/avatar3.png'),
     title: 'Riki Vernanda',
     message:
       'selamat siang, Hari ini tamu tidak minta cleaning dan tidak di perbolehkan masuk🙏',
@@ -46,7 +46,7 @@ const Notif: NotificationItem[] = [
   },
   {
     id: '4',
-    avatar: require('../assets/logo-payout.png'),
+    avatar: require('../assets/icons/payouticon.png'),
     title: 'Payout Update!',
     message: 'Update: We’ve transferred Rp 4553711 to your bank account',
     date: '15-05-2025 12:00',

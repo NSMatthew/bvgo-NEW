@@ -22,7 +22,7 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
           revenue={210000000}
           target={480000000}
           percentage={48}
-          chartImage={require('../assets/images/chart-placeholder.png')}
+          chartImage={require('../assets/images/ChartRevenue.png')}
         />
       </View>
 

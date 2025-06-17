@@ -5,7 +5,7 @@ const PropertyCard = () => {
   return (
     <View style={styles.card}>
       <Image
-        source={require('../../assets/images/villa-good-juju.jpg')}
+        source={require('../../assets/images/fotoVillaGoodJuju.png')}
         style={styles.image}
       />
       <View style={styles.info}>
@@ -13,15 +13,15 @@ const PropertyCard = () => {
 
         <View style={styles.attributes}>
           <View style={styles.iconGroup}>
-            <Image source={require('../../assets/icons/home-score.png')} style={styles.icon} />
+            <Image source={require('../../assets/icons/PropertyAttribute.png')} style={styles.icon} />
             <Text style={styles.label}>B+</Text>
           </View>
           <View style={styles.iconGroup}>
-            <Image source={require('../../assets/icons/security-score.png')} style={styles.icon} />
+            <Image source={require('../../assets/icons/GuestExperienceManagement.png')} style={styles.icon} />
             <Text style={styles.label}>A</Text>
           </View>
           <View style={styles.iconGroup}>
-            <Image source={require('../../assets/icons/experience-score.png')} style={styles.icon} />
+            <Image source={require('../../assets/icons/OwnerRelationship.png')} style={styles.icon} />
             <Text style={styles.label}>B+</Text>
           </View>
         </View>

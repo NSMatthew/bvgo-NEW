@@ -17,7 +17,7 @@ const NewsletterCard = ({ data }: Props) => {
         <View style={styles.card}>
           <View style={styles.header}>
             <Image
-              source={require('../../assets/images/avatar.png')}
+              source={require('../../assets/images/AvatarPublisher.png')}
               style={styles.avatar}
             />
             <View>

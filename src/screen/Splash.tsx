@@ -25,7 +25,7 @@ const Splash = ({ navigation }: SplashProps) => {
     <View style={styles.container}>
       <View style={styles.centerContent}>
         <Image
-          source={require('../../assets/images/logo-BV.png')}
+          source={require('../../assets/images/logo-BVsplash.png')}
           style={styles.logo}
           resizeMode="contain"
         />

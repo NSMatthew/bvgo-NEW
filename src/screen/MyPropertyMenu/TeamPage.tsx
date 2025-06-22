@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import TeamCard from '../../components/TeamCard';
-import TaskModal from '../../components/TeamCard/TaskModal'; // Import TaskModal
+import TaskModal from '../../components/TeamCard/TaskModal';
 
 type Status = 'All' | 'New' | 'Ongoing' | 'Done';
 
@@ -14,39 +23,61 @@ type TeamMember = {
 };
 
 const initialTeamMembers: TeamMember[] = [
-  { id: '1', name: 'Robert Davis C.', role: 'Guest Experience Manager', status: 'Ongoing', avatar: require('../../assets/images/avatar4.png') },
-  { id: '2', name: 'Noriyaki', role: 'Property Owner', status: 'Done', avatar: require('../../assets/images/avatar3.png') },
-  { id: '3', name: 'Charlie', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar2.png') },
-  { id: '4', name: 'John', role: 'Onsite staff', status: 'New', avatar: require('../../assets/images/avatar1.png') },
+  {
+    id: '1',
+    name: 'Robert Davis C.',
+    role: 'Guest Experience Manager',
+    status: 'Ongoing',
+    avatar: require('../../assets/images/avatar4.png'),
+  },
+  {
+    id: '2',
+    name: 'Noriyaki',
+    role: 'Property Owner',
+    status: 'Done',
+    avatar: require('../../assets/images/avatar3.png'),
+  },
+  {
+    id: '3',
+    name: 'Charlie',
+    role: 'Onsite staff',
+    status: 'New',
+    avatar: require('../../assets/images/avatar2.png'),
+  },
+  {
+    id: '4',
+    name: 'John',
+    role: 'Onsite staff',
+    status: 'New',
+    avatar: require('../../assets/images/avatar1.png'),
+  },
 ];
 
 const TeamPage = () => {
+  const navigation = useNavigation();
   const [statusFilter, setStatusFilter] = useState<Status>('All');
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeamMembers);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
-  // Filter anggota sesuai filter
-  const filteredMembers = statusFilter === 'All'
-    ? teamMembers
-    : teamMembers.filter(member => member.status === statusFilter);
+  const filteredMembers =
+    statusFilter === 'All'
+      ? teamMembers
+      : teamMembers.filter((member) => member.status === statusFilter);
 
-  // Buka modal dan set anggota yang diedit
   const openTaskModal = (member: TeamMember) => {
     setSelectedMember(member);
     setModalVisible(true);
   };
 
-  // Tutup modal
   const closeTaskModal = () => {
     setModalVisible(false);
     setSelectedMember(null);
   };
 
-  // Simpan perubahan status tugas
   const handleSaveStatus = (newStatus: Exclude<Status, 'All'>) => {
     if (selectedMember) {
-      const updatedMembers = teamMembers.map(member => 
+      const updatedMembers = teamMembers.map((member) =>
         member.id === selectedMember.id ? { ...member, status: newStatus } : member
       );
       setTeamMembers(updatedMembers);
@@ -57,39 +88,52 @@ const TeamPage = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backText}>←</Text>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Image
+            source={require('../../assets/images/backbutton.png')}
+            style={styles.backIcon}
+            resizeMode="contain"
+          />
         </TouchableOpacity>
         <Text style={styles.headerText}>My Team</Text>
       </View>
 
       <View style={styles.filterContainer}>
-        {['All', 'New', 'Ongoing', 'Done'].map(status => (
+        {['All', 'New', 'Ongoing', 'Done'].map((status) => (
           <TouchableOpacity
             key={status}
-            style={[styles.filterButton, status === statusFilter && styles.activeFilter]}
+            style={[
+              styles.filterButton,
+              status === statusFilter && styles.activeFilter,
+            ]}
             onPress={() => setStatusFilter(status as Status)}
           >
-            <Text style={[styles.filterText, status === statusFilter && styles.activeFilterText]}>{status}</Text>
+            <Text
+              style={[
+                styles.filterText,
+                status === statusFilter && styles.activeFilterText,
+              ]}
+            >
+              {status}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
 
       <FlatList
         data={filteredMembers}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TeamCard
             name={item.name}
             role={item.role}
             status={item.status}
             avatar={item.avatar}
-            onStatusPress={() => openTaskModal(item)}  // trigger modal buka
+            onStatusPress={() => openTaskModal(item)}
           />
         )}
       />
 
-      {/* Task Modal */}
       {selectedMember && (
         <TaskModal
           visible={modalVisible}
@@ -117,9 +161,10 @@ const styles = StyleSheet.create({
   backButton: {
     marginRight: 12,
   },
-  backText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  backIcon: {
+    width: 24,
+    height: 24,
+    tintColor: '#1076BC',
   },
   headerText: {
     fontSize: 24,
@@ -136,7 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   activeFilter: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#1076BC',
   },
   filterText: {
     fontSize: 16,

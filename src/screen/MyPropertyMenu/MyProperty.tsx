@@ -1,11 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { BottomTabParamList } from '../types/bottomTabTypes';
+import { BottomTabParamList } from '../../types/bottomTabTypes';
 
-import PropertyCard from '../components/PropertyCard';
-import RevenueProgress from '../components/RevenueProgress';
-import GuestReviewCard from '../components/GuestReviewCard';
+import PropertyCard from '../../components/PropertyCard';
+import RevenueProgress from '../../components/RevenueProgress';
+import GuestReviewCard from '../../components/GuestReviewCard';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 type Props = BottomTabScreenProps<BottomTabParamList, 'My Property'>;
@@ -40,7 +40,7 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.operationsTitle}>Operations</Text>
         <TouchableOpacity
           style={styles.operationItem}
-          onPress={() => navigation.navigate('TeamPage' as never)} // 👈 team page navigasi
+          onPress={() => navigation.navigate('TeamPage' as never)} // 👈 team page navigation
         >
           <Icon name="people-outline" size={24} color="#333" />
           <View style={styles.operationTextContainer}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
-import TeamCard from '../components/TeamCard';
-import TaskModal from '../components/TeamCard/TaskModal'; // Import TaskModal
+import TeamCard from '../../components/TeamCard';
+import TaskModal from '../../components/TeamCard/TaskModal'; // Import TaskModal
 
 type Status = 'All' | 'New' | 'Ongoing' | 'Done';
 

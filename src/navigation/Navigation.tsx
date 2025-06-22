@@ -8,7 +8,7 @@ import Login from '../screen/Login';
 import BottomTabs from './BottomTabs';
 import Menu from '../screen/MenuSetting/Menu';
 import EditPersonalInformation from '../screen/MenuSetting/EditPersonalInformation';
-import TeamPage from '../screen/TeamPage'; // ✅ Tambahkan import TeamPage
+import TeamPage from '../screen/MyPropertyMenu/TeamPage'; // ✅ Tambahkan import TeamPage
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

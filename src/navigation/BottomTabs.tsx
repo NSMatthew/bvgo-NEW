@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screen/Home';
 import Booking from '../screen/Booking';
-import MyProperty from '../screen/MyProperty';
+import MyProperty from '../screen/MyPropertyMenu/MyProperty';
 import Notification from '../screen/Notification';
 import Menu from '../screen/MenuSetting/Menu';
 

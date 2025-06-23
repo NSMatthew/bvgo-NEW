@@ -90,7 +90,7 @@ const TeamPage = () => {
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Image
-            source={require('../../assets/images/backbutton.png')}
+            source={require('../../assets/icons/backbutton.png')}
             style={styles.backIcon}
             resizeMode="contain"
           />

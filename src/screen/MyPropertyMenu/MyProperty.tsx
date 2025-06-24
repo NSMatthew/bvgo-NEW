@@ -6,7 +6,6 @@ import { BottomTabParamList } from '../../types/bottomTabTypes';
 import PropertyCard from '../../components/PropertyCard';
 import RevenueProgress from '../../components/RevenueProgress';
 import GuestReviewCard from '../../components/GuestReviewCard';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 type Props = BottomTabScreenProps<BottomTabParamList, 'My Property'>;
 
@@ -35,22 +34,47 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
         <GuestReviewCard />
       </View>
 
-      {/* Section 4: Operations - Team Access */}
+      {/* Section 4: Operations */}
       <View style={styles.section}>
         <Text style={styles.operationsTitle}>Operations</Text>
+
+        <TouchableOpacity style={styles.operationItem}>
+          <Image
+            source={require('../assets/icons/InvestmentReport.png')}
+            style={styles.operationIcon}
+          />
+          <View style={styles.operationTextContainer}>
+            <Text style={styles.operationTitle}>Inspired Investment Report</Text>
+            <Text style={styles.operationDescription}>Operation and financial report</Text>
+          </View>
+          <Text style={styles.arrow}>{'>'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.operationItem}>
+          <Image
+            source={require('../assets/icons/AccountingReport.png')}
+            style={styles.operationIcon}
+          />
+          <View style={styles.operationTextContainer}>
+            <Text style={styles.operationTitle}>Accounting Report</Text>
+            <Text style={styles.operationDescription}>See your monthly report</Text>
+          </View>
+          <Text style={styles.arrow}>{'>'}</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.operationItem}
-          onPress={() => navigation.navigate('TeamPage' as never)} // 👈 team page navigation
+          onPress={() => navigation.navigate('TeamPage' as never)}
         >
-          <Icon name="people-outline" size={24} color="#333" />
+          <Image
+            source={require('../assets/icons/Team.png')}
+            style={styles.operationIcon}
+          />
           <View style={styles.operationTextContainer}>
             <Text style={styles.operationTitle}>Team</Text>
             <Text style={styles.operationDescription}>See all team members</Text>
           </View>
-          <Image
-            source={require('../assets/images/team-placeholder.png')}
-            style={styles.teamImage}
-          />
+          <Text style={styles.arrow}>{'>'}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -63,21 +87,48 @@ const styles = StyleSheet.create({
   reviewHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
   reviewTitle: { fontSize: 16, fontWeight: 'bold' },
   reviewLink: { color: '#007BFF', fontSize: 14 },
-  operationsTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 8 },
+  operationsTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#0E0E0E',
+  },
   operationItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
     backgroundColor: '#fff',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    marginBottom: 8,
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
-  operationTextContainer: { flex: 1, marginLeft: 12 },
-  operationTitle: { fontSize: 16, fontWeight: '500' },
-  operationDescription: { fontSize: 14, color: '#888' },
-  teamImage: { width: 36, height: 36, borderRadius: 18 },
+  operationIcon: {
+    width: 32,
+    height: 32,
+    resizeMode: 'contain',
+    marginRight: 12,
+  },
+  operationTextContainer: {
+    flex: 1,
+  },
+  operationTitle: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#0E0E0E',
+  },
+  operationDescription: {
+    fontSize: 12,
+    color: '#5B5E6B',
+    marginTop: 2,
+  },
+  arrow: {
+    fontSize: 20,
+    color: '#888',
+  },
 });
 
 export default MyProperty;

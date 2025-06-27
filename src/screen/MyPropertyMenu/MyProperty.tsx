@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { Image } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { BottomTabParamList } from '../../types/bottomTabTypes';
 

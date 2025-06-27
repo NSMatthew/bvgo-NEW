@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, StyleSheet, Linking } from 'react-native';
+import { Image } from 'react-native';
+import { View, Text, StyleSheet, Linking } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/types';
 

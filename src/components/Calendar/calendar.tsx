@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { Image } from 'react-native';
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
-  Image,
   StyleSheet,
 } from 'react-native';
 

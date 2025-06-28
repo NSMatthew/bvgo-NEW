@@ -1,23 +1,21 @@
 import React, { useEffect } from 'react';
-import { Image } from 'react-native';
-import { View, Text, StyleSheet, Linking } from 'react-native';
+import { View, Text, Image, StyleSheet, Linking } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/types';
 
 type SplashProps = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 const Splash = ({ navigation }: SplashProps) => {
-  // GANTI `true` ➝ `false` kalau ingin pakai href
   const useRootStack = true;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (useRootStack) {
-        navigation.navigate('Login'); // 🔁 Versi: NativeStack Type-safe
+        navigation.navigate('Login');
       } else {
-        Linking.openURL('myapp://login'); // 🔁 Versi: HREF style (deep link-like)
+        Linking.openURL('myapp://login');
       }
-    }, 2000); // 2 seconds
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [navigation]);
@@ -28,7 +26,17 @@ const Splash = ({ navigation }: SplashProps) => {
         <Image
           source={require('../assets/images/logoBVsplash.png')}
           style={styles.logo}
-          resizeMode="cover"
+          resizeMode="contain"
+        />
+        <Text style={styles.bvgoText}>BVGO</Text>
+      </View>
+
+      <View style={styles.bottomContent}>
+        <Text style={styles.fromText}>from</Text>
+        <Image
+          source={require('../assets/images/bukitvista-logo.png')}
+          style={styles.fromLogo}
+          resizeMode="contain"
         />
       </View>
     </View>
@@ -38,10 +46,10 @@ const Splash = ({ navigation }: SplashProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
     backgroundColor: '#fff',
     paddingVertical: 60,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   centerContent: {
     alignItems: 'center',
@@ -54,20 +62,22 @@ const styles = StyleSheet.create({
   },
   bvgoText: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#0070C0',
-    marginTop: 10,
+    fontFamily: 'Satoshi-Bold',
+    color: '#1076BC',
+    marginTop: 12,
   },
   bottomContent: {
     alignItems: 'center',
-    gap: 8,
+    marginBottom: 20,
   },
   fromText: {
     fontSize: 16,
+    fontFamily: 'Satoshi-Regular',
     color: '#000',
+    marginBottom: 8,
   },
   fromLogo: {
-    width: 100,
+    width: 120,
     height: 40,
   },
 });

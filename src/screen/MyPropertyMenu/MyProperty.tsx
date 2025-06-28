@@ -22,7 +22,7 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
           revenue={210000000}
           target={480000000}
           percentage={48}
-          chartImage={require('../assets/images/ChartRevenue.png')}
+          chartImage={require('../../assets/images/ChartRevenue.png')}
         />
       </View>
 
@@ -41,7 +41,7 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
 
         <TouchableOpacity style={styles.operationItem}>
           <Image
-            source={require('../assets/icons/InvestmentReport.png')}
+            source={require('../../assets/icons/InvestmentReport.png')}
             style={styles.operationIcon}
           />
           <View style={styles.operationTextContainer}>
@@ -53,7 +53,7 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
 
         <TouchableOpacity style={styles.operationItem}>
           <Image
-            source={require('../assets/icons/AccountingReport.png')}
+            source={require('../../assets/icons/AccountingReport.png')}
             style={styles.operationIcon}
           />
           <View style={styles.operationTextContainer}>
@@ -68,7 +68,7 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
           onPress={() => navigation.navigate('TeamPage' as never)}
         >
           <Image
-            source={require('../assets/icons/Team.png')}
+            source={require('../../assets/icons/Team.png')}
             style={styles.operationIcon}
           />
           <View style={styles.operationTextContainer}>

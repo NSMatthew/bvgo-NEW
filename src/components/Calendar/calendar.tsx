@@ -47,19 +47,19 @@ const bookings: Booking[] = [
     propertyId: '1',
     date: '19 May',
     guest: 'Craig',
-    sourceIcon: require('../../assets/icons/airbnb.png'),
+    sourceIcon: require('../assets/icons/airbnb.png'),
   },
   {
     propertyId: '2',
     date: '19 May',
     guest: 'Anais Fassia',
-    sourceIcon: require('../../assets/icons/airbnb.png'),
+    sourceIcon: require('../assets/icons/airbnb.png'),
   },
   {
     propertyId: '4',
     date: '21 May',
     guest: 'Jordan',
-    sourceIcon: require('../../assets/icons/airbnb.png'),
+    sourceIcon: require('../assets/icons/airbnb.png'),
   },
 ];
 

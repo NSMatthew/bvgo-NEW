@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   fromText: {
     fontSize: 16,
     fontFamily: 'Satoshi-Regular',
-    color: '#000',
+    color: '#0E0E0E',
     marginBottom: 8,
   },
   fromLogo: {

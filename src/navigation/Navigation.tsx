@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/types';
 
 import Splash from '../screen/Splash';
-import Login from '../screen/Login';
+import Login from '../screen/Authentication/Login';
 import BottomTabs from './BottomTabs';
 import Menu from '../screen/MenuSetting/Menu';
 import EditPersonalInformation from '../screen/MenuSetting/EditPersonalInformation';

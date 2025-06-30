@@ -11,10 +11,9 @@ import {
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
-import { supabase } from '../../lib/supabase'; // Pastikan path ini benar
-import { Typography } from '../../styles/typography'; // <-- 1. IMPORT TYPOGRAPHY
+import { supabase } from '../../lib/supabase'; 
+import { Typography } from '../../styles/typography'; 
 
-// Definisikan tipe untuk props navigasi
 type ForgotPasswordScreenProps = {
   navigation: any; 
 };

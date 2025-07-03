@@ -1,9 +1,11 @@
 export type RootStackParamList = {
   Splash: undefined;
   Login: undefined;
-  Home: undefined; // Hapus param
+  Home: undefined;
   Menu: undefined;
   EditPersonalInformation: undefined;
   TeamPage: undefined;
   FAQ: undefined;
+  VerificationEmail: undefined;
+  SetNewPassword: { email: string };
 };

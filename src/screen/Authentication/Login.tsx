@@ -7,15 +7,17 @@ import {
   StyleSheet,
   Image,
   Alert,
+  ActivityIndicator, // Import ActivityIndicator untuk loading
 } from "react-native";
 import { supabase } from "../../lib/supabase";
+import { Typography } from "../../styles/typography"; // Import Typography
 
-export default function Login() {
+// --- 1. TERIMA PROPS NAVIGATION ---
+// Ubah definisi komponen untuk menerima 'navigation'
+const Login = ({ navigation }: { navigation: any }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Error messages
   const [error, setError] = useState("");
 
   const validate = () => {
@@ -37,7 +39,6 @@ export default function Login() {
     });
 
     if (error) {
-      // Analisis error Supabase
       if (error.message.toLowerCase().includes("user not found")) {
         setError("Email is not registered!");
       } else if (error.message.toLowerCase().includes("invalid login credentials")) {
@@ -47,6 +48,7 @@ export default function Login() {
       }
     } else {
       setError("");
+      // Navigasi ke Home terjadi secara otomatis oleh listener auth di App.tsx atau Navigation.tsx
     }
     setLoading(false);
   }
@@ -98,7 +100,11 @@ export default function Login() {
 
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-      <TouchableOpacity style={styles.forgotPassword}>
+      {/* --- 2. TAMBAHKAN FUNGSI onPress --- */}
+      <TouchableOpacity 
+        style={styles.forgotPassword}
+        onPress={() => navigation.navigate('VerificationEmail')}
+      >
         <Text style={styles.forgotPasswordText}>Forgot password</Text>
       </TouchableOpacity>
 
@@ -107,11 +113,17 @@ export default function Login() {
         onPress={signInWithEmail}
         disabled={loading}
       >
-        <Text style={styles.loginButtonText}>Log In</Text>
-        <Image
-          source={require("../../assets/icons/arrowlogin.png")}
-          style={styles.arrowIcon}
-        />
+        {loading ? (
+          <ActivityIndicator color="#FFFFFF" />
+        ) : (
+          <>
+            <Text style={styles.loginButtonText}>Log In</Text>
+            <Image
+              source={require("../../assets/icons/arrowlogin.png")}
+              style={styles.arrowIcon}
+            />
+          </>
+        )}
       </TouchableOpacity>
 
       <Text style={styles.orText}>OR</Text>
@@ -142,7 +154,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   description: {
-    fontSize: 14,
+    ...Typography.subheading, // Terapkan Typography
     color: "#5B5E6B",
     marginBottom: 16,
   },
@@ -162,9 +174,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 48,
     paddingHorizontal: 12,
-    color: "#0E0E0E",
+    ...Typography.body, 
   },
   errorText: {
+    ...Typography.body, 
     color: "#DD0101",
     alignSelf: "flex-start",
     marginBottom: 8,
@@ -174,8 +187,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   forgotPasswordText: {
+    ...Typography.body, // Terapkan Typography
     color: "#1076BC",
-    fontSize: 12,
+    fontFamily: 'Satoshi-Medium',
   },
   loginButton: {
     flexDirection: "row",
@@ -187,28 +201,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     width: "100%",
     marginBottom: 16,
+    height: 50, // Samakan tinggi tombol
   },
   disabledButton: {
-    backgroundColor: "#515C6F",
+    backgroundColor: "#A0CDEE",
   },
   loginButtonText: {
+    ...Typography.heading, // Terapkan Typography
     color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
     flex: 1,
     textAlign: "center",
+    marginLeft: 18, // Beri space agar center dengan adanya icon
   },
   arrowIcon: {
     width: 18,
     height: 18,
   },
   orText: {
+    ...Typography.body, // Terapkan Typography
     color: "#515C6F",
     marginVertical: 12,
   },
   googleButton: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: 'center',
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
     borderWidth: 1,
@@ -220,11 +237,12 @@ const styles = StyleSheet.create({
   googleLogo: {
     width: 20,
     height: 20,
-    marginRight: 8,
+    marginRight: 12,
   },
   googleButtonText: {
-    fontSize: 16,
+    ...Typography.heading, // Terapkan Typography
     color: "#1076BC",
-    fontWeight: "bold",
   },
 });
+
+export default Login;

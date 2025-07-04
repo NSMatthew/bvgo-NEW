@@ -13,9 +13,9 @@ export function mergeSort(
 ): Newsletter[] {
   if (arr.length <= 1) return arr;
 
-  const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid), sortBy);
-  const right = mergeSort(arr.slice(mid), sortBy);
+  const mid = Math.floor(arr.length / 2); //mencari index tengah dari kumpulan newsletter dalam array
+  const left = mergeSort(arr.slice(0, mid), sortBy); //mencari dari index 0 sampai index tengah
+  const right = mergeSort(arr.slice(mid), sortBy); //mencari dari index tengah sampai akhir
 
   return merge(left, right, sortBy);
 }

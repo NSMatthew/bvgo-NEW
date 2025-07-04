@@ -31,7 +31,7 @@ function merge(
     j = 0;
 
   while (i < left.length && j < right.length) {
-    let compare;
+    let compare; //pengurutan ada disini
 
     if (sortBy === 'date') {
       compare = left[i].releaseDate.getTime() <= right[j].releaseDate.getTime();
@@ -39,7 +39,7 @@ function merge(
       compare = left[i].title.localeCompare(right[j].title) <= 0;
     }
 
-    if (compare) {
+    if (compare) { //membandingkan antara isi dari newsletter yang ada di left dan right
       result.push(left[i]);
       i++;
     } else {

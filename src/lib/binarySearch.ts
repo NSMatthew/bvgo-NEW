@@ -1,20 +1,20 @@
 import { Newsletter } from './mergeSort'; 
 
 export function binarySearch(newsletters: Newsletter[], keyword: string): Newsletter | null {
-  let low = 0;
-  let high = newsletters.length - 1;
+  let start = 0;
+  let end = newsletters.length - 1;
 
-  while (low <= high) {
-    const mid = Math.floor((low + high) / 2);
+  while (start <= end) {
+    const mid = Math.floor((start + end) / 2);
     const currentTitle = newsletters[mid].title.toLowerCase();
     const target = keyword.toLowerCase();
 
     if (currentTitle === target) {
       return newsletters[mid];
     } else if (currentTitle < target) {
-      low = mid + 1;
+      start = mid + 1; //pencarian dari depan ke belakang
     } else {
-      high = mid - 1;
+      end = mid - 1; //pencarian dari belakang ke depan
     }
   }
 

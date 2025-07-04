@@ -31,7 +31,7 @@ function merge(
     j = 0;
 
   while (i < left.length && j < right.length) {
-    let compare; //pengurutan ada disini
+    let compare; //hasil pengurutan disimpan disini
 
     if (sortBy === 'date') {
       compare = left[i].releaseDate.getTime() <= right[j].releaseDate.getTime();

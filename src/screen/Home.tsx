@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
-  Image, // 1. Import komponen Image
+  Image,
 } from 'react-native';
 
 import SliderAnnouncement from '../components/SliderAnnouncement';
@@ -24,21 +24,20 @@ type SortOption = {
   sortBy: SortByType;
   sortOrder: SortOrderType;
   label: string;
-  // 2. Ubah tipe 'icon' menjadi 'image' untuk menampung path gambar
   image: any; 
 };
 
 // 3. Definisikan path ke semua aset gambar Anda di sini
 // Pastikan path relatifnya benar. Dari 'src/screens' ke 'src/assets' adalah '../assets'
 const sortOptions: SortOption[] = [
-  { key: 'date_desc', sortBy: 'date', sortOrder: 'desc', label: 'Date (Descending)', image: require('../assets/icons/filterdatedescending.png') },
-  { key: 'date_asc', sortBy: 'date', sortOrder: 'asc', label: 'Date (Ascending)', image: require('../assets/icons/filterdateascending.png') },
-  { key: 'title_asc', sortBy: 'title', sortOrder: 'asc', label: 'Title (Ascending)', image: require('../assets/icons/filtertitleascending.png') },
-  { key: 'title_desc', sortBy: 'title', sortOrder: 'desc', label: 'Title (Descending)', image: require('../assets/icons/filtertitledescending.png') },
+  { key: 'date_desc', sortBy: 'date', sortOrder: 'desc', label: 'Date (Descending)', image: require('../../assets/icons/filterdatedescending.png') },
+  { key: 'date_asc', sortBy: 'date', sortOrder: 'asc', label: 'Date (Ascending)', image: require('../../assets/icons/filterdateascending.png') },
+  { key: 'title_asc', sortBy: 'title', sortOrder: 'asc', label: 'Title (Ascending)', image: require('../../assets/icons/filtertitleascending.png') },
+  { key: 'title_desc', sortBy: 'title', sortOrder: 'desc', label: 'Title (Descending)', image: require('../../assets/icons/filtertitledescending.png') },
 ];
 
 // Simpan ikon default secara terpisah
-const defaultIcon = require('../assets/icons/filterdefault.png');
+const defaultIcon = require('../../assets/icons/filterdefault.png');
 
 
 const Home = () => {

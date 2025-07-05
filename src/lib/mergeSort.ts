@@ -5,7 +5,6 @@ export interface Newsletter {
 }
 
 export type SortBy = 'date' | 'title';
-// DEFINISIKAN TIPE BARU UNTUK URUTAN
 export type SortOrder = 'asc' | 'desc';
 
 // Fungsi utama
@@ -49,12 +48,12 @@ function merge(
       const leftTime = left[i].releaseDate.getTime();
       const rightTime = right[j].releaseDate.getTime();
       // Cek apakah urutannya ascending atau descending
-      if (sortOrder === 'asc') { // Terlama dulu
+      if (sortOrder === 'asc') { 
         isLeftFirst = leftTime <= rightTime;
-      } else { // Descending (Terbaru dulu)
-        isLeftFirst = leftTime >= rightTime; // Operator dibalik!
+      } else {
+        isLeftFirst = leftTime >= rightTime; // Alur pencarian di balik!
       }
-    } else { // sortBy === 'title'
+    } else { 
       const leftTitle = left[i].title;
       const rightTitle = right[j].title;
       // Cek apakah urutannya ascending atau descending
@@ -64,9 +63,7 @@ function merge(
         isLeftFirst = leftTitle.localeCompare(rightTitle) >= 0; // Operator dibalik!
       }
     }
-    // =================================================================
-
-    // Logika di bawah ini tetap sama
+  
     if (isLeftFirst) {
       result.push(left[i]);
       i++;

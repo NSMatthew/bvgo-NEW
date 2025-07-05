@@ -1,118 +1,228 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { ScrollView, View, TextInput, StyleSheet, Button, Text } from 'react-native';
+import {
+  ScrollView,
+  View,
+  TextInput,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Modal,
+  Pressable,
+  Image, // 1. Import komponen Image
+} from 'react-native';
+
 import SliderAnnouncement from '../components/SliderAnnouncement';
 import NewsletterCard from '../components/NewsletterCard';
 import { mergeSort, Newsletter } from '../lib/mergeSort';
-// Kita asumsikan binarySearch sudah tidak kita pakai untuk live search
-// import { binarySearch } from '../lib/binarySearch'; 
 import { getNewsletters } from '../data/newsletters';
 
-// Definisikan tipe untuk kejelasan
 type SortByType = 'title' | 'date';
 type SortOrderType = 'asc' | 'desc';
 
+type SortOption = {
+  key: string;
+  sortBy: SortByType;
+  sortOrder: SortOrderType;
+  label: string;
+  // 2. Ubah tipe 'icon' menjadi 'image' untuk menampung path gambar
+  image: any; 
+};
+
+// 3. Definisikan path ke semua aset gambar Anda di sini
+// Pastikan path relatifnya benar. Dari 'src/screens' ke 'src/assets' adalah '../assets'
+const sortOptions: SortOption[] = [
+  { key: 'date_desc', sortBy: 'date', sortOrder: 'desc', label: 'Date (Descending)', image: require('../assets/icons/filterdatedescending.png') },
+  { key: 'date_asc', sortBy: 'date', sortOrder: 'asc', label: 'Date (Ascending)', image: require('../assets/icons/filterdateascending.png') },
+  { key: 'title_asc', sortBy: 'title', sortOrder: 'asc', label: 'Title (Ascending)', image: require('../assets/icons/filtertitleascending.png') },
+  { key: 'title_desc', sortBy: 'title', sortOrder: 'desc', label: 'Title (Descending)', image: require('../assets/icons/filtertitledescending.png') },
+];
+
+// Simpan ikon default secara terpisah
+const defaultIcon = require('../assets/icons/filterdefault.png');
+
+
 const Home = () => {
-  // STATE BARU: untuk menyimpan semua data asli dari 'database'
   const [allNewsletters, setAllNewsletters] = useState<Newsletter[]>([]);
-  
-  // STATE BARU: untuk menyimpan opsi sortir pilihan pengguna
-  const [sortBy, setSortBy] = useState<SortByType>('date'); // Default: urutkan berdasarkan tanggal
-  const [sortOrder, setSortOrder] = useState<SortOrderType>('desc'); // Default: terbaru dulu
-
+  const [activeSort, setActiveSort] = useState<SortOption>(sortOptions[0]);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
-  // useEffect untuk mengambil data HANYA SEKALI saat komponen pertama kali dimuat
   useEffect(() => {
     const fetchData = async () => {
       const result = await getNewsletters();
-      setAllNewsletters(result); // Simpan data master
+      setAllNewsletters(result);
     };
-
     fetchData();
-  }, []); // <-- Dependency array kosong, berarti hanya jalan sekali
+  }, []);
 
-  // LOGIKA BARU: Gunakan useMemo untuk mengurutkan ulang data HANYA JIKA diperlukan
-  // Ini lebih efisien daripada sorting di dalam useEffect
   const sortedAndFilteredNewsletters = useMemo(() => {
-    // 1. Lakukan sorting berdasarkan state sortBy dan sortOrder
-    const sorted = mergeSort([...allNewsletters], sortBy, sortOrder); // Kita asumsikan mergeSort menerima order
-
-    // 2. Jika tidak ada keyword, tampilkan semua hasil sort
+    // Kode ini tetap sama, tidak perlu diubah
+    const sorted = mergeSort([...allNewsletters], activeSort.sortBy, activeSort.sortOrder);
     if (searchKeyword.trim() === '') {
       return sorted;
     }
-
-    // 3. Jika ada keyword, lakukan filter (pencarian) pada data yang sudah di-sort
     return sorted.filter(n =>
       n.title.toLowerCase().includes(searchKeyword.toLowerCase())
     );
-  }, [allNewsletters, sortBy, sortOrder, searchKeyword]); // <-- Dijalankan ulang jika salah satu ini berubah
+  }, [allNewsletters, activeSort, searchKeyword]);
+  
+  const handleSortSelect = (option: SortOption) => {
+    setActiveSort(option);
+    setModalVisible(false);
+  };
 
+  // Tentukan ikon dan warna yang akan ditampilkan berdasarkan state
+  const isDefaultState = activeSort.key === 'date_desc';
+  const displayIconSource = isDefaultState ? defaultIcon : activeSort.image;
+  const displayColor = isDefaultState ? '#5B5E6B' : '#1076BC';
+  const displayLabel = isDefaultState ? 'Default' : activeSort.label;
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <SliderAnnouncement />
+    <View style={{flex: 1}}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <SliderAnnouncement />
 
-      {/* Search Bar */}
-      <View style={styles.searchWrapper}>
-        <TextInput
-          placeholder="Cari judul newsletter...."
-          value={searchKeyword}
-          onChangeText={setSearchKeyword} // Cukup update state keyword
-          style={styles.searchInput}
-        />
-      </View>
-
-      {/* TOMBOL SORTIR BARU */}
-      <View style={styles.sortContainer}>
-        <Text style={styles.sortLabel}>Urutkan berdasarkan:</Text>
-        <View style={styles.sortButtons}>
-          <Button title="Tanggal (Terbaru)" onPress={() => { setSortBy('date'); setSortOrder('desc'); }} />
-          <Button title="Judul (A-Z)" onPress={() => { setSortBy('title'); setSortOrder('asc'); }} />
+        <View style={styles.searchAndFilterWrapper}>
+          <View style={styles.searchWrapper}>
+            <TextInput
+              placeholder="Cari judul newsletter...."
+              value={searchKeyword}
+              onChangeText={setSearchKeyword}
+              style={styles.searchInput}
+            />
+          </View>
+          
+          {/* 4. GANTI <Icon> DENGAN <Image> */}
+          <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
+            <Image source={displayIconSource} style={styles.filterIcon} />
+            <Text style={[styles.filterButtonText, { color: displayColor }]}>
+              {displayLabel}
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
 
-      {/* Newsletter Cards */}
-      <View style={styles.newsletterSection}>
-        {/* Kirim data yang sudah di-sort DAN di-filter */}
-        <NewsletterCard data={sortedAndFilteredNewsletters} /> 
-      </View>
-    </ScrollView>
+        <View style={styles.newsletterSection}>
+          <NewsletterCard data={sortedAndFilteredNewsletters} />
+        </View>
+      </ScrollView>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <Pressable style={styles.modalOverlay} onPress={() => setModalVisible(false)}>
+          <View style={styles.modalContentWrapper}>
+            <View style={styles.modalArrow} />
+            <View style={styles.modalContent}>
+              {sortOptions.map(option => (
+                <TouchableOpacity key={option.key} style={styles.modalOption} onPress={() => handleSortSelect(option)}>
+                  {/* 4. GANTI <Icon> DENGAN <Image> DI SINI JUGA */}
+                  <Image source={option.image} style={styles.modalIcon} />
+                  <Text style={styles.modalOptionText}>{option.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        </Pressable>
+      </Modal>
+    </View>
   );
 };
 
-// Update styles jika perlu
+// GANTI SELURUH BLOK STYLES ANDA DENGAN VERSI LENGKAP INI
 const styles = StyleSheet.create({
+  // Style yang sebelumnya hilang, sekarang sudah ada
   container: {
     padding: 16,
-    paddingBottom: 50, // Beri ruang lebih di bawah
+    paddingBottom: 50, // Memberi ruang scroll di bawah
   },
   searchWrapper: {
+    flex: 1, // Membuat search bar memakan sisa ruang
+  },
+  newsletterSection: {
+    marginTop: 10,
+  },
+  
+  // Style yang sudah ada dari update sebelumnya
+  searchAndFilterWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 16,
   },
   searchInput: {
     borderWidth: 1,
-    borderColor: '#A2A2A2',
+    borderColor: '#E0E0E0',
     borderRadius: 8,
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 12,
     fontSize: 14,
     backgroundColor: '#fff',
   },
-  sortContainer: {
-    marginBottom: 16,
-  },
-  sortLabel: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  sortButtons: {
+  filterButton: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginLeft: 10,
+    padding: 8,
   },
-  newsletterSection: {
-    marginTop: 10,
+  filterIcon: {
+    width: 22,
+    height: 22,
+    resizeMode: 'contain',
+  },
+  filterButtonText: {
+    marginLeft: 5,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  },
+  modalContentWrapper: {
+    position: 'absolute',
+    top: 155,
+    right: 16,
+    alignItems: 'flex-end',
+  },
+  modalArrow: {
+    width: 16,
+    height: 16,
+    backgroundColor: '#fff',
+    transform: [{ rotate: '45deg' }],
+    marginRight: 20,
+    marginBottom: -8,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  modalOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  modalIcon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+  modalOptionText: {
+    fontSize: 16,
+    marginLeft: 12,
   },
 });
 

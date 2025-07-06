@@ -61,7 +61,7 @@ const Home = () => {
       return sorted;
     }
     return sorted.filter(n =>
-      n.title.toLowerCase().includes(searchKeyword.toLowerCase())
+      n.title.toLowerCase().includes(searchKeyword.toLowerCase()) //mendeteksi judul newsletter lewat "kata kunci" yang diinput user
     );
   }, [allNewsletters, activeSort, searchKeyword]);
   

@@ -55,7 +55,7 @@ const Home = () => {
   }, []);
 
   const sortedAndFilteredNewsletters = useMemo(() => {
-    // Kode ini tetap sama, tidak perlu diubah
+
     const sorted = mergeSort([...allNewsletters], activeSort.sortBy, activeSort.sortOrder);
     if (searchKeyword.trim() === '') {
       return sorted;
@@ -70,7 +70,6 @@ const Home = () => {
     setModalVisible(false);
   };
 
-  // Tentukan ikon dan warna yang akan ditampilkan berdasarkan state
   const isDefaultState = activeSort.key === 'date_desc';
   const displayIconSource = isDefaultState ? defaultIcon : activeSort.image;
   const displayColor = isDefaultState ? '#5B5E6B' : '#1076BC';
@@ -84,7 +83,7 @@ const Home = () => {
         <View style={styles.searchAndFilterWrapper}>
           <View style={styles.searchWrapper}>
             <TextInput
-              placeholder="Cari judul newsletter...."
+              placeholder="Find newsletter..."
               value={searchKeyword}
               onChangeText={setSearchKeyword}
               style={styles.searchInput}

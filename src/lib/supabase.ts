@@ -2,8 +2,8 @@ import Config from 'react-native-config'; //load file env
 import { createClient } from '@supabase/supabase-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const supabaseUrl = Config.SUPABASE_URL;
-const supabaseAnonKey = Config.SUPABASE_ANON_KEY;
+const supabaseUrl = "https://drmzrbydynawphmjhptu.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRybXpyYnlkeW5hd3BobWpocHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI0MzIyODYsImV4cCI6MjA1ODAwODI4Nn0.cfoH6ynmk4AxsUm800NDlfKwGpsi45oZFA2SjS_9b-E";
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables. Check .env and react-native-config setup.');

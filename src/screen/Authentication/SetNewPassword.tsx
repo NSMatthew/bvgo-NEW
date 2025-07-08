@@ -60,7 +60,7 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
         <Image
-          source={require('../../assets/bukitvista-logo.png')}
+          source={require('../../assets/icons/bukitvista-logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />

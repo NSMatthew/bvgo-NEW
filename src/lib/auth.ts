@@ -55,6 +55,15 @@ export const loginUser = async (email: string, password: string): Promise<AuthRe
   return { user: data?.user || null, session: data?.session || null, error: null };
 }
 
+// export const loginUser = async (email: string, password: string) => {
+//   const { data: users, error } = await supabase.from('users').select('*')   
+//   console.log(users);
+//   if (error) {
+//     console.error('Error fetching users:', error.message);
+//     return { success: false, error: error.message };
+//   }
+// }
+
 // Fungsi untuk Logout Pengguna
 export const logoutUser = async (): Promise<{ success: boolean; error: string | null }> => {
   const { error } = await supabase.auth.signOut();

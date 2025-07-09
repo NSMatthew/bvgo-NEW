@@ -28,7 +28,6 @@ const Splash = ({ navigation }: SplashProps) => {
           style={styles.logo}
           resizeMode="contain"
         />
-        <Text style={styles.bvgoText}>BVGO</Text>
       </View>
 
       <View style={styles.bottomContent}>

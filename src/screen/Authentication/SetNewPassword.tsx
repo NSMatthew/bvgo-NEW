@@ -24,11 +24,15 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   
-  // const { email } = route.params; // Ambil email dari layar verifikasi
+  // --- PERUBAHAN DI SINI ---
+  // Ambil email dan otp dari parameter navigasi
+  const { email, otp } = route.params;
 
+  // --- FUNGSI DIPERBARUI ---
   const handleSetNewPassword = async () => {
     if (password.length < 6) {
-      Alert.alert('Password too short', 'Password should be at least 8 characters.');
+      // Supabase punya aturan minimal 6 karakter, jadi kita samakan
+      Alert.alert('Password too short', 'Password should be at least 6 characters.');
       return;
     }
     if (password !== confirmPassword) {
@@ -37,8 +41,13 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
     }
 
     setLoading(true);
-    // Karena user sudah terverifikasi via OTP, kita bisa langsung update passwordnya
-    const { error } = await supabase.auth.updateUser({ password: password });
+    
+    // Panggil Edge Function 'verifikasi-dan-update'
+    // Saya ganti namanya ke Bahasa Inggris agar konsisten: 'verify-and-update'
+    // Jika Anda menggunakan nama lain saat deploy, sesuaikan di sini.
+    const { error } = await supabase.functions.invoke('verify-and-update', {
+      body: { email, otp, newPassword: password },
+    });
 
     if (error) {
       Alert.alert('Error', error.message);
@@ -55,6 +64,7 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
 
   const isFormFilled = password.length > 0 && confirmPassword.length > 0;
 
+  // --- Render Tampilan (TIDAK ADA PERUBAHAN DI SINI) ---
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
@@ -105,6 +115,7 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
   );
 };
 
+// --- STYLES (TIDAK ADA PERUBAHAN DI SINI) ---
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#fff' },
   container: {

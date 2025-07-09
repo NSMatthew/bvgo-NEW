@@ -27,15 +27,20 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
   const inputs = useRef<TextInput[]>([]);
 
-  // Fungsi untuk meminta kode OTP
+  // --- FUNGSI DIPERBARUI ---
+  // Fungsi untuk meminta kode OTP dengan memanggil Edge Function
   const handleRequestCode = async () => {
     if (email === '') {
       Alert.alert('Email required', 'Please enter your email address.');
       return;
     }
     setLoading(true);
-    // Supabase akan mengirimkan OTP ke email untuk tujuan 'recovery'
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    
+    // Panggil Edge Function 'send-otp' yang sudah kita buat
+    // Ingat, saya menggunakan nama 'send-otp' sesuai permintaan Anda
+    const { error } = await supabase.functions.invoke('send-otp', {
+      body: { email },
+    });
 
     if (error) {
       Alert.alert('Error', error.message);
@@ -46,26 +51,16 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
     setLoading(false);
   };
   
-  // Fungsi untuk memverifikasi OTP
-  const handleVerifyCode = async (code: string) => {
-    setLoading(true);
-    const { data, error } = await supabase.auth.verifyOtp({
-      email: email,
-      token: code,
-      type: 'recovery',
-    });
-
-    if (error) {
-      Alert.alert('Verification Failed', error.message);
-    } else {
-      // Jika berhasil, navigasi ke halaman Set New Password
-      // Kita tidak perlu membawa token, karena Supabase sudah membuat sesi sementara
-      navigation.navigate('SetNewPassword', { email: email });
-    }
-    setLoading(false);
+  // --- FUNGSI DIPERBARUI ---
+  // Fungsi ini tidak lagi memverifikasi, hanya menavigasi dengan membawa data
+  const handleVerifyCode = (code: string) => {
+    // Kita tidak verifikasi di sini lagi.
+    // Langsung navigasi ke halaman berikutnya sambil membawa email dan OTP.
+    navigation.navigate('SetNewPassword', { email: email, otp: code });
   };
 
-  // Efek untuk memanggil verifikasi saat 6 digit OTP sudah terisi
+  // Efek untuk memanggil navigasi saat 6 digit OTP sudah terisi
+  // Logika ini tetap sama dan akan memanggil handleVerifyCode yang baru
   useEffect(() => {
     const code = otp.join('');
     if (code.length === 6) {
@@ -74,7 +69,7 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
   }, [otp]);
 
 
-  // --- Render Tampilan ---
+  // --- Render Tampilan (TIDAK ADA PERUBAHAN DI SINI) ---
 
   // Tampilan untuk memasukkan email
   const renderEmailInputView = () => (
@@ -131,7 +126,6 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
         {otp.map((digit, index) => (
           <TextInput
             key={index}
-            // --- PERBAIKAN DI SINI ---
             ref={(ref) => {
               if (ref) {
                 inputs.current[index] = ref;
@@ -181,6 +175,7 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
   );
 };
 
+// --- STYLES (TIDAK ADA PERUBAHAN DI SINI) ---
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#fff' },
   container: {

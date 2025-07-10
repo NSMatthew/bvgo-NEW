@@ -1,22 +1,26 @@
 import React from 'react';
-import { Image } from 'react-native';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { CompositeScreenProps } from '@react-navigation/native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BottomTabParamList } from '../../types/bottomTabTypes';
+import { RootStackParamList } from '../../types/types';
 
 import PropertyCard from '../../components/PropertyCard';
 import RevenueProgress from '../../components/RevenueProgress';
 import GuestReviewCard from '../../components/GuestReviewCard';
 
-type Props = BottomTabScreenProps<BottomTabParamList, 'My Property'>;
+// Menggabungkan tipe BottomTab dan Stack Navigator
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<BottomTabParamList, 'My Property'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
 
 const MyProperty: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Section 1: Property Info */}
       <PropertyCard />
 
-      {/* Section 2: Revenue Progress */}
       <View style={styles.section}>
         <RevenueProgress
           revenue={210000000}
@@ -26,7 +30,6 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
         />
       </View>
 
-      {/* Section 3: Guest Reviews */}
       <View style={styles.section}>
         <View style={styles.reviewHeader}>
           <Text style={styles.reviewTitle}>Guest Reviews</Text>
@@ -38,7 +41,7 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
       {/* Section 4: Operations */}
       <View style={styles.section}>
         <Text style={styles.operationsTitle}>Operations</Text>
-
+        
         <TouchableOpacity style={styles.operationItem}>
           <Image
             source={require('../../assets/icons/InvestmentReport.png')}
@@ -63,9 +66,11 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.arrow}>{'>'}</Text>
         </TouchableOpacity>
 
+        {/* --- 3. PERBAIKI PEMANGGILAN NAVIGASI --- */}
         <TouchableOpacity
           style={styles.operationItem}
-          onPress={() => navigation.navigate('TeamPage' as never)}
+          // Sekarang tidak perlu 'as never' karena tipenya sudah benar
+          onPress={() => navigation.navigate('TeamPage')} 
         >
           <Image
             source={require('../../assets/icons/Team.png')}
@@ -82,8 +87,9 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
   );
 };
 
+// ... (styles Anda tetap sama)
 const styles = StyleSheet.create({
-  container: { padding: 16 },
+  container: { padding: 16, paddingBottom: 32 },
   section: { marginTop: 24 },
   reviewHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
   reviewTitle: { fontSize: 16, fontWeight: 'bold' },

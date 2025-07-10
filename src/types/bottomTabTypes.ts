@@ -1,5 +1,5 @@
 export type BottomTabParamList = {
-    Dashboard: undefined;
+    Home: undefined;
     Booking: undefined;
     'My Property': undefined;
     Notification: undefined;

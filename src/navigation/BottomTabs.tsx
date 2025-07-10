@@ -1,6 +1,6 @@
 import React from 'react';
+import { Image, StyleSheet } from 'react-native'; // 1. IMPORT Image & StyleSheet
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 // Screen Components
 import Home from '../screen/Home';
@@ -18,29 +18,44 @@ const BottomTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName: string = 'alert-circle-outline'; // Default icon
+        // --- 2. PERUBAHAN UTAMA ADA DI FUNGSI tabBarIcon ---
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconSource;
+          const iconStyle = { width: size, height: size, tintColor: color };
 
-          if (route.name === 'Dashboard') {
-            iconName = 'grid-outline';
+          // Logika untuk memilih ikon berdasarkan nama route dan status 'focused'
+          if (route.name === 'Home') {
+            iconSource = focused
+              ? require('../../assets/navbarmenus/homeactiveicon.png')
+              : require('../../assets/navbarmenus/homeinactiveicon.png');
           } else if (route.name === 'Booking') {
-            iconName = 'list-outline';
+            iconSource = focused
+              ? require('../../assets/navbarmenus/bookingactive.png')
+              : require('../../assets/navbarmenus/bookinginactive.png');
           } else if (route.name === 'My Property') {
-            iconName = 'home-outline';
+            iconSource = focused
+              ? require('../../assets/navbarmenus/mypropertyactive.png')
+              : require('../../assets/navbarmenus/mypropertyinactive.png');
           } else if (route.name === 'Notification') {
-            iconName = 'notifications-outline';
+            iconSource = focused
+              ? require('../../assets/navbarmenus/notificationactive.png')
+              : require('../../assets/navbarmenus/notificationinactive.png');
           } else if (route.name === 'Menu') {
-            iconName = 'person-outline';
+            iconSource = focused
+              ? require('../../assets/navbarmenus/profileactive.png')
+              : require('../../assets/navbarmenus/profileinactive.png');
           }
-          
-          return <Icon name={iconName} size={size} color={color} />;
+
+          return <Image source={iconSource} style={iconStyle} />;
         },
-        tabBarActiveTintColor: '#007BFF',
-        tabBarInactiveTintColor: '#888',
+        // --- 3. ATUR WARNA IKON DAN TEKS ---
+        tabBarActiveTintColor: '#1076BC',  
+        tabBarInactiveTintColor: '#5B5E6B', 
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Dashboard" component={Home} />
+      {}
+      <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Booking" component={Booking} />
       <Tab.Screen name="My Property" component={MyProperty} />
       <Tab.Screen name="Notification" component={Notification} />

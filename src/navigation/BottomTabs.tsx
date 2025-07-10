@@ -26,24 +26,24 @@ const BottomTabs = () => {
           // Logika untuk memilih ikon berdasarkan nama route dan status 'focused'
           if (route.name === 'Home') {
             iconSource = focused
-              ? require('../../assets/navbarmenus/homeactiveicon.png')
-              : require('../../assets/navbarmenus/homeinactiveicon.png');
+              ? require('../assets/navbarmenus/homeactiveicon.png')
+              : require('../assets/navbarmenus/homeinactiveicon.png');
           } else if (route.name === 'Booking') {
             iconSource = focused
-              ? require('../../assets/navbarmenus/bookingactive.png')
-              : require('../../assets/navbarmenus/bookinginactive.png');
+              ? require('../assets/navbarmenus/bookingactive.png')
+              : require('../assets/navbarmenus/bookinginactive.png');
           } else if (route.name === 'My Property') {
             iconSource = focused
-              ? require('../../assets/navbarmenus/mypropertyactive.png')
-              : require('../../assets/navbarmenus/mypropertyinactive.png');
+              ? require('../assets/navbarmenus/mypropertyactive.png')
+              : require('../assets/navbarmenus/mypropertyinactive.png');
           } else if (route.name === 'Notification') {
             iconSource = focused
-              ? require('../../assets/navbarmenus/notificationactive.png')
-              : require('../../assets/navbarmenus/notificationinactive.png');
+              ? require('../assets/navbarmenus/notificationactive.png')
+              : require('../assets/navbarmenus/notificationinactive.png');
           } else if (route.name === 'Menu') {
             iconSource = focused
-              ? require('../../assets/navbarmenus/profileactive.png')
-              : require('../../assets/navbarmenus/profileinactive.png');
+              ? require('../assets/navbarmenus/profileactive.png')
+              : require('../assets/navbarmenus/profileinactive.png');
           }
 
           return <Image source={iconSource} style={iconStyle} />;

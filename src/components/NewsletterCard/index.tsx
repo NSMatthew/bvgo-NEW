@@ -2,15 +2,20 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Newsletter } from '../../lib/mergeSort'; 
 
-// --- 1. PERBAIKI TIPE PROPS ---
-// Sekarang komponen ini menerima satu objek 'Newsletter', bukan sebuah array.
 type Props = {
   data: Newsletter;
 };
 
-// --- 2. HAPUS FlatList DAN SEDERHANAKAN KOMPONEN ---
+// --- KOMPONEN BARU UNTUK IKON FOOTER ---
+// Ini membuat kode lebih bersih dan mudah diatur
+const FooterIcon = ({ iconSource, count }: { iconSource: any, count: number }) => (
+  <View style={styles.footerIconContainer}>
+    <Image source={iconSource} style={styles.footerIcon} />
+    <Text style={styles.footerIconText}>{count}</Text>
+  </View>
+);
+
 const NewsletterCard = ({ data }: Props) => {
-  // Komponen sekarang hanya merender satu View (kartu)
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -19,29 +24,24 @@ const NewsletterCard = ({ data }: Props) => {
           style={styles.avatar}
         />
         <View>
-          {/* Nantinya, data ini bisa dibuat dinamis sesuai data user */}
           <Text style={styles.name}>Matthew - Marketing</Text>
           <Text style={styles.time}>1 day ago</Text>
         </View>
       </View>
 
       <Text style={styles.category}>Pricing Adjustment</Text>
-      
-      {/* --- 3. GUNAKAN 'data' LANGSUNG --- */}
-      {/* Kita menggunakan 'data.title' karena 'data' adalah satu objek, bukan 'item' dari loop */}
       <Text style={styles.title}>{data.title}</Text>
 
       <Image
-        // Anda bisa membuat gambar ini dinamis jika data newsletter memiliki properti image
         source={require('../../assets/images/news1.png')}
         style={styles.image}
       />
 
+      {/* --- PERUBAHAN UTAMA DI BAGIAN FOOTER --- */}
       <View style={styles.footer}>
-        {/* Footer bisa dibuat dinamis jika ada datanya */}
-        <Text>👍 0</Text>
-        <Text>💬 0</Text>
-        <Text>👁️ 0</Text>
+        <FooterIcon iconSource={require('../../assets/icons/like.png')} count={0} />
+        <FooterIcon iconSource={require('../../assets/icons/dislike.png')} count={0} />
+        <FooterIcon iconSource={require('../../assets/icons/comment.png')} count={0} />
       </View>
     </View>
   );
@@ -49,9 +49,8 @@ const NewsletterCard = ({ data }: Props) => {
 
 const styles = StyleSheet.create({
   card: {
-    // --- PERUBAHAN DI SINI UNTUK SLIDER HORIZONTAL ---
-    width: 280, // Memberi lebar tetap pada kartu
-    marginRight: 16, // Memberi jarak antar kartu
+    width: 280,
+    marginRight: 16,
     backgroundColor: '#fff',
     padding: 12,
     borderRadius: 12,
@@ -73,25 +72,30 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   name: {
-    fontWeight: 'bold',
+    fontFamily: 'Satoshi-Bold',
+    color: '#0E0E0E',
   },
   time: {
     fontSize: 12,
-    color: '#888',
+    color: '#5B5E6B',
+    fontFamily: 'Satoshi-Medium',
   },
   category: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#1076BC',
     color: '#fff',
     fontSize: 12,
+    fontFamily: 'Satoshi-Bold',
     alignSelf: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 4,
     marginVertical: 6,
+    overflow: 'hidden',
   },
   title: {
     fontSize: 14,
-    fontWeight: '500',
+    color: '#0E0E0E',
+    fontFamily: 'Satoshi-Bold',
     marginBottom: 6,
   },
   image: {
@@ -101,8 +105,26 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 8,
+    // Menghapus justifyContent agar ikon merapat ke kiri
+  },
+  // --- STYLE BARU UNTUK FOOTER ---
+  footerIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 16, // Jarak antar grup ikon
+  },
+  footerIcon: {
+    width: 16,
+    height: 16,
+    resizeMode: 'contain',
+  },
+  footerIconText: {
+    marginLeft: 4,
+    fontSize: 12,
+    color: '#5B5E6B',
+    fontFamily: 'Satoshi-Medium',
   },
 });
 

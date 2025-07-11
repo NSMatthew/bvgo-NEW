@@ -1,28 +1,29 @@
+// src/lib/mergesort.ts
+
+// 1. "BLUEPRINT" DATA DISESUAIKAN DENGAN TABEL SUPABASE
+// Hanya properti yang ada di tabel 'newsletters' yang kita definisikan.
 export interface Newsletter {
   id: number;
   title: string;
-  releaseDate: Date;
+  releaseDate: string; // Kolom 'releaseDate' dari Supabase akan menjadi string
 }
 
-export type SortBy = 'date' | 'title';
+// 2. TIPE SORTBY DISESUAIKAN DENGAN NAMA KOLOM
+export type SortBy = 'releaseDate' | 'title';
 export type SortOrder = 'asc' | 'desc';
 
 // Fungsi utama
 export function mergeSort(
   arr: Newsletter[],
-  sortBy: SortBy = 'date',
-  // 1. TAMBAHKAN PARAMETER KETIGA DENGAN NILAI DEFAULT
-  sortOrder: SortOrder = 'desc' // Default: terbaru dulu
+  sortBy: SortBy = 'releaseDate', // Default diubah agar sesuai
+  sortOrder: SortOrder = 'desc'
 ): Newsletter[] {
   if (arr.length <= 1) return arr;
 
   const mid = Math.floor(arr.length / 2);
-
-  // 2. TERUSKAN 'sortOrder' KE SETIAP PANGGILAN REKURSIF
   const left = mergeSort(arr.slice(0, mid), sortBy, sortOrder);
   const right = mergeSort(arr.slice(mid), sortBy, sortOrder);
 
-  // 3. TERUSKAN 'sortOrder' KE FUNGSI 'merge'
   return merge(left, right, sortBy, sortOrder);
 }
 
@@ -31,39 +32,35 @@ function merge(
   left: Newsletter[],
   right: Newsletter[],
   sortBy: SortBy,
-  // 4. TAMBAHKAN 'sortOrder' SEBAGAI PARAMETER DI SINI JUGA
   sortOrder: SortOrder
 ): Newsletter[] {
   let result: Newsletter[] = [];
-  let i = 0,
-    j = 0;
+  let i = 0, j = 0;
 
   while (i < left.length && j < right.length) {
-    let isLeftFirst: boolean; // Ganti nama 'compare' agar lebih jelas
+    let isLeftFirst: boolean;
 
-    // =================================================================
-    // 5. INTI PERUBAHAN: LOGIKA PERBANDINGAN MENJADI FLEKSIBEL
-    // =================================================================
-    if (sortBy === 'date') {
-      const leftTime = left[i].releaseDate.getTime();
-      const rightTime = right[j].releaseDate.getTime();
-      // Cek apakah urutannya ascending atau descending
+    // 3. LOGIKA PERBANDINGAN MENGGUNAKAN 'releaseDate'
+    if (sortBy === 'releaseDate') {
+      const leftTime = new Date(left[i].releaseDate).getTime();
+      const rightTime = new Date(right[j].releaseDate).getTime();
+      
       if (sortOrder === 'asc') { 
         isLeftFirst = leftTime <= rightTime;
       } else {
-        isLeftFirst = leftTime >= rightTime; // Alur pencarian di balik!
+        isLeftFirst = leftTime >= rightTime;
       }
     } else { 
       const leftTitle = left[i].title;
       const rightTitle = right[j].title;
-      // Cek apakah urutannya ascending atau descending
-      if (sortOrder === 'asc') { // A -> Z
+      
+      if (sortOrder === 'asc') {
         isLeftFirst = leftTitle.localeCompare(rightTitle) <= 0;
-      } else { // Z -> A
-        isLeftFirst = leftTitle.localeCompare(rightTitle) >= 0; // Operator dibalik!
+      } else {
+        isLeftFirst = leftTitle.localeCompare(rightTitle) >= 0;
       }
     }
-  
+ 
     if (isLeftFirst) {
       result.push(left[i]);
       i++;

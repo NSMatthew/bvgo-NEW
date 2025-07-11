@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageSourcePropType } from 'react-native';
 import Modal from 'react-native-modal';
 
-// --- (Tipe Data Props tidak berubah) ---
+// (Tipe Data Props tidak berubah)
 export interface ReviewData {
   id: string;
   guestName: string;
@@ -22,9 +22,9 @@ interface GuestReviewCardProps {
   review: ReviewData;
 }
 
-// --- 1. PERBARUI TEMPAT ASSET ICONS ---
+// (AppIcons dan RatingRow tidak berubah)
 const AppIcons = {
-  rating: require('../../assets/icons/rating.png'), // GANTI DENGAN PATH ASSETMU
+  rating: require('../../assets/icons/rating.png'),
   review: require('../../assets/icons/iconreview.png'),
   reviewComponent: require('../../assets/icons/iconreviewcomponent.png'),
   accuracy: require('../../assets/icons/accuracyicon.png'),
@@ -34,9 +34,6 @@ const AppIcons = {
   value: require('../../assets/icons/value.png'),
 };
 
-// --- (Komponen StarRating dihapus karena tidak lagi diperlukan) ---
-
-// Komponen kecil untuk baris rating
 const RatingRow = ({ iconSource, label, score }: { iconSource: any; label: string; score: number }) => (
   <View style={styles.ratingRow}>
     <View style={styles.ratingLabelContainer}>
@@ -45,12 +42,10 @@ const RatingRow = ({ iconSource, label, score }: { iconSource: any; label: strin
     </View>
     <View style={styles.ratingScoreContainer}>
       <Text style={styles.ratingScore}>{score}</Text>
-      {/* Menggunakan Image untuk bintang di samping skor */}
       <Image source={AppIcons.rating} style={{width: 16, height: 16}} />
     </View>
   </View>
 );
-
 
 // --- KOMPONEN UTAMA ---
 const GuestReviewCard: React.FC<GuestReviewCardProps> = ({ review }) => {
@@ -58,20 +53,28 @@ const GuestReviewCard: React.FC<GuestReviewCardProps> = ({ review }) => {
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
-  
-  // (logika averageRating tidak lagi diperlukan untuk tampilan, tapi bisa disimpan jika butuh)
 
   return (
     <>
-      {/* Kartu ringkasan */}
+      {/* --- BAGIAN KARTU YANG DIPERBARUI --- */}
       <TouchableOpacity onPress={openModal} style={styles.cardContainer}>
-        <Text style={styles.cardText}>Review from {review.guestName}</Text>
-        {/* --- 2. MENGGANTI BINTANG DENGAN SATU GAMBAR RATING --- */}
+        {/* Header: Avatar + Nama & Tanggal */}
+        <View style={styles.header}>
+          <Image source={review.imageUrl} style={styles.avatar} />
+          <View>
+            <Text style={styles.name}>{review.guestName}</Text>
+            <Text style={styles.date}>{review.reviewDate}</Text>
+          </View>
+        </View>
+
+        {/* Rating Image */}
         <Image source={AppIcons.rating} style={styles.ratingImage} />
-        <Text style={styles.cardReviewSnippet} numberOfLines={1}>{review.publicReview}</Text>
+
+        {/* Review Text */}
+        <Text style={styles.reviewText}>{review.publicReview}</Text>
       </TouchableOpacity>
 
-      {/* Modal Bottom Sheet */}
+      {/* --- MODAL (TIDAK DIUBAH) --- */}
       <Modal
         isVisible={isModalVisible}
         onSwipeComplete={closeModal}
@@ -81,56 +84,38 @@ const GuestReviewCard: React.FC<GuestReviewCardProps> = ({ review }) => {
         animationOut="slideOutDown"
         style={styles.modal}
       >
+        {/* Konten Modal tetap sama persis seperti sebelumnya */}
         <View style={styles.modalContent}>
-          <View style={styles.handle} />
-
-          {/* Header */}
-          <View style={styles.headerSection}>
-            <Image source={review.imageUrl} style={styles.guestImage} />
-            <View style={styles.headerTextContainer}>
-              <Text style={styles.guestName}>{review.guestName}</Text>
-              <Text style={styles.dateRange}>{review.reviewDate}</Text>
+           <View style={styles.handle} />
+            <View style={styles.headerSection}>
+              <Image source={review.imageUrl} style={styles.guestImage} />
+              <View style={styles.headerTextContainer}>
+                <Text style={styles.modalGuestName}>{review.guestName}</Text>
+                <Text style={styles.modalDateRange}>{review.reviewDate}</Text>
+              </View>
             </View>
-          </View>
-           {/* --- 2. MENGGANTI BINTANG DENGAN SATU GAMBAR RATING --- */}
-          <Image source={AppIcons.rating} style={styles.ratingImageInModal} />
-          
-          <View style={styles.divider} />
-
-          {/* ... Sisa kode modal tetap sama ... */}
-
-          {/* Public Review */}
-          <View style={styles.reviewSection}>
-            <Image 
-              source={AppIcons.review}
-              style={styles.sectionIcon}
-            />
-            <View style={styles.reviewTextContainer}>
-              <Text style={styles.sectionTitle}>Public review</Text>
-              <Text style={styles.publicReviewText}>{review.publicReview}</Text>
+            <Image source={AppIcons.rating} style={styles.ratingImageInModal} />
+            <View style={styles.divider} />
+            <View style={styles.reviewSection}>
+              <Image source={AppIcons.review} style={styles.sectionIcon} />
+              <View style={styles.reviewTextContainer}>
+                <Text style={styles.sectionTitle}>Public review</Text>
+                <Text style={styles.publicReviewText}>{review.publicReview}</Text>
+              </View>
             </View>
-          </View>
-          
-          {/* Review Component */}
-          <View style={styles.reviewSection}>
-            <Image 
-              source={AppIcons.reviewComponent}
-              style={styles.sectionIcon}
-            />
-            <View style={styles.reviewTextContainer}>
-              <Text style={styles.sectionTitle}>Review Component</Text>
+            <View style={styles.reviewSection}>
+              <Image source={AppIcons.reviewComponent} style={styles.sectionIcon} />
+              <View style={styles.reviewTextContainer}>
+                <Text style={styles.sectionTitle}>Review Component</Text>
+              </View>
             </View>
-          </View>
-
-          {/* Daftar Rating */}
-          <View style={styles.ratingsList}>
-            <RatingRow iconSource={AppIcons.accuracy} label="Accuracy" score={review.ratings.accuracy} />
-            <RatingRow iconSource={AppIcons.cleanliness} label="Cleanliness" score={review.ratings.cleanliness} />
-            <RatingRow iconSource={AppIcons.communication} label="Communication" score={review.ratings.communication} />
-            <RatingRow iconSource={AppIcons.location} label="Location" score={review.ratings.location} />
-            <RatingRow iconSource={AppIcons.value} label="Value" score={review.ratings.value} />
-          </View>
-
+            <View style={styles.ratingsList}>
+              <RatingRow iconSource={AppIcons.accuracy} label="Accuracy" score={review.ratings.accuracy} />
+              <RatingRow iconSource={AppIcons.cleanliness} label="Cleanliness" score={review.ratings.cleanliness} />
+              <RatingRow iconSource={AppIcons.communication} label="Communication" score={review.ratings.communication} />
+              <RatingRow iconSource={AppIcons.location} label="Location" score={review.ratings.location} />
+              <RatingRow iconSource={AppIcons.value} label="Value" score={review.ratings.value} />
+            </View>
         </View>
       </Modal>
     </>
@@ -139,43 +124,55 @@ const GuestReviewCard: React.FC<GuestReviewCardProps> = ({ review }) => {
 
 // --- STYLES ---
 const styles = StyleSheet.create({
-  // ... (semua style lama Anda tetap di sini)
-  
-  // --- 3. TAMBAHKAN STYLE UNTUK GAMBAR RATING BARU ---
-  ratingImage: {
-    width: 90, // Sesuaikan ukurannya
-    height: 18, // Sesuaikan ukurannya
-    resizeMode: 'contain',
-    marginVertical: 4,
-  },
-  ratingImageInModal: {
-    width: 110, // Mungkin perlu ukuran berbeda di modal
-    height: 22,
-    resizeMode: 'contain',
-    marginTop: 8,
-  },
+  // Style untuk Kartu Luar (Diperbarui)
   cardContainer: {
     backgroundColor: 'white',
     borderRadius: 12,
     padding: 16,
+    marginRight: 16,
+    width: 250, // Sedikit penyesuaian lebar
+    // Drop shadow tipis
     shadowColor: '#0E0E0E',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    width: 280,
-    marginRight: 16,
   },
-  cardText: {
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 12,
+  },
+  name: {
+    fontSize: 15,
+    // fontFamily: 'Satoshi-Bold', // (Jika font sudah terinstall)
     fontWeight: 'bold',
-    fontSize: 16,
     color: '#0E0E0E',
   },
-  cardReviewSnippet: {
-    fontSize: 14,
+  date: {
+    fontSize: 13,
+    // fontFamily: 'Satoshi-Regular',
     color: '#5B5E6B',
-    marginTop: 4,
+    marginTop: 2,
   },
+  ratingImage: {
+    width: 90,
+    height: 18,
+    resizeMode: 'contain',
+    marginVertical: 10, // Memberi jarak atas dan bawah
+  },
+  reviewText: {
+    fontSize: 14,
+    // fontFamily: 'Satoshi-Regular',
+    color: '#0E0E0E',
+  },
+
+  // Style untuk Modal (Tidak banyak berubah)
   modal: {
     justifyContent: 'flex-end',
     margin: 0,
@@ -208,15 +205,23 @@ const styles = StyleSheet.create({
   headerTextContainer: {
     marginLeft: 16,
   },
-  guestName: {
+  modalGuestName: {
+    // fontFamily: 'Satoshi-Bold',
     fontWeight: 'bold',
     fontSize: 20,
     color: '#0E0E0E',
   },
-  dateRange: {
+  modalDateRange: {
+    // fontFamily: 'Satoshi-Regular',
     fontSize: 14,
     color: '#5B5E6B',
     marginTop: 4,
+  },
+  ratingImageInModal: {
+    width: 110,
+    height: 22,
+    resizeMode: 'contain',
+    marginTop: 8,
   },
   divider: {
     height: 1,
@@ -239,11 +244,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
+    // fontFamily: 'Satoshi-Bold',
     fontWeight: 'bold',
     fontSize: 16,
     color: '#0E0E0E',
   },
   publicReviewText: {
+    // fontFamily: 'Satoshi-Regular',
     fontSize: 14,
     color: '#5B5E6B',
     marginTop: 4,
@@ -262,6 +269,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ratingLabel: {
+    // fontFamily: 'Satoshi-Medium',
     fontSize: 16,
     color: '#0E0E0E',
     marginLeft: 16,
@@ -271,6 +279,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ratingScore: {
+    // fontFamily: 'Satoshi-Bold',
     fontWeight: 'bold',
     fontSize: 16,
     color: '#0E0E0E',

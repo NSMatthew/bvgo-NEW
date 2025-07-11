@@ -14,9 +14,6 @@ const RevenueProgress = ({ revenue, target, percentage, chartImage }: RevenuePro
     <View style={styles.card}>
       <View style={styles.header}>
         <Text style={styles.title}>On-track</Text>
-        <TouchableOpacity>
-          <Icon name="print-outline" size={24} color="#fff" />
-        </TouchableOpacity>
       </View>
 
       <View style={styles.row}>

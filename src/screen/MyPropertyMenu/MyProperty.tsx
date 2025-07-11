@@ -21,11 +21,10 @@ type Props = CompositeScreenProps<
 const dummyReviews = [
   {
     id: '1',
-    guestName: 'David B.',            // Diubah dari 'name'
-    reviewDate: 'Feb 1 - Feb 2, 2025', // Diubah dari 'date'
-    publicReview: 'The place is super comfy!', // Diubah dari 'reviewText'
+    guestName: 'David B.',            
+    reviewDate: 'Feb 1 - Feb 2, 2025',
+    publicReview: 'The place is super comfy!', 
     imageUrl: require('../../assets/images/guest1.png'),
-    // Diubah dari 'rating: 5' menjadi objek ratings
     ratings: {
       accuracy: 5,
       cleanliness: 5,
@@ -149,7 +148,7 @@ const styles = StyleSheet.create({
   section: { marginTop: 24 },
   reviewHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
   reviewTitle: { fontSize: 18, fontWeight: 'bold', color: '#0E0E0E' },
-  reviewLink: { color: '#007BFF', fontSize: 14, fontWeight: '500' },
+  reviewLink: { color: '#1076BC', fontSize: 12, fontWeight: '400' },
   operationsTitle: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -163,10 +162,10 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
-    shadowColor: '#000',
+    shadowColor: '#0E0E0E',
     shadowOpacity: 0.1,
     shadowRadius: 6,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 1, height: 4 },
     elevation: 4,
   },
   operationIcon: {
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
   },
   arrow: {
     fontSize: 20,
-    color: '#888',
+    color: '#5B5E6B',
   },
 });
 

@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   container: { padding: 16, paddingBottom: 32 },
   section: { marginTop: 24 },
   reviewHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
-  reviewTitle: { fontSize: 18, fontWeight: 'bold', color: '#0E0E0E' },
+  reviewTitle: { fontSize: 16, fontWeight: 'bold', color: '#0E0E0E' },
   reviewLink: { color: '#1076BC', fontSize: 12, fontWeight: '400' },
   operationsTitle: {
     fontSize: 16,
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   operationTitle: {
-    fontSize: 14,
-    fontWeight: '400',
+    fontSize: 16,
+    fontWeight: '600',
     color: '#0E0E0E',
   },
   operationDescription: {

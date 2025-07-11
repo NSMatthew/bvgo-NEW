@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import {
   ScrollView,
+  FlatList,
   View,
   TextInput,
   StyleSheet,
@@ -9,9 +10,10 @@ import {
   Modal,
   Pressable,
   Image,
+  SafeAreaView,
 } from 'react-native';
 
-import SliderAnnouncement from '../components/SliderAnnouncement';
+import SliderAnnouncement, { SliderItem } from '../components/SliderAnnouncement';
 import NewsletterCard from '../components/NewsletterCard';
 import { mergeSort, Newsletter } from '../lib/mergeSort';
 import { getNewsletters } from '../data/newsletters';
@@ -27,8 +29,6 @@ type SortOption = {
   image: any; 
 };
 
-// 3. Definisikan path ke semua aset gambar Anda di sini
-// Pastikan path relatifnya benar. Dari 'src/screens' ke 'src/assets' adalah '../assets'
 const sortOptions: SortOption[] = [
   { key: 'date_desc', sortBy: 'date', sortOrder: 'desc', label: 'Date (Descending)', image: require('../assets/icons/filterdatedescending.png') },
   { key: 'date_asc', sortBy: 'date', sortOrder: 'asc', label: 'Date (Ascending)', image: require('../assets/icons/filterdateascending.png') },
@@ -36,8 +36,20 @@ const sortOptions: SortOption[] = [
   { key: 'title_desc', sortBy: 'title', sortOrder: 'desc', label: 'Title (Descending)', image: require('../assets/icons/filtertitledescending.png') },
 ];
 
-// Simpan ikon default secara terpisah
 const defaultIcon = require('../assets/icons/filterdefault.png');
+
+const announcementData: SliderItem[] = [
+  {
+    id: '1',
+    title: 'Upcoming Maintenance',
+    image: require('../assets/images/announcement1.png'),
+  },
+  {
+    id: '2',
+    title: "What's New?",
+    image: require('../assets/images/announcement1.png'),
+  },
+];
 
 const Home = () => {
   const [allNewsletters, setAllNewsletters] = useState<Newsletter[]>([]);
@@ -54,7 +66,6 @@ const Home = () => {
   }, []);
 
   const sortedAndFilteredNewsletters = useMemo(() => {
-
     const sorted = mergeSort([...allNewsletters], activeSort.sortBy, activeSort.sortOrder);
     if (searchKeyword.trim() === '') {
       return sorted;
@@ -75,9 +86,9 @@ const Home = () => {
   const displayLabel = isDefaultState ? 'Default' : activeSort.label;
 
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        <SliderAnnouncement />
+        <SliderAnnouncement data={announcementData} />
 
         <View style={styles.searchAndFilterWrapper}>
           <View style={styles.searchWrapper}>
@@ -89,7 +100,6 @@ const Home = () => {
             />
           </View>
           
-          {/* 4. GANTI <Icon> DENGAN <Image> */}
           <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
             <Image source={displayIconSource} style={styles.filterIcon} />
             <Text style={[styles.filterButtonText, { color: displayColor }]}>
@@ -98,9 +108,17 @@ const Home = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.newsletterSection}>
-          <NewsletterCard data={sortedAndFilteredNewsletters} />
-        </View>
+        {/* --- PERUBAHAN UTAMA DI SINI --- */}
+        {/* Menggunakan FlatList horizontal untuk merender NewsletterCard */}
+        <FlatList
+          horizontal
+          data={sortedAndFilteredNewsletters}
+          renderItem={({ item }) => <NewsletterCard data={item} />}
+          keyExtractor={(item) => item.id.toString()}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.newsletterList}
+        />
+
       </ScrollView>
 
       <Modal
@@ -115,7 +133,6 @@ const Home = () => {
             <View style={styles.modalContent}>
               {sortOptions.map(option => (
                 <TouchableOpacity key={option.key} style={styles.modalOption} onPress={() => handleSortSelect(option)}>
-                  {/* 4. GANTI <Icon> DENGAN <Image> DI SINI JUGA */}
                   <Image source={option.image} style={styles.modalIcon} />
                   <Text style={styles.modalOptionText}>{option.label}</Text>
                 </TouchableOpacity>
@@ -124,29 +141,27 @@ const Home = () => {
           </View>
         </Pressable>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 };
 
-// GANTI SELURUH BLOK STYLES ANDA DENGAN VERSI LENGKAP INI
 const styles = StyleSheet.create({
-  // Style yang sebelumnya hilang, sekarang sudah ada
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+  },
   container: {
-    padding: 16,
-    paddingBottom: 50, // Memberi ruang scroll di bawah
+    paddingBottom: 50,
   },
-  searchWrapper: {
-    flex: 1, // Membuat search bar memakan sisa ruang
-  },
-  newsletterSection: {
-    marginTop: 10,
-  },
-  
-  // Style yang sudah ada dari update sebelumnya
   searchAndFilterWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
+    paddingHorizontal: 16,
+    marginTop: 16,
+  },
+  searchWrapper: {
+    flex: 1,
   },
   searchInput: {
     borderWidth: 1,
@@ -171,7 +186,11 @@ const styles = StyleSheet.create({
   filterButtonText: {
     marginLeft: 5,
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: 'Satoshi-Bold',
+  },
+  // Style baru untuk kontainer list horizontal
+  newsletterList: {
+    paddingHorizontal: 16,
   },
   modalOverlay: {
     flex: 1,
@@ -220,6 +239,7 @@ const styles = StyleSheet.create({
   modalOptionText: {
     fontSize: 16,
     marginLeft: 12,
+    fontFamily: 'Satoshi-Medium',
   },
 });
 

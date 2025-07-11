@@ -1,4 +1,5 @@
 import React from 'react';
+// Pastikan ScrollView sudah di-import dari react-native
 import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
@@ -8,13 +9,61 @@ import { RootStackParamList } from '../../types/types';
 
 import PropertyCard from '../../components/PropertyCard';
 import RevenueProgress from '../../components/RevenueProgress';
-import GuestReviewCard from '../../components/GuestReviewCard';
+import GuestReviewCard from '../../components/GuestReviewCard'; // Pastikan path ini benar
 
 // Menggabungkan tipe BottomTab dan Stack Navigator
 type Props = CompositeScreenProps<
   BottomTabScreenProps<BottomTabParamList, 'My Property'>,
   NativeStackScreenProps<RootStackParamList>
 >;
+
+// --- 1. SIAPKAN DATA DUMMY ---
+const dummyReviews = [
+  {
+    id: '1',
+    guestName: 'David B.',            // Diubah dari 'name'
+    reviewDate: 'Feb 1 - Feb 2, 2025', // Diubah dari 'date'
+    publicReview: 'The place is super comfy!', // Diubah dari 'reviewText'
+    imageUrl: require('../../assets/images/guest1.png'),
+    // Diubah dari 'rating: 5' menjadi objek ratings
+    ratings: {
+      accuracy: 5,
+      cleanliness: 5,
+      communication: 5,
+      location: 5,
+      value: 5,
+    },
+  },
+  {
+    id: '2',
+    guestName: 'Christian',
+    reviewDate: 'Mar 1 - Mar 2, 2025',
+    publicReview: 'The room also super Recommended!',
+    imageUrl: require('../../assets/images/guest2.png'),
+    ratings: {
+      accuracy: 5,
+      cleanliness: 5,
+      communication: 5,
+      location: 4,
+      value: 5,
+    },
+  },
+   {
+    id: '3',
+    guestName: 'Robert Davis C.',
+    reviewDate: 'Jan 10 - Jan 11, 2025',
+    publicReview: 'The place is super comfy!',
+    imageUrl: require('../../assets/images/guest1.png'),
+    ratings: {
+      accuracy: 4,
+      cleanliness: 5,
+      communication: 4,
+      location: 5,
+      value: 4,
+    },
+  },
+];
+
 
 const MyProperty: React.FC<Props> = ({ navigation }) => {
   return (
@@ -35,12 +84,21 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.reviewTitle}>Guest Reviews</Text>
           <Text style={styles.reviewLink}>See all reviews</Text>
         </View>
-        <GuestReviewCard />
+
+        {/* --- 2. PERBAIKI BAGIAN REVIEW --- */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {dummyReviews.map(review => (
+            <GuestReviewCard
+              review ={review}
+            />
+          ))}
+        </ScrollView>
       </View>
 
-      {/* Section 4: Operations */}
+      {/* Section 4: Operations (Kode Anda di sini tetap sama) */}
       <View style={styles.section}>
-        <Text style={styles.operationsTitle}>Operations</Text>
+        {/* ... sisa kode operations Anda ... */}
+         <Text style={styles.operationsTitle}>Operations</Text>
         
         <TouchableOpacity style={styles.operationItem}>
           <Image
@@ -66,10 +124,8 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.arrow}>{'>'}</Text>
         </TouchableOpacity>
 
-        {/* --- 3. PERBAIKI PEMANGGILAN NAVIGASI --- */}
         <TouchableOpacity
           style={styles.operationItem}
-          // Sekarang tidak perlu 'as never' karena tipenya sudah benar
           onPress={() => navigation.navigate('TeamPage')} 
         >
           <Image
@@ -91,9 +147,9 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: { padding: 16, paddingBottom: 32 },
   section: { marginTop: 24 },
-  reviewHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
-  reviewTitle: { fontSize: 16, fontWeight: 'bold' },
-  reviewLink: { color: '#007BFF', fontSize: 14 },
+  reviewHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
+  reviewTitle: { fontSize: 18, fontWeight: 'bold', color: '#0E0E0E' },
+  reviewLink: { color: '#007BFF', fontSize: 14, fontWeight: '500' },
   operationsTitle: {
     fontSize: 16,
     fontWeight: 'bold',

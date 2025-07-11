@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageSourcePropType } from 'react-native';
 import Modal from 'react-native-modal';
 
-// --- DEFINISI TIPE DATA (PROPS) ---
+// --- (Tipe Data Props tidak berubah) ---
 export interface ReviewData {
   id: string;
   guestName: string;
@@ -22,11 +22,9 @@ interface GuestReviewCardProps {
   review: ReviewData;
 }
 
-// --- 1. MEMBUAT TEMPAT UNTUK ASSET ICONS ---
-// Taruh semua path asset iconmu di sini agar mudah dikelola.
+// --- 1. PERBARUI TEMPAT ASSET ICONS ---
 const AppIcons = {
-  starFilled: require('../../assets/icons/star_filled.png'), // GANTI DENGAN PATH ASSETMU
-  starEmpty: require('../../assets/icons/star_empty.png'),   // GANTI DENGAN PATH ASSETMU
+  rating: require('../../assets/icons/rating.png'), // GANTI DENGAN PATH ASSETMU
   review: require('../../assets/icons/iconreview.png'),
   reviewComponent: require('../../assets/icons/iconreviewcomponent.png'),
   accuracy: require('../../assets/icons/accuracyicon.png'),
@@ -36,20 +34,7 @@ const AppIcons = {
   value: require('../../assets/icons/value.png'),
 };
 
-// --- 2. KOMPONEN BARU UNTUK MENAMPILKAN BINTANG ---
-// Komponen ini akan menampilkan 5 bintang, baik yang terisi atau kosong.
-const StarRating = ({ rating, size = 16 }: { rating: number, size?: number }) => (
-  <View style={styles.starDisplayContainer}>
-    {[...Array(5)].map((_, i) => (
-      <Image
-        key={i}
-        source={i < rating ? AppIcons.starFilled : AppIcons.starEmpty}
-        style={{ width: size, height: size, marginRight: 2 }}
-      />
-    ))}
-  </View>
-);
-
+// --- (Komponen StarRating dihapus karena tidak lagi diperlukan) ---
 
 // Komponen kecil untuk baris rating
 const RatingRow = ({ iconSource, label, score }: { iconSource: any; label: string; score: number }) => (
@@ -61,7 +46,7 @@ const RatingRow = ({ iconSource, label, score }: { iconSource: any; label: strin
     <View style={styles.ratingScoreContainer}>
       <Text style={styles.ratingScore}>{score}</Text>
       {/* Menggunakan Image untuk bintang di samping skor */}
-      <Image source={AppIcons.starFilled} style={{width: 16, height: 16}} />
+      <Image source={AppIcons.rating} style={{width: 16, height: 16}} />
     </View>
   </View>
 );
@@ -73,22 +58,16 @@ const GuestReviewCard: React.FC<GuestReviewCardProps> = ({ review }) => {
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
-
-  const averageRating = Math.round(
-    (review.ratings.accuracy +
-     review.ratings.cleanliness +
-     review.ratings.communication +
-     review.ratings.location +
-     review.ratings.value) / 5
-  );
+  
+  // (logika averageRating tidak lagi diperlukan untuk tampilan, tapi bisa disimpan jika butuh)
 
   return (
     <>
       {/* Kartu ringkasan */}
       <TouchableOpacity onPress={openModal} style={styles.cardContainer}>
         <Text style={styles.cardText}>Review from {review.guestName}</Text>
-        {/* --- 3. MENGGANTI ICON DENGAN KOMPONEN StarRating --- */}
-        <StarRating rating={averageRating} />
+        {/* --- 2. MENGGANTI BINTANG DENGAN SATU GAMBAR RATING --- */}
+        <Image source={AppIcons.rating} style={styles.ratingImage} />
         <Text style={styles.cardReviewSnippet} numberOfLines={1}>{review.publicReview}</Text>
       </TouchableOpacity>
 
@@ -113,10 +92,12 @@ const GuestReviewCard: React.FC<GuestReviewCardProps> = ({ review }) => {
               <Text style={styles.dateRange}>{review.reviewDate}</Text>
             </View>
           </View>
-          {/* --- 3. MENGGANTI ICON DENGAN KOMPONEN StarRating --- */}
-          <StarRating rating={averageRating} size={20} />
+           {/* --- 2. MENGGANTI BINTANG DENGAN SATU GAMBAR RATING --- */}
+          <Image source={AppIcons.rating} style={styles.ratingImageInModal} />
           
           <View style={styles.divider} />
+
+          {/* ... Sisa kode modal tetap sama ... */}
 
           {/* Public Review */}
           <View style={styles.reviewSection}>
@@ -158,10 +139,20 @@ const GuestReviewCard: React.FC<GuestReviewCardProps> = ({ review }) => {
 
 // --- STYLES ---
 const styles = StyleSheet.create({
-  //... (semua style lama Anda tetap di sini, kecuali cardStarContainer)
-  starDisplayContainer: { // Menggantikan cardStarContainer dan starContainer
-    flexDirection: 'row',
+  // ... (semua style lama Anda tetap di sini)
+  
+  // --- 3. TAMBAHKAN STYLE UNTUK GAMBAR RATING BARU ---
+  ratingImage: {
+    width: 90, // Sesuaikan ukurannya
+    height: 18, // Sesuaikan ukurannya
+    resizeMode: 'contain',
     marginVertical: 4,
+  },
+  ratingImageInModal: {
+    width: 110, // Mungkin perlu ukuran berbeda di modal
+    height: 22,
+    resizeMode: 'contain',
+    marginTop: 8,
   },
   cardContainer: {
     backgroundColor: 'white',
@@ -183,7 +174,7 @@ const styles = StyleSheet.create({
   cardReviewSnippet: {
     fontSize: 14,
     color: '#5B5E6B',
-    marginTop: 4, // Menambahkan sedikit jarak dari bintang
+    marginTop: 4,
   },
   modal: {
     justifyContent: 'flex-end',
@@ -208,7 +199,6 @@ const styles = StyleSheet.create({
   headerSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8, // Menambahkan jarak ke bintang
   },
   guestImage: {
     width: 60,
@@ -242,7 +232,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     resizeMode: 'contain',
-    marginTop: 2, // Sejajarkan icon dengan text
+    marginTop: 2,
   },
   reviewTextContainer: {
     marginLeft: 16,

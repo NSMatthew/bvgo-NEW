@@ -69,6 +69,7 @@ const GuestReviewCard = () => {
           {/* Header */}
           <View style={styles.headerSection}>
             <Image
+              // --- PATH DIPERBAIKI ---
               source={require('../../assets/images/guest1.png')}
               style={styles.guestImage}
             />
@@ -85,10 +86,10 @@ const GuestReviewCard = () => {
           
           <View style={styles.divider} />
 
-          {/* --- PERUBAHAN DI SINI --- */}
           {/* Public Review */}
           <View style={styles.reviewSection}>
             <Image 
+              // --- PATH DIPERBAIKI ---
               source={require('../../assets/icons/iconreview.png')}
               style={styles.sectionIcon}
             />
@@ -101,6 +102,7 @@ const GuestReviewCard = () => {
           {/* Review Component */}
           <View style={styles.reviewSection}>
             <Image 
+              // --- PATH DIPERBAIKI ---
               source={require('../../assets/icons/iconreviewcomponent.png')}
               style={styles.sectionIcon}
             />
@@ -115,7 +117,8 @@ const GuestReviewCard = () => {
             <RatingRow iconSource={require('../../assets/icons/cleanlinessicon.png')} label="Cleanliness" score={GUEST_REVIEW_DATA.ratings.cleanliness} />
             <RatingRow iconSource={require('../../assets/icons/communicationicon.png')} label="Communication" score={GUEST_REVIEW_DATA.ratings.communication} />
             <RatingRow iconSource={require('../../assets/icons/location.png')} label="Location" score={GUEST_REVIEW_DATA.ratings.location} />
-            <RatingRow iconSource={require('../../assets/icons/valueicon.png')} label="Value" score={GUEST_REVIEW_DATA.ratings.value} />
+            {/* --- NAMA FILE DIPERBAIKI --- */}
+            <RatingRow iconSource={require('../../assets/icons/value.png')} label="Value" score={GUEST_REVIEW_DATA.ratings.value} />
           </View>
 
         </View>

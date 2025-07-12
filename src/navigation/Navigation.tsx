@@ -1,17 +1,25 @@
 import React from 'react';
+import { 
+  View, 
+  Text, 
+  Image, 
+  TouchableOpacity, 
+  StyleSheet 
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/types';
 import type { Session } from '@supabase/supabase-js';
 
-// --- 1. IMPORT SEMUA SCREEN YANG DIPERLUKAN ---
+// Import semua screen
 import Splash from '../screen/Splash';
 import Login from '../screen/Authentication/Login';
 import VerificationEmailScreen from '../screen/Authentication/VerificationEmail';
 import SetNewPasswordScreen from '../screen/Authentication/SetNewPassword';
 import BottomTabs from './BottomTabs';
-import TeamPage from '../screen/MyPropertyMenu/TeamPage'; // <-- IMPORT TeamPage
-import FAQ from '../screen/MenuSetting/FAQ'; 
+import TeamPage from '../screen/MyPropertyMenu/TeamPage';
+import FAQ from '../screen/MenuSetting/FAQ';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = ({ session }: { session: Session | null }) => {
@@ -19,40 +27,57 @@ const Navigation = ({ session }: { session: Session | null }) => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {session && session.user ? (
-          // --- JIKA USER SUDAH LOGIN ---
-          // Daftarkan semua layar yang bisa diakses setelah login di sini
           <>
             <Stack.Screen name="Home" component={BottomTabs} />
-            {/* --- 2. DAFTARKAN TeamPage SEBAGAI LAYAR DI STACK UTAMA --- */}
             <Stack.Screen
               name="TeamPage"
               component={TeamPage}
               options={{ 
                 headerShown: true, 
                 title: 'My Team',
-                // Style tambahan agar terlihat seperti desain Anda
                 headerStyle: { backgroundColor: '#fff' },
                 headerTintColor: '#1076BC',
-                headerTitleStyle: { fontFamily: 'Satoshi-Bold' },
+                headerTitleStyle: { 
+                  fontFamily: 'Satoshi-Bold',
+                },
                 headerShadowVisible: false,
               }}
             />
-             <Stack.Screen
-                name="FAQ"
-                component={FAQ}
-                options={{
-                  headerShown: true,
-                  title: 'FAQ',
-                  headerStyle: { backgroundColor: '#fff' },
-                  headerTintColor: '#1076BC',
-                  headerTitleStyle: { fontFamily: 'Satoshi-Bold' },
-                  headerShadowVisible: false,
-    }}
-  />
-            {/* Anda bisa mendaftarkan layar detail lainnya di sini */}
+            <Stack.Screen
+              name="FAQ"
+              component={FAQ}
+              options={({ navigation }) => ({
+                headerShown: true,
+                title: 'FAQ',
+                headerStyle: {
+                  backgroundColor: '#fff',
+                },
+                headerTitleStyle: {
+                  color: '#1076BC',
+                  fontSize: 20,
+                  fontWeight: 'bold' as const,
+                  textAlign: 'center' as const,
+                  flex: 1,
+                },
+                headerLeft: () => (
+                  <TouchableOpacity 
+                    onPress={() => navigation.goBack()}
+                    style={{ marginLeft: 15 }}
+                  >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image
+                        source={require('../assets/icons/backbutton.png')}
+                        style={{ width: 20, height: 20 }}
+                      />
+                      <Text style={{ color: '#585E6B', marginLeft: 8 }}>Back</Text>
+                    </View>
+                  </TouchableOpacity>
+                ),
+                headerRight: () => <View style={{ width: 20 }} />,
+              })}
+            />
           </>
         ) : (
-          // --- JIKA USER BELUM LOGIN ---
           <>
             <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen name="Login" component={Login} />

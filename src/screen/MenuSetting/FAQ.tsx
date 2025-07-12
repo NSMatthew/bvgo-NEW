@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 // Definisikan tipe untuk FAQ
@@ -34,13 +33,6 @@ const FAQ = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.returnButton}>
-        <Icon name="chevron-back" size={20} color="#5B5E6B" />
-        <Text style={styles.returnText}>Back</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.title}>FAQ</Text>
-
       {questions.map((item, index) => (
         <FAQItem key={index} question={item.question} answer={item.answer} />
       ))}
@@ -65,7 +57,17 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
     <View style={[styles.faqBox, { marginBottom: 20 }]}>
       <TouchableOpacity onPress={toggleOpen} style={styles.faqHeader}>
         <Text style={[styles.faqQuestion, isOpen && styles.faqQuestionOpen]}>{question}</Text>
-        <Icon name={isOpen ? "chevron-up" : "chevron-down"} size={20} color="#5B5E6B" />
+        
+        <View style={styles.arrowContainer}>
+        <Image
+          source={require("../../assets/icons/openarrowgray.png")}
+          style={StyleSheet.flatten([
+          styles.arrowIcon,
+          { transform: [{ rotate: isOpen ? "180deg" : "0deg" }] }
+  ])}
+/>
+        </View>
+        
       </TouchableOpacity>
       {isOpen && (
         <Animated.View
@@ -97,11 +99,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 20,
   },
-  returnButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
   returnText: {
     color: "#5B5E6B",
     fontSize: 14,
@@ -118,12 +115,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: "#ddd",
     borderWidth: 1,
+    marginTop: 10,
     padding: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 4,
+  },
+  arrowContainer: {
+    width: 10,
+    alignItems: 'flex-end',
+  },
+  arrowIcon: {
+    width: 10,
+    height: 10,
   },
   faqHeader: {
     flexDirection: "row",

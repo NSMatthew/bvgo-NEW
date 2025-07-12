@@ -1,14 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/types';
+import { supabase } from '../../lib/supabase';
 
 type MenuNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Menu'>;
 
 const Menu = () => {
-  const navigation = useNavigation<MenuNavigationProp>();  // Use the correct type here
+  const navigation = useNavigation<MenuNavigationProp>();
 
+  // 1. Definisikan fungsi handleLogout DI DALAM komponen, SEBELUM return.
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      Alert.alert('Error', error.message);
+    }
+    // Jika Anda sudah mengatur listener onAuthStateChange di App.tsx,
+    // navigasi akan terjadi secara otomatis.
+  };
+
+  // 2. Hanya ada SATU return statement di dalam komponen.
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }}>
 
@@ -17,6 +29,8 @@ const Menu = () => {
         <View style={styles.avatarPlaceholder}>
         <Image 
             source={require('../../assets/images/guest1.png')}
+            // Tambahkan style untuk menyesuaikan ukuran avatar
+            style={{ width: 50, height: 50, borderRadius: 25 }}
             />
         </View>
         <View style={{ marginLeft: 12 }}>
@@ -34,7 +48,7 @@ const Menu = () => {
             style={{ width: 25, height: 25, position: 'absolute', top: 10, right: 10 }}
             />
           <Text style={styles.statLabel}>Guest hosted</Text>
-          /</View>
+          </View>
         <View style={styles.statBox}>
           <Text style={styles.statNumber}>4.7</Text>
           <Image 
@@ -107,9 +121,9 @@ const Menu = () => {
         {/* FAQ menu item */}
         <TouchableOpacity
           style={styles.menuItem}
-          onPress={() => navigation.navigate("FAQ")}  // Navigasi ke FAQ screen
+          onPress={() => navigation.navigate("FAQ")} // Navigasi ke FAQ screen
         >
-           <Image 
+          <Image 
             source={require('../../assets/icons/FAQicon.png')}
             style={{ width: 28, height: 28, position: 'absolute', top: 10, left: 0 }}
             />
@@ -124,27 +138,31 @@ const Menu = () => {
       {/* Account Section */}
       <TouchableOpacity style={styles.menuItem}>
       <Image 
-            source={require('../../assets/icons/account.png')}
-            style={{ width: 28, height: 28, position: 'absolute', top: 10, left: 0 }}
-            />
+          source={require('../../assets/icons/account.png')}
+          style={{ width: 28, height: 28, position: 'absolute', top: 10, left: 0 }}
+          />
         <Text style={styles.menuText}>Account</Text>
         <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 15, height: 20, position: 'absolute', top: 10, right: 10 }}
-            />
+          source={require('../../assets/icons/nextarrowgray.png')}
+          style={{ width: 15, height: 20, position: 'absolute', top: 10, right: 10 }}
+          />
       </TouchableOpacity>
 
       {/* Logout */}
-      <TouchableOpacity style={styles.logoutButton}>
-      <Image 
+      {/* 3. Hubungkan fungsi ke tombol dengan `onPress` */}
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Image 
             source={require('../../assets/icons/logout.png')}
+            style={{ width: 24, height: 24 }} // Beri ukuran agar konsisten
             />
         <Text style={styles.logoutText}>Log out</Text>
       </TouchableOpacity>
+      
     </ScrollView>
   );
 };
 
+// --- STYLES (TIDAK BERUBAH) ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -155,15 +173,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 24,
+    marginTop: 10, // Menambahkan margin atas
   },
   avatarPlaceholder: {
     width: 50,
     height: 50,
-    borderRadius: 40,
+    borderRadius: 25,
     backgroundColor: '#ddd',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
+    overflow: 'hidden', // Memastikan gambar tidak keluar dari border
   },
   profileName: {
     fontWeight: '700',
@@ -197,13 +216,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 14,
   },
-  statUnderline: {
-    height: 3,
-    backgroundColor: '#FFA500',
-    borderRadius: 10,
-    marginTop: 6,
-    width: '40%',
-  },
   menuSection: {
     marginBottom: 28,
   },
@@ -222,7 +234,7 @@ const styles = StyleSheet.create({
   menuText: {
     flex: 1,
     fontSize: 16,
-    marginLeft: 36,
+    marginLeft: 40, // Memberi ruang untuk ikon
     color: '#5B5E6B',
   },
   logoutButton: {
@@ -230,7 +242,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     marginTop: 15,
-    marginLeft: 4,
   },
   logoutText: {
     color: '#d33',

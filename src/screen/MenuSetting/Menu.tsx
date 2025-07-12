@@ -31,11 +31,10 @@ const Menu = () => {
           <Text style={styles.statNumber}>100</Text>
           <Image 
             source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            style={{ width: 20, height: 20, position: 'absolute', top: 10, right: 10 }}
             />
           <Text style={styles.statLabel}>Guest hosted</Text>
-          <View style={styles.statUnderline} />
-        </View>
+          /</View>
         <View style={styles.statBox}>
           <Text style={styles.statNumber}>4.7</Text>
           <Image 
@@ -43,7 +42,6 @@ const Menu = () => {
             style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
             />
           <Text style={styles.statLabel}>Average review</Text>
-          <View style={styles.statUnderline} />
         </View>
         <View style={styles.statBox}>
           <Text style={styles.statNumber}>5</Text>
@@ -52,7 +50,6 @@ const Menu = () => {
             style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
             />
           <Text style={styles.statLabel}>Years hosting</Text>
-          <View style={styles.statUnderline} />
         </View>
       </View>
 
@@ -154,23 +151,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 20,
   },
-  warningBox: {
-    flexDirection: 'row',
-    borderColor: '#e89a9a',
-    borderWidth: 1,
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  warningTitle: {
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  warningSubtitle: {
-    marginTop: 4,
-    color: '#555',
-  },
   editButton: {
     backgroundColor: '#3c4351',
     paddingHorizontal: 18,
@@ -195,6 +175,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 10,
   },
   profileName: {
     fontWeight: '700',

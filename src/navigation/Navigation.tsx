@@ -128,7 +128,7 @@ const AppNavigator = ({ session }: { session: Session | null }) => {
               name="VerificationEmail"
               component={VerificationEmailScreen}
               options={({ navigation }) => ({ 
-                headerShown: true, 
+                headerShown: false, 
                 title: '',
                 headerStyle: { backgroundColor: '#fff' },
                 headerTintColor: '#1076BC',

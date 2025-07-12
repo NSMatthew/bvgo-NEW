@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   orText: { ...Typography.body, marginVertical: 20 },
   backButton: { backgroundColor: '#E9EAEC' },
   backButtonText: { ...Typography.heading, color: '#5B5E6B' },
-  backIcon: { width: 30, height: 30, marginRight: 8 },
+  backIcon: { width: 30, height: 30, position: 'absolute', left: 10 },
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -30,24 +30,24 @@ const Menu = () => {
         <View style={styles.statBox}>
           <Text style={styles.statNumber}>100</Text>
           <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/guesthosted.png')}
+            style={{ width: 25, height: 25, position: 'absolute', top: 10, right: 10 }}
             />
           <Text style={styles.statLabel}>Guest hosted</Text>
           /</View>
         <View style={styles.statBox}>
           <Text style={styles.statNumber}>4.7</Text>
           <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/averagereview.png')}
+            style={{ width: 30, height: 25, position: 'absolute', top: 10, right: 10 }}
             />
           <Text style={styles.statLabel}>Average review</Text>
         </View>
         <View style={styles.statBox}>
           <Text style={styles.statNumber}>5</Text>
           <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/yearhosting.png')}
+            style={{ width: 25, height: 25, position: 'absolute', top: 10, right: 10 }}
             />
           <Text style={styles.statLabel}>Years hosting</Text>
         </View>
@@ -59,7 +59,7 @@ const Menu = () => {
         <TouchableOpacity style={styles.menuItem}>
         <Image 
             source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            style={{ width: 20, height: 20, position: 'absolute', top: 10, right: 10 }}
             />
           <Text style={styles.menuText}>Edit Personal Information</Text>
           <Image 
@@ -137,7 +137,7 @@ const Menu = () => {
       {/* Logout */}
       <TouchableOpacity style={styles.logoutButton}>
       <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
+            source={require('../../assets/icons/logout.png')}
             />
         <Text style={styles.logoutText}>Log out</Text>
       </TouchableOpacity>
@@ -240,14 +240,14 @@ const styles = StyleSheet.create({
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 15,
     justifyContent: 'center',
   },
   logoutText: {
     color: '#d33',
-    fontWeight: '700',
+    fontWeight: '400',
     fontSize: 16,
-    marginLeft: 8,
+    marginLeft: 10,
   },
 });
 

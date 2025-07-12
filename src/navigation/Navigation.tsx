@@ -47,17 +47,12 @@ const Navigation = ({ session }: { session: Session | null }) => {
               name="FAQ"
               component={FAQ}
               options={({ navigation }) => ({
-                headerShown: true,
+               headerShown: true, 
                 title: 'FAQ',
-                headerStyle: {
-                  backgroundColor: '#fff',
-                },
-                headerTitleStyle: {
-                  color: '#1076BC',
-                  fontSize: 20,
-                  fontWeight: 'bold' as const,
-                  textAlign: 'center' as const,
-                  flex: 1,
+                headerStyle: { backgroundColor: '#fff' },
+                headerTintColor: '#1076BC',
+                headerTitleStyle: { 
+                  fontFamily: 'Satoshi-Bold',
                 },
                 headerLeft: () => (
                   <TouchableOpacity 
@@ -67,9 +62,8 @@ const Navigation = ({ session }: { session: Session | null }) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Image
                         source={require('../assets/icons/backbutton.png')}
-                        style={{ width: 20, height: 20 }}
+                        style={{ width: 15, height: 15 }}
                       />
-                      <Text style={{ color: '#585E6B', marginLeft: 8 }}>Back</Text>
                     </View>
                   </TouchableOpacity>
                 ),

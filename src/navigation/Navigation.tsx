@@ -124,10 +124,46 @@ const AppNavigator = ({ session }: { session: Session | null }) => {
               animationTypeForReplace: 'pop' 
             }}/>
             <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen
+                     <Stack.Screen
               name="VerificationEmail"
               component={VerificationEmailScreen}
-              options={{ headerShown: true, title: 'Forgot Password' }}
+              options={({ navigation }) => ({ 
+                headerShown: true, 
+                title: '',
+                headerStyle: { backgroundColor: '#fff' },
+                headerTintColor: '#1076BC',
+                headerTitleStyle: { 
+                  fontFamily: 'Satoshi-Bold',
+                },
+                headerShadowVisible: false,
+                headerLeft: () => (
+                  <TouchableOpacity 
+                    onPress={() => navigation.goBack()}
+                    style={{ 
+                      marginLeft: 15,
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Image
+                      source={require('../assets/icons/backbutton.png')}
+                      style={{ 
+                        width: 15, 
+                        height: 15,
+                        tintColor: '#1076BC'
+                      }}
+                    />
+                    <Text style={{ 
+                      color: '#1076BC', 
+                      marginLeft: 75,
+                      fontSize: 20, 
+                      fontWeight: '600', 
+                    }}>
+                      Forgot Password
+                    </Text>
+                  </TouchableOpacity>
+                ),
+              })}
             />
             <Stack.Screen
               name="SetNewPassword"

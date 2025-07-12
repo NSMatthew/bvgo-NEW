@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Newsletter } from '../../lib/mergeSort'; 
+import { format } from 'date-fns';
 
 type Props = {
   data: Newsletter;
@@ -16,6 +17,7 @@ const FooterIcon = ({ iconSource, count }: { iconSource: any, count: number }) =
 );
 
 const NewsletterCard = ({ data }: Props) => {
+  const formattedDate = format(new Date(data.releaseDate), 'dd MMM yyyy');
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -25,7 +27,7 @@ const NewsletterCard = ({ data }: Props) => {
         />
         <View>
           <Text style={styles.name}>Matthew - Marketing</Text>
-          <Text style={styles.time}>1 day ago</Text>
+          <Text style={styles.time}>{formattedDate}</Text>
         </View>
       </View>
 

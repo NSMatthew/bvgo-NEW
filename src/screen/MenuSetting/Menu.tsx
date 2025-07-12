@@ -10,17 +10,13 @@ type MenuNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Menu'>;
 const Menu = () => {
   const navigation = useNavigation<MenuNavigationProp>();
 
-  // 1. Definisikan fungsi handleLogout DI DALAM komponen, SEBELUM return.
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       Alert.alert('Error', error.message);
     }
-    // Jika Anda sudah mengatur listener onAuthStateChange di App.tsx,
-    // navigasi akan terjadi secara otomatis.
   };
 
-  // 2. Hanya ada SATU return statement di dalam komponen.
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }}>
 
@@ -153,7 +149,7 @@ const Menu = () => {
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Image 
             source={require('../../assets/icons/logout.png')}
-            style={{ width: 24, height: 24 }} // Beri ukuran agar konsisten
+            style={{ width: 22, height: 24 }} // Beri ukuran agar konsisten
             />
         <Text style={styles.logoutText}>Log out</Text>
       </TouchableOpacity>
@@ -242,6 +238,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     marginTop: 15,
+    marginLeft: 5,
   },
   logoutText: {
     color: '#d33',

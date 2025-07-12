@@ -58,24 +58,24 @@ const Menu = () => {
         <Text style={styles.sectionTitle}>Account Settings</Text>
         <TouchableOpacity style={styles.menuItem}>
         <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/editpersonalinfo.png')}
+            style={{ width: 28, height: 28, position: 'absolute', top: 10, left: 0 }}
             />
           <Text style={styles.menuText}>Edit Personal Information</Text>
           <Image 
             source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            style={{ width: 15, height: 20, position: 'absolute', top: 10, right: 10 }}
             />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
         <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/configuration.png')}
+            style={{ width: 28, height: 28, position: 'absolute', top: 10, left: 0 }}
             />
           <Text style={styles.menuText}>Configuration</Text>
           <Image 
             source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            style={{ width: 15, height: 20, position: 'absolute', top: 10, right: 10 }}
             />
         </TouchableOpacity>
       </View>
@@ -84,24 +84,24 @@ const Menu = () => {
         <Text style={styles.sectionTitle}>General</Text>
         <TouchableOpacity style={styles.menuItem}>
         <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/termofservice.png')}
+            style={{ width: 28, height: 28, position: 'absolute', top: 10, left: 0 }}
             />
           <Text style={styles.menuText}>Term of Service</Text>
           <Image 
             source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            style={{ width: 15, height: 20, position: 'absolute', top: 10, right: 10 }}
             />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
         <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/privacypolicy.png')}
+            style={{ width: 16, height: 20, position: 'absolute', top: 10, left: 5 }}
             />
           <Text style={styles.menuText}>Privacy Policy</Text>
           <Image 
             source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            style={{ width: 15, height: 20, position: 'absolute', top: 10, right: 10 }}
             />
         </TouchableOpacity>
         {/* FAQ menu item */}
@@ -110,13 +110,13 @@ const Menu = () => {
           onPress={() => navigation.navigate("FAQ")}  // Navigasi ke FAQ screen
         >
            <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/FAQicon.png')}
+            style={{ width: 28, height: 28, position: 'absolute', top: 10, left: 0 }}
             />
           <Text style={styles.menuText}>FAQ</Text>
           <Image 
             source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            style={{ width: 15, height: 20, position: 'absolute', top: 10, right: 10 }}
             />
         </TouchableOpacity>
       </View>
@@ -124,13 +124,13 @@ const Menu = () => {
       {/* Account Section */}
       <TouchableOpacity style={styles.menuItem}>
       <Image 
-            source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            source={require('../../assets/icons/account.png')}
+            style={{ width: 28, height: 28, position: 'absolute', top: 10, left: 0 }}
             />
         <Text style={styles.menuText}>Account</Text>
         <Image 
             source={require('../../assets/icons/nextarrowgray.png')}
-            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            style={{ width: 15, height: 20, position: 'absolute', top: 10, right: 10 }}
             />
       </TouchableOpacity>
 
@@ -150,18 +150,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-  },
-  editButton: {
-    backgroundColor: '#3c4351',
-    paddingHorizontal: 18,
-    paddingVertical: 8,
-    borderRadius: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  editButtonText: {
-    color: 'white',
-    marginLeft: 6,
   },
   profileContainer: {
     flexDirection: 'row',
@@ -234,14 +222,15 @@ const styles = StyleSheet.create({
   menuText: {
     flex: 1,
     fontSize: 16,
-    marginLeft: 12,
-    color: '#444',
+    marginLeft: 36,
+    color: '#5B5E6B',
   },
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 15,
-    justifyContent: 'center',
+    marginTop: 15,
+    marginLeft: 4,
   },
   logoutText: {
     color: '#d33',

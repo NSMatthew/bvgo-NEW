@@ -63,7 +63,7 @@ const Navigation = ({ session }: { session: Session | null }) => {
                     />
                     <Text style={{ 
                       color: '#1076BC', 
-                      marginLeft: 100, // Perhatikan: margin ini mungkin mendorong teks terlalu jauh
+                      marginLeft: 100,
                       fontSize: 20, 
                       fontWeight: '600', 
                     }}>
@@ -73,31 +73,48 @@ const Navigation = ({ session }: { session: Session | null }) => {
                 ),
               })}
             />
-            <Stack.Screen
+          <Stack.Screen
               name="FAQ"
               component={FAQ}
-              options={({ navigation }) => ({
-               headerShown: true, 
-                title: 'FAQ',
+              // --- UBAH DARI OBJEK MENJADI FUNGSI DI SINI ---
+              options={({ navigation }) => ({ 
+                headerShown: true, 
+                title: '',
                 headerStyle: { backgroundColor: '#fff' },
                 headerTintColor: '#1076BC',
                 headerTitleStyle: { 
                   fontFamily: 'Satoshi-Bold',
                 },
+                headerShadowVisible: false,
+                // 'navigation' sekarang sudah tersedia di dalam lingkup ini
                 headerLeft: () => (
                   <TouchableOpacity 
+                    // Panggilan ini sekarang valid
                     onPress={() => navigation.goBack()}
-                    style={{ marginLeft: 15 }}
+                    style={{ 
+                      marginLeft: 15,
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
                   >
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Image
-                        source={require('../assets/icons/backbutton.png')}
-                        style={{ width: 15, height: 15 }}
-                      />
-                    </View>
+                    <Image
+                      source={require('../assets/icons/backbutton.png')}
+                      style={{ 
+                        width: 15, 
+                        height: 15,
+                        tintColor: '#1076BC'
+                      }}
+                    />
+                    <Text style={{ 
+                      color: '#1076BC', 
+                      marginLeft: 120,
+                      fontSize: 20, 
+                      fontWeight: '600', 
+                    }}>
+                      FAQ
+                    </Text>
                   </TouchableOpacity>
                 ),
-                headerRight: () => <View style={{ width: 20 }} />,
               })}
             />
           </>

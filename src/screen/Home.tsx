@@ -45,8 +45,8 @@ const announcementData: SliderItem[] = [
   },
   {
     id: '2',
-    title: "What's New?",
-    image: require('../assets/images/announcement1.png'),
+    title: "Insight Today",
+    image: require('../assets/images/announcement2.png'),
   },
 ];
 

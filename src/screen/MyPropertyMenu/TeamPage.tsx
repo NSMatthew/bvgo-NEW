@@ -89,13 +89,8 @@ const TeamPage = () => {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../assets/icons/backbutton.png')}
-            style={styles.backIcon}
-            resizeMode="contain"
-          />
+          //ikutin FAQ buat back button
         </TouchableOpacity>
-        <Text style={styles.headerText}>My Team</Text>
       </View>
 
       <View style={styles.filterContainer}>
@@ -174,6 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 16,
+    marginTop: -12,
   },
   filterButton: {
     padding: 10,

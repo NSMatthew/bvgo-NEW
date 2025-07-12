@@ -32,16 +32,46 @@ const Navigation = ({ session }: { session: Session | null }) => {
             <Stack.Screen
               name="TeamPage"
               component={TeamPage}
-              options={{ 
+              // --- UBAH DARI OBJEK MENJADI FUNGSI DI SINI ---
+              options={({ navigation }) => ({ 
                 headerShown: true, 
-                title: 'My Team',
+                title: '',
                 headerStyle: { backgroundColor: '#fff' },
                 headerTintColor: '#1076BC',
                 headerTitleStyle: { 
                   fontFamily: 'Satoshi-Bold',
                 },
                 headerShadowVisible: false,
-              }}
+                // 'navigation' sekarang sudah tersedia di dalam lingkup ini
+                headerLeft: () => (
+                  <TouchableOpacity 
+                    // Panggilan ini sekarang valid
+                    onPress={() => navigation.goBack()}
+                    style={{ 
+                      marginLeft: 15,
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Image
+                      source={require('../assets/icons/backbutton.png')}
+                      style={{ 
+                        width: 15, 
+                        height: 15,
+                        tintColor: '#1076BC'
+                      }}
+                    />
+                    <Text style={{ 
+                      color: '#1076BC', 
+                      marginLeft: 100, // Perhatikan: margin ini mungkin mendorong teks terlalu jauh
+                      fontSize: 20, 
+                      fontWeight: '600', 
+                    }}>
+                      My Team
+                    </Text>
+                  </TouchableOpacity>
+                ),
+              })}
             />
             <Stack.Screen
               name="FAQ"

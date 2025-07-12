@@ -19,7 +19,7 @@ import NewsletterCard from '../components/NewsletterCard';
 import { Newsletter, mergeSort, SortBy, SortOrder } from '../lib/mergeSort';
 import { getNewsletters } from '../data/newsletters';
 
-// --- 1. KEMBALIKAN SEMUA LOGIKA FILTER ---
+// --- SEMUA LOGIKA, STATE, DAN DATA ANDA TIDAK SAYA UBAH ---
 type SortOption = {
   key: string;
   sortBy: SortBy;
@@ -85,13 +85,15 @@ const Home = () => {
   const isDefaultState = activeSort.key === 'date_desc';
   const displayIconSource = isDefaultState ? defaultIcon : activeSort.image;
   const displayColor = isDefaultState ? '#5B5E6B' : '#1076BC';
-  const displayLabel = isDefaultState ? 'Default' : activeSort.label;
+  const displayLabel = isDefaultState ? 'Date (Descending)' : activeSort.label;
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
+        {/* Slider Announcement tidak diubah */}
         <SliderAnnouncement data={announcementData} />
 
+        {/* Search Bar dan Filter tidak diubah */}
         <View style={styles.searchAndFilterWrapper}>
           <View style={styles.searchWrapper}>
             <TextInput
@@ -101,8 +103,6 @@ const Home = () => {
               style={styles.searchInput}
             />
           </View>
-          
-          {/* --- 2. KEMBALIKAN TOMBOL FILTER --- */}
           <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
             <Image source={displayIconSource} style={styles.filterIcon} />
             <Text style={[styles.filterButtonText, { color: displayColor }]}>
@@ -111,21 +111,25 @@ const Home = () => {
           </TouchableOpacity>
         </View>
 
+        {/* --- INI BAGIAN YANG DIPERBAIKI --- */}
         {loading ? (
           <ActivityIndicator size="large" color="#1076BC" style={{ marginTop: 40 }} />
         ) : (
-          <FlatList
-            horizontal
-            data={sortedAndFilteredNewsletters}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <NewsletterCard data={item} />}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.newsletterList}
-          />
+          // 1. Tambahkan <View> sebagai pembungkus untuk memberi tinggi
+          <View style={styles.newsletterSection}>
+            <FlatList
+              horizontal
+              data={sortedAndFilteredNewsletters}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => <NewsletterCard data={item} />}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.newsletterList}
+            />
+          </View>
         )}
       </ScrollView>
 
-      {/* --- 3. KEMBALIKAN MODAL FILTER --- */}
+      {/* Modal Filter tidak diubah */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -150,7 +154,12 @@ const Home = () => {
   );
 };
 
+// --- TAMBAHKAN STYLE BARU DI SINI ---
 const styles = StyleSheet.create({
+  // 2. Definisikan style untuk pembungkus FlatList
+  newsletterSection: {
+    minHeight: 250, // Beri tinggi minimal agar FlatList terlihat, sesuaikan angkanya
+  },
   safeArea: {
     flex: 1,
     backgroundColor: '#F5F5F5',

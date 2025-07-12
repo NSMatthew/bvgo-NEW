@@ -60,7 +60,13 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      console.log("Mulai mengambil data newsletter...");
+
       const dataFromSupabase = await getNewsletters();
+
+      console.log("Data yang diterima dari Supabase:", dataFromSupabase);
+      console.log("Jumlah data:", dataFromSupabase.length);
+
       setAllNewsletters(dataFromSupabase);
       setLoading(false);
     };

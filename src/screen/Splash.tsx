@@ -3,15 +3,22 @@ import { View, Text, Image, StyleSheet, Linking } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/types';
 
-type SplashProps = NativeStackScreenProps<RootStackParamList, 'Splash'>;
+// --- 1. UBAH DEFINISI TIPE PROPS DI SINI ---
+// Membuat 'navigation' menjadi opsional dengan tanda tanya (?)
+type Props = {
+  navigation?: NativeStackScreenProps<RootStackParamList, 'Splash'>['navigation'];
+};
 
-const Splash = ({ navigation }: SplashProps) => {
+// Gunakan tipe 'Props' yang baru
+const Splash = ({ navigation }: Props) => {
   const useRootStack = true;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (useRootStack) {
-        navigation.navigate('Login');
+        // --- 2. GUNAKAN OPTIONAL CHAINING DI SINI ---
+        // 'navigation?.' artinya "jalankan .navigate jika navigation ada"
+        navigation?.navigate('Login');
       } else {
         Linking.openURL('myapp://login');
       }
@@ -20,6 +27,7 @@ const Splash = ({ navigation }: SplashProps) => {
     return () => clearTimeout(timeout);
   }, [navigation]);
 
+  // --- TAMPILAN DAN LAYOUT ANDA TIDAK ADA YANG BERUBAH ---
   return (
     <View style={styles.container}>
       <View style={styles.centerContent}>
@@ -42,6 +50,7 @@ const Splash = ({ navigation }: SplashProps) => {
   );
 };
 
+// --- STYLES ANDA TIDAK ADA YANG BERUBAH ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,

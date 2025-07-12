@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View, 
   Text, 
   Image, 
   TouchableOpacity, 
-  StyleSheet 
+  StyleSheet,
+  ActivityIndicator // Impor untuk loading indicator
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/types';
 import type { Session } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase'; // Impor Supabase
 
-// Import semua screen
+// --- Impor semua screen Anda (tidak berubah) ---
 import Splash from '../screen/Splash';
 import Login from '../screen/Authentication/Login';
 import VerificationEmailScreen from '../screen/Authentication/VerificationEmail';
@@ -22,7 +24,10 @@ import FAQ from '../screen/MenuSetting/FAQ';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const Navigation = ({ session }: { session: Session | null }) => {
+
+// --- BAGIAN INI TIDAK BERUBAH ---
+// Ini adalah navigator Anda yang sudah ada, saya ubah namanya menjadi AppNavigator
+const AppNavigator = ({ session }: { session: Session | null }) => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -32,7 +37,6 @@ const Navigation = ({ session }: { session: Session | null }) => {
             <Stack.Screen
               name="TeamPage"
               component={TeamPage}
-              // --- UBAH DARI OBJEK MENJADI FUNGSI DI SINI ---
               options={({ navigation }) => ({ 
                 headerShown: true, 
                 title: '',
@@ -42,10 +46,8 @@ const Navigation = ({ session }: { session: Session | null }) => {
                   fontFamily: 'Satoshi-Bold',
                 },
                 headerShadowVisible: false,
-                // 'navigation' sekarang sudah tersedia di dalam lingkup ini
                 headerLeft: () => (
                   <TouchableOpacity 
-                    // Panggilan ini sekarang valid
                     onPress={() => navigation.goBack()}
                     style={{ 
                       marginLeft: 15,
@@ -76,7 +78,6 @@ const Navigation = ({ session }: { session: Session | null }) => {
           <Stack.Screen
               name="FAQ"
               component={FAQ}
-              // --- UBAH DARI OBJEK MENJADI FUNGSI DI SINI ---
               options={({ navigation }) => ({ 
                 headerShown: true, 
                 title: '',
@@ -86,10 +87,8 @@ const Navigation = ({ session }: { session: Session | null }) => {
                   fontFamily: 'Satoshi-Bold',
                 },
                 headerShadowVisible: false,
-                // 'navigation' sekarang sudah tersedia di dalam lingkup ini
                 headerLeft: () => (
                   <TouchableOpacity 
-                    // Panggilan ini sekarang valid
                     onPress={() => navigation.goBack()}
                     style={{ 
                       marginLeft: 15,
@@ -120,7 +119,10 @@ const Navigation = ({ session }: { session: Session | null }) => {
           </>
         ) : (
           <>
-            <Stack.Screen name="Splash" component={Splash} />
+            <Stack.Screen name="Splash" component={Splash} options={{
+              // Sembunyikan splash dari back-history setelah navigasi
+              animationTypeForReplace: 'pop' 
+            }}/>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen
               name="VerificationEmail"
@@ -139,4 +141,42 @@ const Navigation = ({ session }: { session: Session | null }) => {
   );
 };
 
-export default Navigation;
+
+// --- INI SOLUSI BARUNYA ---
+// Komponen pembungkus yang memiliki 3 "kesadaran"
+const Navigation = () => {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Cek sesi saat aplikasi pertama kali dimuat
+    const fetchSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setSession(session);
+      setLoading(false);
+    };
+
+    fetchSession();
+
+    // Dengarkan perubahan status otentikasi
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  // 1. KESADARAN "LOADING"
+  if (loading) {
+    return <Splash />;
+  }
+  
+  // 2 & 3. KESADARAN "SUDAH LOGIN" ATAU "BELUM LOGIN"
+  // Kirim hasil sesi (ada atau tidak) ke navigator Anda
+  return <AppNavigator session={session} />;
+};
+
+
+export default Navigation; // Pastikan export-nya adalah komponen pembungkus yang baru

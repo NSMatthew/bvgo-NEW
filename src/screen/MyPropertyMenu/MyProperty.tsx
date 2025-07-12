@@ -84,7 +84,7 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.reviewLink}>See all reviews</Text>
         </View>
 
-        {/* --- 2. PERBAIKI BAGIAN REVIEW --- */}
+        {/* --- BAGIAN REVIEW --- */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {dummyReviews.map(review => (
             <GuestReviewCard
@@ -94,9 +94,8 @@ const MyProperty: React.FC<Props> = ({ navigation }) => {
         </ScrollView>
       </View>
 
-      {/* Section 4: Operations (Kode Anda di sini tetap sama) */}
+      {/* Section 4: Operations */}
       <View style={styles.section}>
-        {/* ... sisa kode operations Anda ... */}
          <Text style={styles.operationsTitle}>Operations</Text>
         
         <TouchableOpacity style={styles.operationItem}>

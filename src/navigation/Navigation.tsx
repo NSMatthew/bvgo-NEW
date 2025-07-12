@@ -11,7 +11,7 @@ import VerificationEmailScreen from '../screen/Authentication/VerificationEmail'
 import SetNewPasswordScreen from '../screen/Authentication/SetNewPassword';
 import BottomTabs from './BottomTabs';
 import TeamPage from '../screen/MyPropertyMenu/TeamPage'; // <-- IMPORT TeamPage
-
+import FAQ from '../screen/MenuSetting/FAQ'; 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = ({ session }: { session: Session | null }) => {
@@ -37,6 +37,18 @@ const Navigation = ({ session }: { session: Session | null }) => {
                 headerShadowVisible: false,
               }}
             />
+             <Stack.Screen
+                name="FAQ"
+                component={FAQ}
+                options={{
+                  headerShown: true,
+                  title: 'FAQ',
+                  headerStyle: { backgroundColor: '#fff' },
+                  headerTintColor: '#1076BC',
+                  headerTitleStyle: { fontFamily: 'Satoshi-Bold' },
+                  headerShadowVisible: false,
+    }}
+  />
             {/* Anda bisa mendaftarkan layar detail lainnya di sini */}
           </>
         ) : (

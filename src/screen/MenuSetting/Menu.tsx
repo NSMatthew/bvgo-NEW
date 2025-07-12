@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/types';
@@ -12,25 +11,16 @@ const Menu = () => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }}>
-      {/* Warning */}
-      <View style={styles.warningBox}>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.warningTitle}>Complete your profile</Text>
-          <Text style={styles.warningSubtitle}>You have missing information on your profile</Text>
-        </View>
-        <TouchableOpacity style={styles.editButton}>
-          <Icon name="pencil" size={20} color="white" />
-          <Text style={styles.editButtonText}>Edit now</Text>
-        </TouchableOpacity>
-      </View>
 
       {/* Profile Info */}
       <View style={styles.profileContainer}>
         <View style={styles.avatarPlaceholder}>
-          <Icon name="person" size={50} color="#888" />
+        <Image 
+            source={require('../../assets/images/guest1.png')}
+            />
         </View>
         <View style={{ marginLeft: 12 }}>
-          <Text style={styles.profileName}>Kayla Asri Maharani</Text>
+          <Text style={styles.profileName}>Jordan</Text>
           <Text style={styles.profileRole}>Operational Manager</Text>
         </View>
       </View>
@@ -38,20 +28,29 @@ const Menu = () => {
       {/* Stats */}
       <View style={styles.statsContainer}>
         <View style={styles.statBox}>
-          <Text style={styles.statNumber}>8</Text>
-          <Icon name="home-outline" size={20} color="#FFA500" style={{ position: 'absolute', top: 10, right: 10 }} />
+          <Text style={styles.statNumber}>100</Text>
+          <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
           <Text style={styles.statLabel}>Guest hosted</Text>
           <View style={styles.statUnderline} />
         </View>
         <View style={styles.statBox}>
-          <Text style={styles.statNumber}>Average</Text>
-          <Icon name="star-outline" size={20} color="#FFA500" style={{ position: 'absolute', top: 10, right: 10 }} />
-          <Text style={styles.statLabel}>review</Text>
+          <Text style={styles.statNumber}>4.7</Text>
+          <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
+          <Text style={styles.statLabel}>Average review</Text>
           <View style={styles.statUnderline} />
         </View>
         <View style={styles.statBox}>
-          <Text style={styles.statNumber}>1.9</Text>
-          <Icon name="time-outline" size={20} color="#FFA500" style={{ position: 'absolute', top: 10, right: 10 }} />
+          <Text style={styles.statNumber}>5</Text>
+          <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
           <Text style={styles.statLabel}>Years hosting</Text>
           <View style={styles.statUnderline} />
         </View>
@@ -61,50 +60,88 @@ const Menu = () => {
       <View style={styles.menuSection}>
         <Text style={styles.sectionTitle}>Account Settings</Text>
         <TouchableOpacity style={styles.menuItem}>
-          <Icon name="person-outline" size={22} color="#444" />
+        <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
           <Text style={styles.menuText}>Edit Personal Information</Text>
-          <Icon name="chevron-forward" size={20} color="#999" />
+          <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
-          <Icon name="settings-outline" size={22} color="#444" />
+        <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
           <Text style={styles.menuText}>Configuration</Text>
-          <Icon name="chevron-forward" size={20} color="#999" />
+          <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
         </TouchableOpacity>
       </View>
 
       <View style={styles.menuSection}>
         <Text style={styles.sectionTitle}>General</Text>
         <TouchableOpacity style={styles.menuItem}>
-          <Icon name="document-text-outline" size={22} color="#444" />
+        <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
           <Text style={styles.menuText}>Term of Service</Text>
-          <Icon name="chevron-forward" size={20} color="#999" />
+          <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
-          <Icon name="lock-closed-outline" size={22} color="#444" />
+        <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
           <Text style={styles.menuText}>Privacy Policy</Text>
-          <Icon name="chevron-forward" size={20} color="#999" />
+          <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
         </TouchableOpacity>
         {/* FAQ menu item */}
         <TouchableOpacity
           style={styles.menuItem}
           onPress={() => navigation.navigate("FAQ")}  // Navigasi ke FAQ screen
         >
-          <Icon name="help-circle-outline" size={22} color="#444" />
+           <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
           <Text style={styles.menuText}>FAQ</Text>
-          <Icon name="chevron-forward" size={20} color="#999" />
+          <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
         </TouchableOpacity>
       </View>
 
       {/* Account Section */}
       <TouchableOpacity style={styles.menuItem}>
-        <Icon name="person-circle-outline" size={22} color="#444" />
+      <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
         <Text style={styles.menuText}>Account</Text>
-        <Icon name="chevron-forward" size={20} color="#999" />
+        <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            style={{ width: 20, height: 20, tintColor: '#FFA500', position: 'absolute', top: 10, right: 10 }}
+            />
       </TouchableOpacity>
 
       {/* Logout */}
       <TouchableOpacity style={styles.logoutButton}>
-        <Icon name="power-outline" size={22} color="#d33" />
+      <Image 
+            source={require('../../assets/icons/nextarrowgray.png')}
+            />
         <Text style={styles.logoutText}>Log out</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -152,8 +189,8 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   avatarPlaceholder: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderRadius: 40,
     backgroundColor: '#ddd',
     justifyContent: 'center',
@@ -183,12 +220,12 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   statNumber: {
-    fontWeight: '700',
-    fontSize: 24,
+    fontWeight: '600',
+    fontSize: 20,
     marginBottom: 6,
   },
   statLabel: {
-    fontWeight: '500',
+    fontWeight: '400',
     fontSize: 14,
   },
   statUnderline: {

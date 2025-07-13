@@ -21,58 +21,45 @@ type VerificationEmailScreenProps = {
 const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [codeSent, setCodeSent] = useState(false); // State untuk mengubah tampilan
+  const [codeSent, setCodeSent] = useState(false);
 
-  // --- State & Logic untuk OTP Input ---
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
   const inputs = useRef<TextInput[]>([]);
 
-  // Fungsi untuk meminta kode OTP
+  // --- FUNGSI INI DIUBAH SEPENUHNYA ---
+  // Sekarang menggunakan fitur reset password bawaan Supabase
   const handleRequestCode = async () => {
     if (email === '') {
       Alert.alert('Email required', 'Please enter your email address.');
       return;
     }
     setLoading(true);
-  
-    // --- Console Log Ditambahkan Di Sini ---
-    console.log(`Mencoba memanggil Edge Function 'send-otp' dengan email: ${email}`);
-  
-    try {
-      const { data, error } = await supabase.functions.invoke('send-otp', {
-        body: { email },
-      });
-  
-      // Log apapun respons yang kembali, baik data maupun error
-      console.log('Respons dari Edge Function:', { data, error });
-  
-      if (error) {
-        // Kita log seluruh objek error untuk detail yang lebih lengkap
-        console.error('Detail Error dari Edge Function:', JSON.stringify(error, null, 2));
-        Alert.alert('Error', `Edge Function failed: ${error.message}`);
-      } else {
-        Alert.alert('Code Sent', `A confirmation code has been sent to ${email}.`);
-        setCodeSent(true);
-      }
-    } catch (catchError) {
-      // Menangkap error yang mungkin lebih fatal (misal: network error)
-      console.error('Error saat memanggil invoke:', catchError);
-      Alert.alert('Invoke Error', 'Failed to invoke the edge function.');
-    }
-  
+
+    // Menggunakan fitur reset password bawaan yang terhubung ke SMTP Resend
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+
     setLoading(false);
+
+    if (error) {
+      console.error("Error dari Supabase Auth:", error);
+      Alert.alert('Error', error.message);
+    } else {
+      // Memberi tahu pengguna untuk mengecek email mereka
+      Alert.alert(
+        'Check your email',
+        `If ${email} is a registered account, a password reset OTP has been sent.`
+      );
+      // Tetap menampilkan input OTP
+      setCodeSent(true);
+    }
   };
   
-  // --- FUNGSI DIPERBARUI ---
-  // Fungsi ini tidak lagi memverifikasi, hanya menavigasi dengan membawa data
+  // Fungsi ini tidak diubah, karena hanya meneruskan data ke halaman selanjutnya
   const handleVerifyCode = (code: string) => {
-    // Kita tidak verifikasi di sini lagi.
-    // Langsung navigasi ke halaman berikutnya sambil membawa email dan OTP.
     navigation.navigate('SetNewPassword', { email: email, otp: code });
   };
 
-  // Efek untuk memanggil navigasi saat 6 digit OTP sudah terisi
-  // Logika ini tetap sama dan akan memanggil handleVerifyCode yang baru
+  // useEffect ini juga tidak diubah
   useEffect(() => {
     const code = otp.join('');
     if (code.length === 6) {
@@ -81,9 +68,8 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
   }, [otp]);
 
 
-  // --- Render Tampilan (TIDAK ADA PERUBAHAN DI SINI) ---
+  // --- TAMPILAN TIDAK ADA YANG DIUBAH ---
 
-  // Tampilan untuk memasukkan email
   const renderEmailInputView = () => (
     <>
       <Text style={styles.subtitle}>
@@ -130,7 +116,6 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
     </>
   );
 
-  // Tampilan untuk memasukkan kode OTP
   const renderOtpInputView = () => (
     <>
       <Text style={styles.subtitle}>Enter your confirmation code</Text>
@@ -144,8 +129,8 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
               }
             }}
             style={[
-                styles.otpInput,
-                digit ? styles.otpInputFilled : null
+              styles.otpInput,
+              digit ? styles.otpInputFilled : null
             ]}
             keyboardType="number-pad"
             maxLength={1}
@@ -187,7 +172,6 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
   );
 };
 
-// --- STYLES (TIDAK ADA PERUBAHAN DI SINI) ---
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#fff' },
   container: {

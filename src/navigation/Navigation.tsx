@@ -124,7 +124,7 @@ const AppNavigator = ({ session }: { session: Session | null }) => {
               animationTypeForReplace: 'pop' 
             }}/>
             <Stack.Screen name="Login" component={Login} />
-                     <Stack.Screen
+              <Stack.Screen
               name="VerificationEmail"
               component={VerificationEmailScreen}
               options={({ navigation }) => ({ 
@@ -165,10 +165,46 @@ const AppNavigator = ({ session }: { session: Session | null }) => {
                 ),
               })}
             />
-            <Stack.Screen
+           <Stack.Screen
               name="SetNewPassword"
               component={SetNewPasswordScreen}
-              options={{ headerShown: true, title: 'Set New Password' }}
+              options={({ navigation }) => ({ 
+                headerShown: false, 
+                title: '',
+                headerStyle: { backgroundColor: '#fff' },
+                headerTintColor: '#1076BC',
+                headerTitleStyle: { 
+                  fontFamily: 'Satoshi-Bold',
+                },
+                headerShadowVisible: false,
+                headerLeft: () => (
+                  <TouchableOpacity 
+                    onPress={() => navigation.goBack()}
+                    style={{ 
+                      marginLeft: 15,
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Image
+                      source={require('../assets/icons/backbutton.png')}
+                      style={{ 
+                        width: 15, 
+                        height: 15,
+                        tintColor: '#1076BC'
+                      }}
+                    />
+                    <Text style={{ 
+                      color: '#1076BC', 
+                      marginLeft: 75,
+                      fontSize: 20, 
+                      fontWeight: '600', 
+                    }}>
+                      Set New Password
+                    </Text>
+                  </TouchableOpacity>
+                ),
+              })}
             />
           </>
         )}

@@ -16,7 +16,7 @@ import { Typography } from '../../styles/typography';
 
 type SetNewPasswordScreenProps = {
   navigation: any;
-  route: any; // Untuk menerima data dari layar sebelumnya
+  route: any;
 };
 
 const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) => {
@@ -24,14 +24,14 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   
-  // --- PERUBAHAN DI SINI ---
-  // Ambil email dan otp dari parameter navigasi
+  // --- 1. TAMBAHKAN STATE UNTUK MELACAK FOKUS INPUT ---
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] = useState(false);
+  
   const { email, otp } = route.params;
 
-  // --- FUNGSI DIPERBARUI ---
   const handleSetNewPassword = async () => {
     if (password.length < 6) {
-      // Supabase punya aturan minimal 6 karakter, jadi kita samakan
       Alert.alert('Password too short', 'Password should be at least 6 characters.');
       return;
     }
@@ -42,29 +42,37 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
 
     setLoading(true);
     
-    // Panggil Edge Function 'verifikasi-dan-update'
-    // Saya ganti namanya ke Bahasa Inggris agar konsisten: 'verify-and-update'
-    // Jika Anda menggunakan nama lain saat deploy, sesuaikan di sini.
-    const { error } = await supabase.functions.invoke('verify-and-update', {
-      body: { email, otp, newPassword: password },
+    const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
+      email: email,
+      token: otp,
+      type: 'recovery',
+    });
+    
+    if (verifyError) {
+      setLoading(false);
+      Alert.alert('Invalid Code', verifyError.message);
+      return; 
+    }
+
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: password,
     });
 
-    if (error) {
-      Alert.alert('Error', error.message);
+    setLoading(false);
+
+    if (updateError) {
+      Alert.alert('Error Updating Password', updateError.message);
     } else {
       Alert.alert(
         'Password Updated',
         'Your password has been updated successfully. Please login with your new password.'
       );
-      // Arahkan user kembali ke halaman Login
       navigation.navigate('Login');
     }
-    setLoading(false);
   };
 
   const isFormFilled = password.length > 0 && confirmPassword.length > 0;
 
-  // --- Render Tampilan (TIDAK ADA PERUBAHAN DI SINI) ---
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
@@ -76,21 +84,34 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
         />
         <Text style={styles.subtitle}>Set your new password</Text>
         
+        {/* --- 2. PERBARUI PROPS TextInput PERTAMA --- */}
         <TextInput
-          style={styles.input}
+          style={[
+            styles.input,
+            isPasswordFocused && styles.inputFocused // Terapkan style jika fokus
+          ]}
           placeholder="New password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           editable={!loading}
+          onFocus={() => setIsPasswordFocused(true)} // Set state fokus ke true
+          onBlur={() => setIsPasswordFocused(false)} // Kembalikan ke false saat tidak fokus
         />
+        {/* --- 2. PERBARUI PROPS TextInput KEDUA --- */}
         <TextInput
-          style={[styles.input, {marginTop: 15}]}
-          placeholder="Confirm new password"
+          style={[
+            styles.input, 
+            {marginTop: 15},
+            isConfirmPasswordFocused && styles.inputFocused // Terapkan style jika fokus
+          ]}
+          placeholder="Confirm password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
           editable={!loading}
+          onFocus={() => setIsConfirmPasswordFocused(true)} // Set state fokus ke true
+          onBlur={() => setIsConfirmPasswordFocused(false)} // Kembalikan ke false saat tidak fokus
         />
 
         <TouchableOpacity
@@ -115,7 +136,6 @@ const SetNewPasswordScreen = ({ navigation, route }: SetNewPasswordScreenProps) 
   );
 };
 
-// --- STYLES (TIDAK ADA PERUBAHAN DI SINI) ---
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#fff' },
   container: {
@@ -131,8 +151,8 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   subtitle: {
-    ...Typography.heading,
-    fontFamily: 'Satoshi-Medium',
+    ...Typography.body, // Diubah dari heading
+    fontFamily: 'Satoshi', // Diubah dari medium
     textAlign: 'center',
     marginBottom: 30,
   },
@@ -145,6 +165,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     ...Typography.body,
     backgroundColor: '#F7F7F7',
+  },
+  // --- 3. TAMBAHKAN STYLE BARU UNTUK KONDISI FOKUS ---
+  inputFocused: {
+    borderColor: '#1076BC', // Warna biru saat input aktif
   },
   button: {
     width: '100%',

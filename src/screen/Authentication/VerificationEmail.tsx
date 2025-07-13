@@ -27,27 +27,39 @@ const VerificationEmailScreen = ({ navigation }: VerificationEmailScreenProps) =
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
   const inputs = useRef<TextInput[]>([]);
 
-  // --- FUNGSI DIPERBARUI ---
-  // Fungsi untuk meminta kode OTP dengan memanggil Edge Function
+  // Fungsi untuk meminta kode OTP
   const handleRequestCode = async () => {
     if (email === '') {
       Alert.alert('Email required', 'Please enter your email address.');
       return;
     }
     setLoading(true);
-    
-    // Panggil Edge Function 'send-otp' yang sudah kita buat
-    // Ingat, saya menggunakan nama 'send-otp' sesuai permintaan Anda
-    const { error } = await supabase.functions.invoke('send-otp', {
-      body: { email },
-    });
-
-    if (error) {
-      Alert.alert('Error', error.message);
-    } else {
-      Alert.alert('Code Sent', `A confirmation code has been sent to ${email}.`);
-      setCodeSent(true); // Ubah tampilan ke mode input OTP
+  
+    // --- Console Log Ditambahkan Di Sini ---
+    console.log(`Mencoba memanggil Edge Function 'send-otp' dengan email: ${email}`);
+  
+    try {
+      const { data, error } = await supabase.functions.invoke('send-otp', {
+        body: { email },
+      });
+  
+      // Log apapun respons yang kembali, baik data maupun error
+      console.log('Respons dari Edge Function:', { data, error });
+  
+      if (error) {
+        // Kita log seluruh objek error untuk detail yang lebih lengkap
+        console.error('Detail Error dari Edge Function:', JSON.stringify(error, null, 2));
+        Alert.alert('Error', `Edge Function failed: ${error.message}`);
+      } else {
+        Alert.alert('Code Sent', `A confirmation code has been sent to ${email}.`);
+        setCodeSent(true);
+      }
+    } catch (catchError) {
+      // Menangkap error yang mungkin lebih fatal (misal: network error)
+      console.error('Error saat memanggil invoke:', catchError);
+      Alert.alert('Invoke Error', 'Failed to invoke the edge function.');
     }
+  
     setLoading(false);
   };
   

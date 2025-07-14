@@ -1,83 +1,162 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, StyleProp, TextStyle, ImageStyle, ViewStyle, TouchableOpacity } from 'react-native';
 
+// Tipe untuk status tugas, bisa diperluas jika ada status lain
 type Status = 'New' | 'Ongoing' | 'Done';
 
+// Tipe untuk props komponen. Nama prop dipertahankan agar konsisten dengan kode lama,
+// dengan tambahan prop baru untuk detail tugas.
 type TeamCardProps = {
+  taskTitle: string;
+  taskDescription: string;
+  dueDate: string;
+  isOverdue?: boolean; // Prop opsional untuk menandai tugas yang telat
   name: string;
   role: string;
   status: Status;
   avatar: any;
-  onStatusPress?: () => void;  // Tambahan callback props
+  onStatusPress?: () => void;
 };
 
-const TeamCard = ({ name, role, status, avatar, onStatusPress }: TeamCardProps) => {
+const TeamCard = ({
+  taskTitle,
+  taskDescription,
+  dueDate,
+  isOverdue = false,
+  name,
+  role,
+  status,
+  avatar,
+  onStatusPress
+}: TeamCardProps) => {
   return (
+    // Container utama untuk kartu tugas
     <View style={styles.card}>
-      <Image source={avatar} style={styles.avatar} />
-      <View style={styles.textContainer}>
-        <Text style={styles.teamName}>{name}</Text>
-        <Text style={styles.teamRole}>{role}</Text>
-        <TouchableOpacity onPress={onStatusPress}>
-          <Text style={[styles.statusLabel, styles[status] as StyleProp<TextStyle>]}>{status}</Text>
-        </TouchableOpacity>
+      {/* Bagian Atas: Judul, Deskripsi, dan Tenggat Waktu */}
+      <View style={styles.taskInfoContainer}>
+        <Text style={styles.taskTitle}>{taskTitle}</Text>
+        <Text style={styles.taskDescription}>{taskDescription}</Text>
+        <Text style={[styles.dueDate, isOverdue && styles.dueDateOverdue]}>
+          Due date: {dueDate}
+        </Text>
       </View>
+
+      {/* Bagian Tengah: Informasi Anggota Tim yang Bertugas */}
+      <View style={styles.assigneeContainer}>
+        <Image source={avatar} style={styles.avatar} />
+        <View>
+          <Text style={styles.assigneeName}>{name}</Text>
+          <Text style={styles.assigneeRole}>{role}</Text>
+        </View>
+      </View>
+
+      {/* Bagian Bawah: Tombol Status Tugas */}
+      <TouchableOpacity onPress={onStatusPress} style={[styles.statusButton, styles[status]]}>
+        <Text style={styles.statusButtonText}>{status}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
+// StyleSheet untuk semua elemen dalam komponen
+// Menggunakan warna dan tipografi sesuai permintaan
 const styles = StyleSheet.create<{
   card: ViewStyle;
+  taskInfoContainer: ViewStyle;
+  taskTitle: TextStyle;
+  taskDescription: TextStyle;
+  dueDate: TextStyle;
+  dueDateOverdue: TextStyle;
+  assigneeContainer: ViewStyle;
   avatar: ImageStyle;
-  textContainer: ViewStyle;
-  teamName: TextStyle;
-  teamRole: TextStyle;
-  statusLabel: TextStyle;
-  New: TextStyle;
-  Ongoing: TextStyle;
-  Done: TextStyle;
+  assigneeName: TextStyle;
+  assigneeRole: TextStyle;
+  statusButton: ViewStyle;
+  statusButtonText: TextStyle;
+  New: ViewStyle;
+  Ongoing: ViewStyle;
+  Done: ViewStyle;
 }>({
   card: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 12,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 20,
     marginBottom: 16,
+    // Efek bayangan untuk iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    // Efek bayangan untuk Android
     elevation: 3,
   },
+  taskInfoContainer: {
+    marginBottom: 16,
+  },
+  taskTitle: {
+    // Pastikan font 'Satoshi-Bold' sudah di-load di proyek Anda
+    fontFamily: 'Satoshi-Bold',
+    fontSize: 20,
+    color: '#0E0E0E',
+    marginBottom: 4,
+  },
+  taskDescription: {
+    // Pastikan font 'Satoshi-Regular' sudah di-load di proyek Anda
+    fontFamily: 'Satoshi-Regular',
+    fontSize: 16,
+    color: '#0E0E0E',
+    marginBottom: 8,
+  },
+  dueDate: {
+    fontFamily: 'Satoshi-Regular',
+    fontSize: 14,
+    color: '#5B5E6B',
+  },
+  dueDateOverdue: {
+    color: '#DD0101', // Warna merah untuk tugas yang telat
+  },
+  assigneeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 40,
+    height: 40,
+    borderRadius: 20, // Membuat avatar menjadi lingkaran
     marginRight: 12,
   },
-  textContainer: {
-    justifyContent: 'center',
-  },
-  teamName: {
+  assigneeName: {
+    fontFamily: 'Satoshi-Bold',
     fontSize: 16,
-    fontWeight: 'bold',
+    color: '#0E0E0E',
   },
-  teamRole: {
+  assigneeRole: {
+    fontFamily: 'Satoshi-Regular',
     fontSize: 14,
-    color: '#777',
+    color: '#5B5E6B',
   },
-  statusLabel: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    padding: 4,
-    borderRadius: 4,
+  statusButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignSelf: 'flex-start', // Membuat tombol tidak memenuhi lebar kartu
+  },
+  statusButtonText: {
+    fontFamily: 'Satoshi-Bold',
+    fontSize: 14,
+    color: '#FFFFFF',
     textAlign: 'center',
-    color: '#fff',
   },
+
   New: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#1076BC',
   },
   Ongoing: {
-    backgroundColor: '#FFA500',
+    backgroundColor: '#F69322', 
   },
   Done: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#078564',
   },
 });
 

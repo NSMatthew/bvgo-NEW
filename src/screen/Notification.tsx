@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#e6f0ff',
+    backgroundColor: '#fff',
   },
   filterText: {
     fontWeight: '600',

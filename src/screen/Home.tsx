@@ -164,13 +164,14 @@ const Home = () => {
 const styles = StyleSheet.create({
   // 2. Definisikan style untuk pembungkus FlatList
   newsletterSection: {
-    minHeight: 250, // Beri tinggi minimal agar FlatList terlihat, sesuaikan angkanya
+    minHeight: 300, // Beri tinggi minimal agar FlatList terlihat, sesuaikan angkanya
   },
   safeArea: {
     flex: 1,
     backgroundColor: '#F5F5F5',
   },
   container: {
+    marginTop: 20,
     paddingBottom: 50,
   },
   searchAndFilterWrapper: {

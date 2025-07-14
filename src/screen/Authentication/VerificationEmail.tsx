@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   disabledButton: { backgroundColor: '#A0CDEE' },
   buttonText: { ...Typography.heading, color: '#fff' },
   confirmIcon: { position: 'absolute', right: 10, width: 30, height: 30 },
-  orText: { ...Typography.body, marginVertical: 20 },
+  orText: { ...Typography.body, marginTop: 20, marginBottom:-5 },
   backButton: { backgroundColor: '#E9EAEC' },
   backButtonText: { ...Typography.heading, color: '#5B5E6B' },
   backIcon: { width: 30, height: 30, position: 'absolute', left: 10 },

@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    marginTop: 40,
     backgroundColor: "#FFFFFF",
     alignItems: "center",
   },
@@ -152,6 +151,7 @@ const styles = StyleSheet.create({
     height: 70,
     resizeMode: "contain",
     marginBottom: 20,
+    marginTop: 80,
   },
   description: {
     ...Typography.subheading, // Terapkan Typography
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     height: 50, // Samakan tinggi tombol
   },
   disabledButton: {
-    backgroundColor: "#A0CDEE",
+    backgroundColor: "#5B5E6B",
   },
   loginButtonText: {
     ...Typography.heading, // Terapkan Typography
@@ -219,8 +219,9 @@ const styles = StyleSheet.create({
   },
   orText: {
     ...Typography.body, // Terapkan Typography
-    color: "#515C6F",
-    marginVertical: 12,
+    color: "#5B5E6B",
+    marginTop: 5,
+    marginBottom: 20,
   },
   googleButton: {
     flexDirection: "row",

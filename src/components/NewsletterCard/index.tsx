@@ -24,15 +24,12 @@ const NewsletterCard = ({ data }: Props) => {
   const [dislikeCount, setDislikeCount] = useState(0);
   const [voteStatus, setVoteStatus] = useState<VoteStatus>('none');
 
-  // --- FUNGSI UNTUK MENANGANI VOTE ---
   const handleVote = (type: 'like' | 'dislike') => {
     if (type === 'like') {
       if (voteStatus === 'liked') {
-        // Batal like
         setLikeCount(likeCount - 1);
         setVoteStatus('none');
       } else {
-        // Like baru
         setLikeCount(likeCount + 1);
         if (voteStatus === 'disliked') {
           setDislikeCount(dislikeCount - 1);
@@ -41,11 +38,9 @@ const NewsletterCard = ({ data }: Props) => {
       }
     } else if (type === 'dislike') {
       if (voteStatus === 'disliked') {
-        // Batal dislike
         setDislikeCount(dislikeCount - 1);
         setVoteStatus('none');
       } else {
-        // Dislike baru
         setDislikeCount(dislikeCount + 1);
         if (voteStatus === 'liked') {
           setLikeCount(likeCount - 1);
@@ -55,7 +50,6 @@ const NewsletterCard = ({ data }: Props) => {
     }
   };
 
-  // --- 5. TENTUKAN SUMBER IKON SECARA DINAMIS ---
   const likeIconSource = voteStatus === 'liked'
     ? require('../../assets/icons/likeactive.png')
     : require('../../assets/icons/like.png');
@@ -66,6 +60,7 @@ const NewsletterCard = ({ data }: Props) => {
 
   return (
     <View style={styles.card}>
+      {/* Konten kartu tidak berubah */}
       <View style={styles.header}>
         <Image
           source={require('../../assets/images/AvatarPublisher.png')}
@@ -76,16 +71,14 @@ const NewsletterCard = ({ data }: Props) => {
           <Text style={styles.time}>{formattedDate}</Text>
         </View>
       </View>
-
       <Text style={styles.category}>Pricing Adjustment</Text>
       <Text style={styles.title}>{data.title}</Text>
-
       <Image
         source={require('../../assets/images/news1.png')}
         style={styles.image}
       />
 
-      {/* --- 6. HUBUNGKAN FUNGSI DAN STATE KE FOOTER --- */}
+      {/* Footer sekarang diposisikan secara absolut */}
       <View style={styles.footer}>
         <FooterIcon 
           iconSource={likeIconSource} 
@@ -97,7 +90,6 @@ const NewsletterCard = ({ data }: Props) => {
           count={dislikeCount} 
           onPress={() => handleVote('dislike')} 
         />
-        {/* Tombol comment tetap statis sesuai permintaan */}
         <FooterIcon 
           iconSource={require('../../assets/icons/comment.png')} 
           count={0} 
@@ -110,10 +102,11 @@ const NewsletterCard = ({ data }: Props) => {
 const styles = StyleSheet.create({
   card: {
     width: 280,
-    height: 350,
+    // height: 350, // <-- SOLUSI: Hapus baris ini
     marginRight: 16,
     backgroundColor: '#fff',
     padding: 12,
+    paddingBottom: 40, // Menambah padding bawah agar ada ruang untuk footer absolut
     borderRadius: 10,
     elevation: 3,
     shadowColor: '#000',
@@ -163,11 +156,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 160,
     borderRadius: 8,
+    marginBottom: 10, // Memberi sedikit jarak dari gambar ke footer
   },
   footer: {
+    position: 'absolute',
+    bottom: 12,
+    left: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
   },
   footerIconContainer: {
     flexDirection: 'row',
@@ -178,7 +174,6 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     resizeMode: 'contain',
-    position: 'relative',
   },
   footerIconText: {
     marginLeft: 4,

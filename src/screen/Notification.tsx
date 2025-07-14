@@ -114,13 +114,13 @@ const Notification = () => {
 const styles = StyleSheet.create({
   header: {
     padding: 16,
-    backgroundColor: '#007BC1',
+    backgroundColor: '#fff',
     alignItems: 'center',
   },
   headerTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#1076BC',
   },
   filterContainer: {
     flexDirection: 'row',

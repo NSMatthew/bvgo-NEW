@@ -51,8 +51,8 @@ const TaskModal = ({ visible, taskName, taskStatus, onSave, onCancel }: TaskModa
           </View>
 
           <View style={styles.buttons}>
-            <TouchableOpacity onPress={onCancel} style={styles.button}>
-              <Text style={styles.buttonText}>Cancel</Text>
+            <TouchableOpacity onPress={onCancel} style={styles.button2}>
+              <Text style={styles.buttonText2}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => onSave(status)} style={styles.button}>
               <Text style={styles.buttonText}>Save</Text>
@@ -106,8 +106,20 @@ const styles = StyleSheet.create({
     width: '45%',
     alignItems: 'center',
   },
+  button2: {
+    padding: 10,
+    borderRadius: 8,
+    borderColor: '#1076BC',
+    borderWidth: 1,
+    width: '45%',
+    alignItems: 'center',
+  },
   buttonText: {
     color: '#fff',
+    fontSize: 16,
+  },
+  buttonText2: {
+    color: '#1076BC',
     fontSize: 16,
   },
 });

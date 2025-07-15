@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   SafeAreaView,
-  Alert, // SOLUSI: Impor Alert dari react-native
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createClient } from '@supabase/supabase-js';
@@ -30,9 +30,11 @@ type TaskWithAssignee = {
   description: string;
   status: 'New' | 'Ongoing' | 'Done';
   due_date: string;
-  assignee: { // SOLUSI: Ubah tipe agar menerima array objek
+  assignee: {
     full_name: string;
     role: string;
+    // SOLUSI: Tambahkan avatar_url ke dalam tipe data
+    avatar_url: string | null;
   }[] | null;
 };
 
@@ -40,24 +42,22 @@ const TeamPage = () => {
   const navigation = useNavigation();
 
   // --- State Management ---
-  const [tasks, setTasks] = useState<TaskWithAssignee[]>([]); // Menyimpan data dari Supabase
-  const [loading, setLoading] = useState(true); // Status loading
-  const [error, setError] = useState<string | null>(null); // Status error
-  const [statusFilter, setStatusFilter] = useState<Status>('All'); // State untuk filter
-  const [modalVisible, setModalVisible] = useState(false); // State untuk modal
-  const [selectedTask, setSelectedTask] = useState<TaskWithAssignee | null>(null); // Tugas yang dipilih untuk modal
+  const [tasks, setTasks] = useState<TaskWithAssignee[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<Status>('All');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<TaskWithAssignee | null>(null);
 
   // --- Pengambilan Data & Real-time ---
   useEffect(() => {
-    // Fungsi untuk mengambil data dari Supabase
     const fetchTasks = async () => {
       try {
-        // Query untuk mengambil data tugas beserta data assignee yang terhubung
         const { data, error: fetchError } = await supabase
           .from('tasks')
           .select(`
             id, title, description, status, due_date,
-            assignee:assignee_id (full_name, role)
+            assignee:assignee_id (full_name, role, avatar_url)
           `)
           .order('due_date', { ascending: true });
 
@@ -72,20 +72,18 @@ const TeamPage = () => {
       }
     };
 
-    fetchTasks(); // Panggil saat komponen pertama kali dimuat
+    fetchTasks();
 
-    // Pengaturan Real-time untuk mendengarkan perubahan pada tabel 'tasks'
     const channel = supabase
       .channel('realtime-tasks')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tasks' },
         (payload) => {
           console.log('Perubahan terdeteksi!', payload);
-          fetchTasks(); // Ambil data lagi jika ada perubahan
+          fetchTasks();
         }
       )
       .subscribe();
 
-    // Cleanup function untuk berhenti mendengarkan saat komponen unmount
     return () => {
       supabase.removeChannel(channel);
     };
@@ -102,21 +100,17 @@ const TeamPage = () => {
     setSelectedTask(null);
   };
 
-  // Fungsi untuk menyimpan status baru ke Supabase
   const handleSaveStatus = async (newStatus: Exclude<Status, 'All'>) => {
     if (selectedTask) {
-      // Update status di tabel 'tasks' berdasarkan id tugas yang dipilih
       const { error: updateError } = await supabase
         .from('tasks')
         .update({ status: newStatus })
         .eq('id', selectedTask.id);
 
       if (updateError) {
-        // SOLUSI: Gunakan Alert.alert
         Alert.alert('Gagal memperbarui status', 'Silakan coba lagi.');
         console.error("Error updating status:", updateError);
       }
-      // UI akan otomatis update berkat listener real-time
     }
     closeTaskModal();
   };
@@ -145,11 +139,10 @@ const TeamPage = () => {
     );
   }
 
-  // Komponen untuk Header dan Filter, digunakan di dalam FlatList
   const ListHeader = () => (
     <>
       <View style={styles.header}>
-        
+        {/* ... Back button logic ... */}
       </View>
       <View style={styles.filterContainer}>
         {['All', 'New', 'Ongoing', 'Done'].map((status) => (
@@ -175,7 +168,6 @@ const TeamPage = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           const isOverdue = new Date(item.due_date) < new Date();
-          // SOLUSI: Ambil elemen pertama dari array assignee
           const assigneeInfo = Array.isArray(item.assignee) ? item.assignee[0] : item.assignee;
 
           return (
@@ -187,7 +179,7 @@ const TeamPage = () => {
               name={assigneeInfo?.full_name || 'Belum Ditugaskan'}
               role={assigneeInfo?.role || ''}
               status={item.status}
-              avatar={null} // Avatar tidak digunakan lagi
+              avatar={assigneeInfo?.avatar_url || null}
               onStatusPress={() => openTaskModal(item)}
             />
           );
@@ -198,7 +190,6 @@ const TeamPage = () => {
       {selectedTask && (
         <TaskModal
           visible={modalVisible}
-          // SOLUSI: Ambil elemen pertama dari array assignee
           taskName={`Task for ${selectedTask.assignee?.[0]?.full_name || 'Unknown'}`}
           taskStatus={selectedTask.status}
           onSave={handleSaveStatus}
@@ -253,6 +244,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     fontWeight: '500',
+    fontFamily: 'Satoshi-Regular',
   },
   activeFilterText: {
     color: '#fff',

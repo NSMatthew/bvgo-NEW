@@ -1,11 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, StyleProp, TextStyle, ImageStyle, ViewStyle, TouchableOpacity } from 'react-native';
 
-// Tipe untuk status tugas, bisa diperluas jika ada status lain
 type Status = 'New' | 'Ongoing' | 'Done';
 
-// Tipe untuk props komponen. Nama prop dipertahankan agar konsisten dengan kode lama,
-// dengan tambahan prop baru untuk detail tugas.
 type TeamCardProps = {
   taskTitle: string;
   taskDescription: string;
@@ -14,8 +11,24 @@ type TeamCardProps = {
   name: string;
   role: string;
   status: Status;
-  avatar: any;
+  avatar: string | null;
   onStatusPress?: () => void;
+};
+
+// SOLUSI: Komponen kecil untuk menampilkan avatar inisial jika tidak ada gambar
+const InitialsAvatar = ({ name }: { name: string }) => {
+  // Mengambil 1-2 huruf pertama dari nama
+  const initials = name
+    .split(' ')
+    .map(n => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+  return (
+    <View style={styles.initialsAvatarContainer}>
+      <Text style={styles.initialsText}>{initials}</Text>
+    </View>
+  );
 };
 
 const TeamCard = ({
@@ -26,7 +39,7 @@ const TeamCard = ({
   name,
   role,
   status,
-  avatar,
+  avatar, // Sekarang ini adalah URL atau null
   onStatusPress
 }: TeamCardProps) => {
   return (
@@ -43,7 +56,14 @@ const TeamCard = ({
 
       {/* Bagian Tengah: Informasi Anggota Tim yang Bertugas */}
       <View style={styles.assigneeContainer}>
-        <Image source={avatar} style={styles.avatar} />
+        {/* SOLUSI: Logika untuk menampilkan avatar */}
+        {avatar ? (
+          // Jika prop 'avatar' berisi URL, tampilkan gambar dari URL tersebut
+          <Image source={{ uri: avatar }} style={styles.avatar} />
+        ) : (
+          // Jika 'avatar' null, tampilkan komponen InitialsAvatar
+          <InitialsAvatar name={name} />
+        )}
         <View>
           <Text style={styles.assigneeName}>{name}</Text>
           <Text style={styles.assigneeRole}>{role}</Text>
@@ -59,7 +79,6 @@ const TeamCard = ({
 };
 
 // StyleSheet untuk semua elemen dalam komponen
-// Menggunakan warna dan tipografi sesuai permintaan
 const styles = StyleSheet.create<{
   card: ViewStyle;
   taskInfoContainer: ViewStyle;
@@ -69,6 +88,9 @@ const styles = StyleSheet.create<{
   dueDateOverdue: TextStyle;
   assigneeContainer: ViewStyle;
   avatar: ImageStyle;
+  // SOLUSI: Menambahkan style untuk InitialsAvatar
+  initialsAvatarContainer: ViewStyle;
+  initialsText: TextStyle;
   assigneeName: TextStyle;
   assigneeRole: TextStyle;
   statusButton: ViewStyle;
@@ -94,14 +116,12 @@ const styles = StyleSheet.create<{
     marginBottom: 16,
   },
   taskTitle: {
-    // Pastikan font 'Satoshi-Bold' sudah di-load di proyek Anda
     fontFamily: 'Satoshi-Bold',
     fontSize: 20,
     color: '#0E0E0E',
     marginBottom: 4,
   },
   taskDescription: {
-    // Pastikan font 'Satoshi-Regular' sudah di-load di proyek Anda
     fontFamily: 'Satoshi-Regular',
     fontSize: 16,
     color: '#0E0E0E',
@@ -113,7 +133,7 @@ const styles = StyleSheet.create<{
     color: '#5B5E6B',
   },
   dueDateOverdue: {
-    color: '#DD0101', // Warna merah untuk tugas yang telat
+    color: '#DD0101',
   },
   assigneeContainer: {
     flexDirection: 'row',
@@ -123,8 +143,24 @@ const styles = StyleSheet.create<{
   avatar: {
     width: 40,
     height: 40,
-    borderRadius: 20, // Membuat avatar menjadi lingkaran
+    borderRadius: 20,
     marginRight: 12,
+    backgroundColor: '#E0E0E0', // Warna latar belakang sementara gambar dimuat
+  },
+  // SOLUSI: Style untuk komponen InitialsAvatar
+  initialsAvatarContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 12,
+    backgroundColor: '#1076BC', // Warna latar belakang untuk inisial
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  initialsText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   assigneeName: {
     fontFamily: 'Satoshi-Bold',
@@ -140,7 +176,7 @@ const styles = StyleSheet.create<{
     paddingVertical: 10,
     paddingHorizontal: 24,
     borderRadius: 8,
-    alignSelf: 'flex-start', // Membuat tombol tidak memenuhi lebar kartu
+    alignSelf: 'flex-start',
   },
   statusButtonText: {
     fontFamily: 'Satoshi-Bold',
@@ -148,12 +184,11 @@ const styles = StyleSheet.create<{
     color: '#FFFFFF',
     textAlign: 'center',
   },
-
   New: {
     backgroundColor: '#1076BC',
   },
   Ongoing: {
-    backgroundColor: '#F69322', 
+    backgroundColor: '#F69322',
   },
   Done: {
     backgroundColor: '#078564',

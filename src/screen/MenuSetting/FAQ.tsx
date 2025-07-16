@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-// Definisikan tipe untuk FAQ
 interface FAQItemProps {
   question: string;
   answer: string;

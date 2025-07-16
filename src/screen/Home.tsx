@@ -96,10 +96,8 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        {/* Slider Announcement tidak diubah */}
         <SliderAnnouncement data={announcementData} />
 
-        {/* Search Bar dan Filter tidak diubah */}
         <View style={styles.searchAndFilterWrapper}>
           <View style={styles.searchWrapper}>
             <TextInput

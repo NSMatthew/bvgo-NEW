@@ -7,7 +7,7 @@ type TeamCardProps = {
   taskTitle: string;
   taskDescription: string;
   dueDate: string;
-  isOverdue?: boolean; // Prop opsional untuk menandai tugas yang telat
+  isOverdue?: boolean;
   name: string;
   role: string;
   status: Status;
@@ -15,7 +15,6 @@ type TeamCardProps = {
   onStatusPress?: () => void;
 };
 
-// SOLUSI: Komponen kecil untuk menampilkan avatar inisial jika tidak ada gambar
 const InitialsAvatar = ({ name }: { name: string }) => {
   // Mengambil 1-2 huruf pertama dari nama
   const initials = name
@@ -39,13 +38,11 @@ const TeamCard = ({
   name,
   role,
   status,
-  avatar, // Sekarang ini adalah URL atau null
+  avatar,
   onStatusPress
 }: TeamCardProps) => {
   return (
-    // Container utama untuk kartu tugas
     <View style={styles.card}>
-      {/* Bagian Atas: Judul, Deskripsi, dan Tenggat Waktu */}
       <View style={styles.taskInfoContainer}>
         <Text style={styles.taskTitle}>{taskTitle}</Text>
         <Text style={styles.taskDescription}>{taskDescription}</Text>

@@ -1,24 +1,20 @@
 import React from 'react';
 import { View, Text, ImageBackground, StyleSheet, FlatList, Dimensions } from 'react-native';
 
-// Tipe data untuk setiap item di slider
 export type SliderItem = {
   id: string;
   title: string;
-  image: any; // Tipe untuk require()
+  image: any; 
 };
 
-// Terima 'data' sebagai properti
 type Props = {
   data: SliderItem[];
 };
 
-// Mengambil lebar layar untuk membuat kartu slider responsif
 const { width: screenWidth } = Dimensions.get('window');
-const SLIDE_WIDTH = screenWidth * 0.85; // Setiap slide akan memakan 85% lebar layar
+const SLIDE_WIDTH = screenWidth * 0.85; 
 
 const SliderAnnouncement = ({ data }: Props) => {
-  // Fungsi untuk merender setiap item di dalam FlatList
   const renderSlide = ({ item }: { item: SliderItem }) => (
     <ImageBackground source={item.image} style={styles.slide} imageStyle={styles.imageStyle}>
       <View style={styles.overlay} />

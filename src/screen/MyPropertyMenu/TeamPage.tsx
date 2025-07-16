@@ -20,10 +20,8 @@ const supabaseUrl = 'https://drmzrbydynawphmjhptu.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRybXpyYnlkeW5hd3BobWpocHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI0MzIyODYsImV4cCI6MjA1ODAwODI4Nn0.cfoH6ynmk4AxsUm800NDlfKwGpsi45oZFA2SjS_9b-E';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// --- Tipe Data ---
 type Status = 'All' | 'New' | 'Ongoing' | 'Done';
 
-// Tipe data gabungan dari tabel 'tasks' dan 'assignee'
 type TaskWithAssignee = {
   id: number;
   title: string;
@@ -33,7 +31,6 @@ type TaskWithAssignee = {
   assignee: {
     full_name: string;
     role: string;
-    // SOLUSI: Tambahkan avatar_url ke dalam tipe data
     avatar_url: string | null;
   }[] | null;
 };

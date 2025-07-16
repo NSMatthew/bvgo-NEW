@@ -5,7 +5,7 @@
 export interface Newsletter {
   id: number;
   title: string;
-  releaseDate: string; // Kolom 'releaseDate' dari Supabase akan menjadi string
+  releaseDate: string; 
 }
 
 // 2. TIPE SORTBY DISESUAIKAN DENGAN NAMA KOLOM
@@ -15,7 +15,7 @@ export type SortOrder = 'asc' | 'desc';
 // Fungsi utama
 export function mergeSort(
   arr: Newsletter[],
-  sortBy: SortBy = 'releaseDate', // Default diubah agar sesuai
+  sortBy: SortBy = 'releaseDate',
   sortOrder: SortOrder = 'desc'
 ): Newsletter[] {
   if (arr.length <= 1) return arr;
@@ -27,7 +27,7 @@ export function mergeSort(
   return merge(left, right, sortBy, sortOrder);
 }
 
-// Fungsi gabung
+// Fungsi penggabungan
 function merge(
   left: Newsletter[],
   right: Newsletter[],
@@ -40,7 +40,6 @@ function merge(
   while (i < left.length && j < right.length) {
     let isLeftFirst: boolean;
 
-    // 3. LOGIKA PERBANDINGAN MENGGUNAKAN 'releaseDate'
     if (sortBy === 'releaseDate') {
       const leftTime = new Date(left[i].releaseDate).getTime();
       const rightTime = new Date(right[j].releaseDate).getTime();

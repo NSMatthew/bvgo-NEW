@@ -60,7 +60,6 @@ const NewsletterCard = ({ data }: Props) => {
 
   return (
     <View style={styles.card}>
-      {/* Konten kartu tidak berubah */}
       <View style={styles.header}>
         <Image
           source={require('../../assets/images/AvatarPublisher.png')}

@@ -16,7 +16,6 @@ type TeamCardProps = {
 };
 
 const InitialsAvatar = ({ name }: { name: string }) => {
-  // Mengambil 1-2 huruf pertama dari nama
   const initials = name
     .split(' ')
     .map(n => n[0])
@@ -46,19 +45,18 @@ const TeamCard = ({
       <View style={styles.taskInfoContainer}>
         <Text style={styles.taskTitle}>{taskTitle}</Text>
         <Text style={styles.taskDescription}>{taskDescription}</Text>
-        <Text style={[styles.dueDate, isOverdue && styles.dueDateOverdue]}>
+        
+        {/* Style 'dueDateOverdue' hanya akan diterapkan jika isOverdue BERNILAI TRUE */}
+        <Text style={[styles.dueDate, (isOverdue && status !== 'Done') && styles.dueDateOverdue]}>
           Due date: {dueDate}
         </Text>
       </View>
 
       {/* Bagian Tengah: Informasi Anggota Tim yang Bertugas */}
       <View style={styles.assigneeContainer}>
-        {/* SOLUSI: Logika untuk menampilkan avatar */}
         {avatar ? (
-          // Jika prop 'avatar' berisi URL, tampilkan gambar dari URL tersebut
           <Image source={{ uri: avatar }} style={styles.avatar} />
         ) : (
-          // Jika 'avatar' null, tampilkan komponen InitialsAvatar
           <InitialsAvatar name={name} />
         )}
         <View>
@@ -85,7 +83,6 @@ const styles = StyleSheet.create<{
   dueDateOverdue: TextStyle;
   assigneeContainer: ViewStyle;
   avatar: ImageStyle;
-  // SOLUSI: Menambahkan style untuk InitialsAvatar
   initialsAvatarContainer: ViewStyle;
   initialsText: TextStyle;
   assigneeName: TextStyle;
@@ -144,7 +141,6 @@ const styles = StyleSheet.create<{
     marginRight: 12,
     backgroundColor: '#E0E0E0', // Warna latar belakang sementara gambar dimuat
   },
-  // SOLUSI: Style untuk komponen InitialsAvatar
   initialsAvatarContainer: {
     width: 40,
     height: 40,

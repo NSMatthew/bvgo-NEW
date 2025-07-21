@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import CalendarTabs from '../components/Calendar';
 
 const Booking = () => {
-  const [activeTab, setActiveTab] = useState<'Events' | 'Calendar'>('Calendar');
+  const [activeTab, setActiveTab] = useState<'Events' | 'Calendar'>('Events');
 
   return (
     <View style={styles.container}>

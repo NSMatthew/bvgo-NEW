@@ -1,244 +1,235 @@
 import React, { useState } from 'react';
-import { Image } from 'react-native';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-// Type for booking
-type Booking = {
-  propertyId: string;
-  date: string;
-  guest: string;
-  sourceIcon: any | null;
-};
-
-// Generate 30 days from today
-const generateDates = (startDate: Date, numDays: number): string[] => {
-  const result = [];
-  for (let i = 0; i < numDays; i++) {
-    const date = new Date(startDate);
-    date.setDate(startDate.getDate() + i);
-    result.push(
-      date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-      })
-    );
-  }
-  return result;
-};
-
-const today = new Date();
-const dates = generateDates(today, 30); // 30-day scrollable range
-
+// --- DATA DUMMY UNTUK TAMPILAN ---
+// Nantinya, ini bisa diambil dari database Anda
 const properties = [
-  { id: '1', name: 'Dar Dahlia – Villa' },
-  { id: '2', name: 'Dar Ula – Villa' },
-  { id: '3', name: 'Serayu Berawa' },
-  { id: '4', name: 'Serayu Mertanadi' },
+  { id: '1', name: 'Rain Villa Uluwatu' },
+  { id: '2', name: 'Rain Villa Uluwatu' },
+  { id: '3', name: 'Rain Villa Uluwatu' },
+  { id: '4', name: 'Rain Villa Uluwatu' },
 ];
 
-const bookings: Booking[] = [
-  {
-    propertyId: '1',
-    date: '19 May',
-    guest: 'Craig',
-    sourceIcon: require('../../assets/icons/airbnb.png'),
-  },
-  {
-    propertyId: '2',
-    date: '19 May',
-    guest: 'Anais Fassia',
-    sourceIcon: require('../../assets/icons/airbnb.png'),
-  },
-  {
-    propertyId: '4',
-    date: '21 May',
-    guest: 'Jordan',
-    sourceIcon: require('../../assets/icons/airbnb.png'),
-  },
+const bookings = [
+  { id: 'b1', propertyId: '1', guest: 'Mckenzi McEwen - HM5...', startDate: '2025-07-21', endDate: '2025-07-23' },
+  { id: 'b2', propertyId: '2', guest: 'Noelleda Ah San - HMY...', startDate: '2025-07-21', endDate: '2025-07-22' },
+  // Tambahkan booking lain di sini
 ];
 
-const BookingCalendarScreen = () => {
-  const [activeTab, setActiveTab] = useState<'Events' | 'Calendar'>('Calendar');
+// --- KOMPONEN UTAMA ---
+const CalendarView = () => {
+  const [currentDate, setCurrentDate] = useState(new Date('2025-07-21'));
 
-  const getBooking = (propertyId: string, date: string): Booking | undefined => {
-    return bookings.find((b) => b.propertyId === propertyId && b.date === date);
+  // Fungsi untuk membuat 3 tanggal yang akan ditampilkan
+  const getVisibleDates = () => {
+    const dates = [];
+    for (let i = -1; i <= 1; i++) {
+      const date = new Date(currentDate);
+      date.setDate(date.getDate() + i);
+      dates.push(date);
+    }
+    return dates;
   };
 
+  const visibleDates = getVisibleDates();
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      {/* Header */}
+    <View style={styles.container}>
+      {/* Header Kalender */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Calendar</Text>
-      </View>
-
-      {/* Tabs */}
-      <View style={styles.tabsContainer}>
-        <TouchableOpacity onPress={() => setActiveTab('Events')}>
-          <Text style={[styles.tab, activeTab === 'Events' && styles.tabActive]}>
-            Events
-          </Text>
+        <TouchableOpacity>
+          <Icon name="chevron-back" size={24} color="#0E0E0E" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Calendar')}>
-          <Text style={[styles.tab, activeTab === 'Calendar' && styles.tabActive]}>
-            Calendar
-          </Text>
+        <TouchableOpacity style={styles.monthSelector}>
+          <Text style={styles.monthText}>July 2025</Text>
+          <Icon name="chevron-down" size={16} color="#5B5E6B" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Icon name="chevron-forward" size={24} color="#0E0E0E" />
         </TouchableOpacity>
       </View>
 
-      {/* Month Selector */}
-      <View style={styles.monthSelector}>
-        <TouchableOpacity>
-          <Text>{'<'}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>May 2025 ▼</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>{'>'}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>⋮</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Calendar Grid */}
-      <ScrollView style={{ flex: 1 }}>
-        <ScrollView horizontal>
-          <View>
-            {/* Dates Header */}
-            <View style={styles.row}>
-              <View style={[styles.propertyCell, { backgroundColor: '#eee' }]}>
-                <Text></Text>
-              </View>
-              {dates.map((date) => (
-                <View key={date} style={styles.dateCell}>
-                  <Text>{date}</Text>
-                </View>
-              ))}
-            </View>
-
-            {/* Properties Rows */}
-            {properties.map((property) => (
-              <View key={property.id} style={styles.row}>
-                <View style={styles.propertyCell}>
-                  <Text style={{ fontWeight: 'bold' }}>{property.name}</Text>
-                  <Text style={{ color: 'orange' }}>{'>'}</Text>
-                </View>
-                {dates.map((date) => {
-                  const booking = getBooking(property.id, date);
-                  return (
-                    <View key={date} style={styles.bookingCell}>
-                      {booking && (
-                        <View style={styles.bookingInfo}>
-                          {booking.sourceIcon && (
-                            <Image
-                              source={booking.sourceIcon}
-                              style={styles.icon}
-                            />
-                          )}
-                          <Text numberOfLines={1} style={{ flexShrink: 1 }}>
-                            {booking.guest}
-                          </Text>
-                        </View>
-                      )}
-                    </View>
-                  );
-                })}
+      {/* Grid Utama */}
+      <ScrollView>
+        <View style={styles.gridContainer}>
+          {/* Kolom Nama Properti */}
+          <View style={styles.propertyColumn}>
+            <View style={styles.headerCell} /> {/* Sel kosong di pojok kiri atas */}
+            {properties.map(prop => (
+              <View key={prop.id} style={styles.propertyCell}>
+                <Text style={styles.propertyText}>{prop.name}</Text>
+                <Icon name="chevron-forward" size={16} color="#1076BC" />
               </View>
             ))}
           </View>
-        </ScrollView>
+
+          {/* Kolom Tanggal (Bisa di-scroll horizontal) */}
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View>
+              {/* Baris Header Tanggal */}
+              <View style={styles.dateHeaderRow}>
+                {visibleDates.map((date, index) => (
+                  <View key={index} style={[styles.dateHeaderCell, index === 1 && styles.dateHeaderCellActive]}>
+                    <Text style={[styles.dateHeaderText, index === 1 && styles.dateHeaderTextActive]}>
+                      {date.toLocaleDateString('en-GB', { day: '2-digit' })} Jul
+                    </Text>
+                  </View>
+                ))}
+              </View>
+              {/* Baris-baris data booking */}
+              {properties.map(prop => (
+                <View key={prop.id} style={styles.bookingRow}>
+                  {visibleDates.map((date, dateIndex) => {
+                    const booking = bookings.find(b => 
+                        b.propertyId === prop.id &&
+                        new Date(b.startDate) <= date &&
+                        new Date(b.endDate) > date
+                    );
+                    return (
+                      <View key={dateIndex} style={styles.bookingCell}>
+                        {booking && (
+                           <View style={styles.bookingBlock}>
+                             <Image source={require('../../assets/icons/airbnb.png')} style={styles.bookingIcon} />
+                             <Text style={styles.bookingText} numberOfLines={1}>{booking.guest}</Text>
+                           </View>
+                        )}
+                      </View>
+                    )
+                  })}
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
       </ScrollView>
 
       {/* Floating Action Button */}
       <TouchableOpacity style={styles.fab}>
-        <Text style={{ color: 'white', fontSize: 24 }}>+</Text>
+        <Icon name="add" size={30} color="#FFF" />
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFF',
+  },
   header: {
-    padding: 16,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-  },
-  headerTitle: { fontSize: 20, fontWeight: 'bold' },
-  tabsContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: 10,
-  },
-  tab: { marginHorizontal: 20, fontSize: 16, color: 'gray' },
-  tabActive: {
-    color: 'black',
-    fontWeight: 'bold',
-    borderBottomWidth: 2,
-    borderColor: 'black',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
   },
   monthSelector: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-    justifyContent: 'space-between',
-    height: 40,
   },
-  row: { flexDirection: 'row', alignItems: 'center' },
-  propertyCell: {
-    width: 150,
-    paddingHorizontal: 5,
-    paddingVertical: 8,
-    borderRightWidth: 1,
-    borderColor: '#ddd',
+  monthText: {
+    fontFamily: 'Satoshi-Bold',
+    fontSize: 18,
+    color: '#0E0E0E',
+    marginRight: 4,
+  },
+  gridContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
-  dateCell: {
-    width: 100,
-    height: 50,
-    padding: 8,
+  propertyColumn: {
+    width: 150, // Lebar tetap untuk kolom properti
     borderRightWidth: 1,
-    borderColor: '#ddd',
+    borderRightColor: '#E0E0E0',
+  },
+  headerCell: {
+    height: 50, // Tinggi sama dengan header tanggal
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  propertyCell: {
+    height: 60, // Tinggi setiap baris properti
+    paddingHorizontal: 12,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  propertyText: {
+    fontFamily: 'Satoshi-Medium',
+    color: '#0E0E0E',
+    flex: 1, // Agar teks bisa wrap jika panjang
+  },
+  dateHeaderRow: {
+    flexDirection: 'row',
+  },
+  dateHeaderCell: {
+    width: 120, // Lebar setiap kolom tanggal
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  dateHeaderCellActive: {
+    backgroundColor: '#E8F1F8', // Latar belakang biru muda untuk tanggal aktif
+  },
+  dateHeaderText: {
+    fontFamily: 'Satoshi-Medium',
+    color: '#5B5E6B',
+  },
+  dateHeaderTextActive: {
+    fontFamily: 'Satoshi-Bold',
+    color: '#1076BC',
+  },
+  bookingRow: {
+    flexDirection: 'row',
+    height: 60,
+    borderBottomWidth: 1,
+    borderBottomColor: '#0E0E0E',
   },
   bookingCell: {
-    width: 100,
-    height: 50,
-    padding: 5,
-    borderRightWidth: 1,
-    borderColor: '#ddd',
+    width: 120,
+    padding: 4,
   },
-  bookingInfo: {
+  bookingBlock: {
+    backgroundColor: '#FCEAEA', // Contoh warna latar booking
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f9eaea',
-    padding: 4,
-    borderRadius: 4,
+    flex: 1,
   },
-  icon: { width: 20, height: 20, marginRight: 5 },
+  bookingIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 6,
+  },
+  bookingText: {
+    fontFamily: 'Satoshi-Medium',
+    fontSize: 12,
+    color: '#0E0E0E', // Contoh warna teks booking
+  },
   fab: {
     position: 'absolute',
+    bottom: 20,
     right: 20,
-    bottom: 40,
-    backgroundColor: '#008CBA',
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#1076BC',
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 5,
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
 
-export default BookingCalendarScreen;
+export default CalendarView;

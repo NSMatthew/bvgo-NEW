@@ -78,24 +78,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   filterBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    borderRadius: 8,
+    // --- PERUBAHAN DI SINI: UKURAN DIBUAT LEBIH KECIL ---
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 20, // Dibuat lebih melengkung agar terlihat seperti pil
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#E0E0E0', // Warna border lebih soft
     marginRight: 12,
+    backgroundColor: '#F5F5F5', // Warna latar belakang non-aktif
   },
   filterBtnActive: {
-    backgroundColor: '#555',
-    borderColor: '#555',
+    // --- PERUBAHAN DI SINI: WARNA AKTIF DISESUAIKAN ---
+    backgroundColor: '#1076BC',
+    borderColor: '#1076BC',
   },
   filterText: {
     fontSize: 14,
-    color: '#666',
+    color: '#5B5E6B', // Warna teks non-aktif
+    fontFamily: 'Satoshi-Medium', // Menggunakan font kustom jika ada
   },
   filterTextActive: {
-    color: '#fff',
-    fontWeight: 'bold',
+    // --- PERUBAHAN DI SINI: WARNA TEKS AKTIF DISESUAIKAN ---
+    color: '#FFFFFF',
+    fontFamily: 'Satoshi-Bold',
   },
   card: {
     borderRadius: 8,

@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Satoshi-Regular',
     fontSize: 16,
     color: '#0E0E0E',
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: 24,
     lineHeight: 24, 
   },

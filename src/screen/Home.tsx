@@ -19,7 +19,6 @@ import NewsletterCard from '../components/NewsletterCard';
 import { Newsletter, mergeSort, SortBy, SortOrder } from '../lib/mergeSort';
 import { getNewsletters } from '../data/newsletters';
 
-// --- SEMUA LOGIKA, STATE, DAN DATA ANDA TIDAK SAYA UBAH ---
 type SortOption = {
   key: string;
   sortBy: SortBy;
@@ -37,18 +36,24 @@ const sortOptions: SortOption[] = [
 
 const defaultIcon = require('../assets/icons/filterdefault.png');
 
+// --- PERUBAHAN DIMULAI DI SINI ---
 const announcementData: SliderItem[] = [
   {
     id: '1',
     title: 'Upcoming Maintenance',
+    // Menambahkan deskripsi untuk modal
+    description: 'Please be aware that maintenance will be conducted on August 4th at 05:00 PM (UTC + 8). It wll take 2 hours before the apps can be accessed again. Thank you for your patient.',
     image: require('../assets/images/announcement1.png'),
   },
   {
     id: '2',
     title: "Insight Today",
+    // Menambahkan deskripsi placeholder untuk modal kedua
+    description: 'Check the latest insights from our newsletters!',
     image: require('../assets/images/announcement2.png'),
   },
 ];
+// --- PERUBAHAN SELESAI DI SINI ---
 
 const Home = () => {
   const [allNewsletters, setAllNewsletters] = useState<Newsletter[]>([]);
@@ -115,11 +120,9 @@ const Home = () => {
           </TouchableOpacity>
         </View>
 
-        {/* --- INI BAGIAN YANG DIPERBAIKI --- */}
         {loading ? (
           <ActivityIndicator size="large" color="#1076BC" style={{ marginTop: 40 }} />
         ) : (
-          // 1. Tambahkan <View> sebagai pembungkus untuk memberi tinggi
           <View style={styles.newsletterSection}>
             <FlatList
               horizontal
@@ -133,7 +136,6 @@ const Home = () => {
         )}
       </ScrollView>
 
-      {/* Modal Filter tidak diubah */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -158,11 +160,9 @@ const Home = () => {
   );
 };
 
-// --- TAMBAHKAN STYLE BARU DI SINI ---
 const styles = StyleSheet.create({
-  // 2. Definisikan style untuk pembungkus FlatList
   newsletterSection: {
-    minHeight: 300, // Beri tinggi minimal agar FlatList terlihat, sesuaikan angkanya
+    minHeight: 300, 
   },
   safeArea: {
     flex: 1,

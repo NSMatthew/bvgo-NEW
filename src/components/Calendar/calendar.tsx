@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+// --- Icon di-comment karena tidak digunakan lagi ---
+// import Icon from 'react-native-vector-icons/Ionicons';
 
 // --- DATA DUMMY UNTUK TAMPILAN ---
-// Nantinya, ini bisa diambil dari database Anda
 const properties = [
   { id: '1', name: 'Rain Villa Uluwatu' },
   { id: '2', name: 'Rain Villa Uluwatu' },
@@ -14,14 +14,12 @@ const properties = [
 const bookings = [
   { id: 'b1', propertyId: '1', guest: 'Mckenzi McEwen - HM5...', startDate: '2025-07-21', endDate: '2025-07-23' },
   { id: 'b2', propertyId: '2', guest: 'Noelleda Ah San - HMY...', startDate: '2025-07-21', endDate: '2025-07-22' },
-  // Tambahkan booking lain di sini
 ];
 
 // --- KOMPONEN UTAMA ---
 const CalendarView = () => {
   const [currentDate, setCurrentDate] = useState(new Date('2025-07-21'));
 
-  // Fungsi untuk membuat 3 tanggal yang akan ditampilkan
   const getVisibleDates = () => {
     const dates = [];
     for (let i = -1; i <= 1; i++) {
@@ -39,14 +37,17 @@ const CalendarView = () => {
       {/* Header Kalender */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <Icon name="chevron-back" size={24} color="#0E0E0E" />
+          {/* --- PERUBAHAN DI SINI --- */}
+          <Image source={require('../../assets/icons/arrowbacktologin.png')} style={styles.headerIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.monthSelector}>
           <Text style={styles.monthText}>July 2025</Text>
-          <Icon name="chevron-down" size={16} color="#5B5E6B" />
+          {/* --- PERUBAHAN DI SINI --- */}
+          <Image source={require('../../assets/icons/arrow-down.png')} style={styles.monthIcon} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Icon name="chevron-forward" size={24} color="#0E0E0E" />
+          {/* --- PERUBAHAN DI SINI --- */}
+          <Image source={require('../../assets/icons/arrow-forward.png')} style={styles.headerIcon} />
         </TouchableOpacity>
       </View>
 
@@ -55,11 +56,12 @@ const CalendarView = () => {
         <View style={styles.gridContainer}>
           {/* Kolom Nama Properti */}
           <View style={styles.propertyColumn}>
-            <View style={styles.headerCell} /> {/* Sel kosong di pojok kiri atas */}
+            <View style={styles.headerCell} />
             {properties.map(prop => (
               <View key={prop.id} style={styles.propertyCell}>
                 <Text style={styles.propertyText}>{prop.name}</Text>
-                <Icon name="chevron-forward" size={16} color="#1076BC" />
+                {/* --- PERUBAHAN DI SINI --- */}
+                <Image source={require('../../assets/icons/arrow-forward-blue.png')} style={styles.propertyArrowIcon} />
               </View>
             ))}
           </View>
@@ -67,7 +69,6 @@ const CalendarView = () => {
           {/* Kolom Tanggal (Bisa di-scroll horizontal) */}
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View>
-              {/* Baris Header Tanggal */}
               <View style={styles.dateHeaderRow}>
                 {visibleDates.map((date, index) => (
                   <View key={index} style={[styles.dateHeaderCell, index === 1 && styles.dateHeaderCellActive]}>
@@ -77,7 +78,6 @@ const CalendarView = () => {
                   </View>
                 ))}
               </View>
-              {/* Baris-baris data booking */}
               {properties.map(prop => (
                 <View key={prop.id} style={styles.bookingRow}>
                   {visibleDates.map((date, dateIndex) => {
@@ -106,9 +106,9 @@ const CalendarView = () => {
 
       {/* Floating Action Button */}
       <TouchableOpacity style={styles.fab}>
-      <Image 
+        <Image 
           source={require('../../assets/icons/pluscalendar.png')} 
-          style={{ width: 30, height: 30 }}
+          style={styles.fabIcon}
         />
       </TouchableOpacity>
     </View>
@@ -129,6 +129,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
   },
+  // --- STYLE BARU UNTUK IKON GAMBAR DI HEADER ---
+  headerIcon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
   monthSelector: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -139,21 +145,27 @@ const styles = StyleSheet.create({
     color: '#0E0E0E',
     marginRight: 4,
   },
+  // --- STYLE BARU UNTUK IKON GAMBAR DI PEMILIH BULAN ---
+  monthIcon: {
+    width: 16,
+    height: 16,
+    resizeMode: 'contain',
+  },
   gridContainer: {
     flexDirection: 'row',
   },
   propertyColumn: {
-    width: 150, // Lebar tetap untuk kolom properti
+    width: 150,
     borderRightWidth: 1,
     borderRightColor: '#E0E0E0',
   },
   headerCell: {
-    height: 50, // Tinggi sama dengan header tanggal
+    height: 50,
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
   },
   propertyCell: {
-    height: 60, // Tinggi setiap baris properti
+    height: 60,
     paddingHorizontal: 12,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -164,13 +176,19 @@ const styles = StyleSheet.create({
   propertyText: {
     fontFamily: 'Satoshi-Medium',
     color: '#0E0E0E',
-    flex: 1, // Agar teks bisa wrap jika panjang
+    flex: 1,
+  },
+  // --- STYLE BARU UNTUK IKON PANAH DI SEL PROPERTI ---
+  propertyArrowIcon: {
+    width: 16,
+    height: 16,
+    resizeMode: 'contain',
   },
   dateHeaderRow: {
     flexDirection: 'row',
   },
   dateHeaderCell: {
-    width: 120, // Lebar setiap kolom tanggal
+    width: 120,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -178,7 +196,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E0E0E0',
   },
   dateHeaderCellActive: {
-    backgroundColor: '#E8F1F8', // Latar belakang biru muda untuk tanggal aktif
+    backgroundColor: '#E8F1F8',
   },
   dateHeaderText: {
     fontFamily: 'Satoshi-Medium',
@@ -192,14 +210,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 60,
     borderBottomWidth: 1,
-    borderBottomColor: '#0E0E0E',
+    borderBottomColor: '#E0E0E0',
   },
   bookingCell: {
     width: 120,
     padding: 4,
   },
   bookingBlock: {
-    backgroundColor: '#FCEAEA', // Contoh warna latar booking
+    backgroundColor: '#FCEAEA',
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -215,7 +233,7 @@ const styles = StyleSheet.create({
   bookingText: {
     fontFamily: 'Satoshi-Medium',
     fontSize: 12,
-    color: '#0E0E0E', // Contoh warna teks booking
+    color: '#C93B3B',
   },
   fab: {
     position: 'absolute',
@@ -233,6 +251,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
+  fabIcon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  }
 });
 
 export default CalendarView;

@@ -106,7 +106,10 @@ const CalendarView = () => {
 
       {/* Floating Action Button */}
       <TouchableOpacity style={styles.fab}>
-        <Icon name="add" size={30} color="#FFF" />
+      <Image 
+          source={require('../../assets/icons/pluscalendar.png')} 
+          style={{ width: 30, height: 30 }}
+        />
       </TouchableOpacity>
     </View>
   );

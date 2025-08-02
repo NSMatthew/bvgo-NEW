@@ -76,8 +76,6 @@ const styles = StyleSheet.create({
   filterContainer: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    // --- SOLUSI DI SINI ---
-    // Menambahkan flexGrow: 0 untuk memastikan ScrollView tidak mengambil ruang ekstra
     flexGrow: 0,
   },
   filterBtn: {

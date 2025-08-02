@@ -53,7 +53,7 @@ const Events = () => {
         keyExtractor={item => item.id}
         style={{ paddingHorizontal: 16 }}
         renderItem={({ item }) => (
-          <View style={[styles.card, { backgroundColor: eventColors[item.type] || '#ccc' }]}>
+          <View style={[styles.card, { backgroundColor: eventColors[item.type] || '#FFF' }]}>
             <View style={styles.cardHeader}>
               <View style={styles.typeTag}>
                 <Text style={styles.typeTagText}>{item.type}</Text>

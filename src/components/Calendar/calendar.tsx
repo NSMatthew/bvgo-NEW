@@ -42,12 +42,10 @@ const CalendarView = () => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.monthSelector}>
           <Text style={styles.monthText}>July 2025</Text>
-          {/* --- PERUBAHAN DI SINI --- */}
-          <Image source={require('../../assets/icons/arrow-down.png')} style={styles.monthIcon} />
         </TouchableOpacity>
         <TouchableOpacity>
           {/* --- PERUBAHAN DI SINI --- */}
-          <Image source={require('../../assets/icons/arrow-forward.png')} style={styles.headerIcon} />
+          <Image source={require('../../assets/icons/arrowbacktologin.png')} style={[styles.headerIcon, { transform: [{ rotate: '180deg' }] }]}/>
         </TouchableOpacity>
       </View>
 
@@ -60,8 +58,6 @@ const CalendarView = () => {
             {properties.map(prop => (
               <View key={prop.id} style={styles.propertyCell}>
                 <Text style={styles.propertyText}>{prop.name}</Text>
-                {/* --- PERUBAHAN DI SINI --- */}
-                <Image source={require('../../assets/icons/arrow-forward-blue.png')} style={styles.propertyArrowIcon} />
               </View>
             ))}
           </View>
@@ -89,7 +85,7 @@ const CalendarView = () => {
                     return (
                       <View key={dateIndex} style={styles.bookingCell}>
                         {booking && (
-                           <View style={styles.bookingBlock}>
+                           <View style={styles.bookingBlockAirbnb}>
                              <Image source={require('../../assets/icons/airbnb.png')} style={styles.bookingIcon} />
                              <Text style={styles.bookingText} numberOfLines={1}>{booking.guest}</Text>
                            </View>
@@ -145,7 +141,7 @@ const styles = StyleSheet.create({
     color: '#0E0E0E',
     marginRight: 4,
   },
-  // --- STYLE BARU UNTUK IKON GAMBAR DI PEMILIH BULAN ---
+  
   monthIcon: {
     width: 16,
     height: 16,
@@ -216,7 +212,7 @@ const styles = StyleSheet.create({
     width: 120,
     padding: 4,
   },
-  bookingBlock: {
+  bookingBlockAirbnb: {
     backgroundColor: '#FCEAEA',
     borderRadius: 8,
     paddingHorizontal: 8,
@@ -246,7 +242,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 8,
-    shadowColor: '#000',
+    shadowColor: '#0E0E0E',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4,

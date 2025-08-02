@@ -11,9 +11,9 @@ const eventsData = [
 
 // Color map for event types
 const eventColors: Record<string, string> = {
-  'In-house': '#009688',  // green-ish
-  'Check Out': '#FF9800', // orange-ish
-  'Check In': '#2196F3',  // blue-ish
+  'In-house': '#078564',  
+  'Check Out': '#F69322', 
+  'Check In': '#1076BC',  
 };
 
 const filters = ['All', 'Booking', 'Today', 'Others'];
@@ -23,7 +23,7 @@ const Events = () => {
 
   // Filter events based on activeFilter
   const filteredEvents = activeFilter === 'All' ? eventsData : eventsData.filter(event => {
-    if (activeFilter === 'Booking') return event.type === 'In-house'; // Example mapping
+    if (activeFilter === 'Booking') return event.type === 'In-house';
     if (activeFilter === 'Today') {
       const todayStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
       return event.date === todayStr;
@@ -76,29 +76,31 @@ const styles = StyleSheet.create({
   filterContainer: {
     paddingVertical: 12,
     paddingHorizontal: 16,
+    // --- SOLUSI DI SINI ---
+    // Menambahkan flexGrow: 0 untuk memastikan ScrollView tidak mengambil ruang ekstra
+    flexGrow: 0,
   },
   filterBtn: {
-    // --- PERUBAHAN DI SINI: UKURAN DIBUAT LEBIH KECIL ---
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 20, // Dibuat lebih melengkung agar terlihat seperti pil
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#E0E0E0', // Warna border lebih soft
+    borderColor: '#E0E0E0', 
+    marginTop: 7,
     marginRight: 12,
-    backgroundColor: '#F5F5F5', // Warna latar belakang non-aktif
+    backgroundColor: '#F5F5F5', 
+    alignSelf: 'flex-start',
   },
   filterBtnActive: {
-    // --- PERUBAHAN DI SINI: WARNA AKTIF DISESUAIKAN ---
     backgroundColor: '#1076BC',
     borderColor: '#1076BC',
   },
   filterText: {
     fontSize: 14,
-    color: '#5B5E6B', // Warna teks non-aktif
-    fontFamily: 'Satoshi-Medium', // Menggunakan font kustom jika ada
+    color: '#5B5E6B',
+    fontFamily: 'Satoshi-Medium',
   },
   filterTextActive: {
-    // --- PERUBAHAN DI SINI: WARNA TEKS AKTIF DISESUAIKAN ---
     color: '#FFFFFF',
     fontFamily: 'Satoshi-Bold',
   },

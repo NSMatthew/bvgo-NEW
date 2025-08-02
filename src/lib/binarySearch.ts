@@ -18,5 +18,5 @@ export function binarySearch(newsletters: Newsletter[], keyword: string): Newsle
     }
   }
 
-  return null; // Not found
+  return null;
 }

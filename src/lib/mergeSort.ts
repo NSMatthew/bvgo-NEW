@@ -1,18 +1,12 @@
-// src/lib/mergesort.ts
-
-// 1. "BLUEPRINT" DATA DISESUAIKAN DENGAN TABEL SUPABASE
-// Hanya properti yang ada di tabel 'newsletters' yang kita definisikan.
 export interface Newsletter {
   id: number;
   title: string;
   releaseDate: string; 
 }
 
-// 2. TIPE SORTBY DISESUAIKAN DENGAN NAMA KOLOM
 export type SortBy = 'releaseDate' | 'title';
 export type SortOrder = 'asc' | 'desc';
 
-// Fungsi utama
 export function mergeSort(
   arr: Newsletter[],
   sortBy: SortBy = 'releaseDate',
@@ -27,7 +21,7 @@ export function mergeSort(
   return merge(left, right, sortBy, sortOrder);
 }
 
-// Fungsi penggabungan
+// Fungsi untuk menggabungkan kembali
 function merge(
   left: Newsletter[],
   right: Newsletter[],

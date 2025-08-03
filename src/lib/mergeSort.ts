@@ -25,8 +25,8 @@ export function mergeSort(
 function merge(
   left: Newsletter[],
   right: Newsletter[],
-  sortBy: SortBy,
-  sortOrder: SortOrder
+  selectedsortBy: SortBy,
+  selectedsortOrder: SortOrder
 ): Newsletter[] {
   let result: Newsletter[] = [];
   let i = 0, j = 0;
@@ -34,11 +34,11 @@ function merge(
   while (i < left.length && j < right.length) {
     let isLeftFirst: boolean;
 
-    if (sortBy === 'releaseDate') {
+    if (selectedsortBy === 'releaseDate') {
       const leftTime = new Date(left[i].releaseDate).getTime();
       const rightTime = new Date(right[j].releaseDate).getTime();
       
-      if (sortOrder === 'asc') { 
+      if (selectedsortOrder === 'asc') { 
         isLeftFirst = leftTime <= rightTime;
       } else {
         isLeftFirst = leftTime >= rightTime;
@@ -47,7 +47,7 @@ function merge(
       const leftTitle = left[i].title;
       const rightTitle = right[j].title;
       
-      if (sortOrder === 'asc') {
+      if (selectedsortOrder === 'asc') {
         isLeftFirst = leftTitle.localeCompare(rightTitle) <= 0;
       } else {
         isLeftFirst = leftTitle.localeCompare(rightTitle) >= 0;

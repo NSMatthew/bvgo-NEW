@@ -36,24 +36,20 @@ const sortOptions: SortOption[] = [
 
 const defaultIcon = require('../assets/icons/filterdefault.png');
 
-// --- PERUBAHAN DIMULAI DI SINI ---
 const announcementData: SliderItem[] = [
   {
     id: '1',
     title: 'Upcoming Maintenance',
-    // Menambahkan deskripsi untuk modal
     description: 'Please be aware that maintenance will be conducted on August 4th at 05:00 PM (UTC + 8). It wll take 2 hours before the apps can be accessed again. Thank you for your patient.',
     image: require('../assets/images/announcement1.png'),
   },
   {
     id: '2',
     title: "Insight Today",
-    // Menambahkan deskripsi placeholder untuk modal kedua
     description: 'Check the latest insights from our newsletters!',
     image: require('../assets/images/announcement2.png'),
   },
 ];
-// --- PERUBAHAN SELESAI DI SINI ---
 
 const Home = () => {
   const [allNewsletters, setAllNewsletters] = useState<Newsletter[]>([]);
@@ -65,12 +61,12 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      console.log("Mulai mengambil data newsletter...");
+      console.log("Mulai mengambil newsletter...");
 
       const dataFromSupabase = await getNewsletters();
 
       console.log("Data yang diterima dari Supabase:", dataFromSupabase);
-      console.log("Jumlah data:", dataFromSupabase.length);
+      console.log("Jumlah Newsletter:", dataFromSupabase.length);
 
       setAllNewsletters(dataFromSupabase);
       setLoading(false);

@@ -12,9 +12,9 @@ export function binarySearch(newsletters: Newsletter[], keyword: string): Newsle
     if (currentTitle === target) {
       return newsletters[mid];
     } else if (currentTitle < target) {
-      start = mid + 1; //pencarian dari depan ke belakang
+      start = mid + 1; //pencarian dari setengah newsletter terakhir
     } else {
-      end = mid - 1; //pencarian dari belakang ke depan
+      end = mid - 1; //pencarian dari setengah newsletter pertama
     }
   }
 

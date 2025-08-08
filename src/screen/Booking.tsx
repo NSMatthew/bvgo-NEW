@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+// --- 1. IMPORT SafeAreaView ---
+import { View, StyleSheet, TouchableOpacity, Text, SafeAreaView } from 'react-native';
 import CalendarTabs from '../components/Calendar';
 
 const Booking = () => {
   const [activeTab, setActiveTab] = useState<'Events' | 'Calendar'>('Events');
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Booking</Text>
+      </View>
+
       {/* Tab Switch */}
       <View style={styles.tabContainer}>
         <TouchableOpacity
@@ -26,12 +31,25 @@ const Booking = () => {
 
       {/* Content */}
       <CalendarTabs activeTab={activeTab} />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { 
+    flex: 1,
+    backgroundColor: '#FFF', // Menambahkan warna latar belakang
+  },
+  // --- 4. TAMBAHKAN STYLE UNTUK HEADER ---
+  header: {
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#1076BC',
+  },
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -46,15 +64,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
   },
   tabActive: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#1076BC', // Menggunakan warna biru konsisten
   },
   tabText: {
     fontSize: 16,
-    color: '#666',
+    color: '#5B5E6B',
+    fontFamily: 'Satoshi-Medium',
   },
   tabTextActive: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: '#FFF',
+    fontFamily: 'Satoshi-Bold',
   },
 });
 

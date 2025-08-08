@@ -6,7 +6,7 @@ const eventsData = [
   { id: '1', type: 'In-house', guest: 'Phrisella Elstar', guestsCount: 8, property: 'Villa - Villa Benaya', time: '12:00', date: '30 May' },
   { id: '2', type: 'Check Out', guest: 'Insaf Ali Rachedi', guestsCount: 2, property: 'Villa - Pondok Lofty', time: '12:00', date: '30 May' },
   { id: '3', type: 'Check In', guest: 'Cheng Li', guestsCount: 2, property: 'Villa - Pondok Lofty', time: '14:00', date: '30 May' },
-  { id: '4', type: 'In-house', guest: 'Phrisella Elstar', guestsCount: 8, property: 'Villa - Villa Benaya', time: '12:00', date: '31 May' },
+  { id: '4', type: 'In-house', guest: 'Joestar', guestsCount: 1, property: 'Villa - Villa Miracle', time: '12:00', date: '31 May' },
 ];
 
 // Color map for event types

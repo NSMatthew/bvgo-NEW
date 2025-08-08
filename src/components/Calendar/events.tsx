@@ -16,15 +16,15 @@ const eventColors: Record<string, string> = {
   'Check In': '#1076BC',  
 };
 
-const filters = ['All', 'Booking', 'Today', 'Others'];
+const filters = ['All', 'In-house', 'Check In', 'Check Out', 'Others'];
 
 const Events = () => {
   const [activeFilter, setActiveFilter] = useState('All');
 
   // Filter events based on activeFilter
   const filteredEvents = activeFilter === 'All' ? eventsData : eventsData.filter(event => {
-    if (activeFilter === 'Booking') return event.type === 'In-house';
-    if (activeFilter === 'Today') {
+    if (activeFilter === 'In-house') return event.type === 'In-house';
+    if (activeFilter === 'In-house') {
       const todayStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
       return event.date === todayStr;
     }
